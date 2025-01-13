@@ -1,0 +1,40 @@
+{
+  "manifest_version": 2,
+  "name": "Containers Helper",
+  "version": "0.2.0",
+  "description": "Helps improve container management by providing container searching, deleting, renaming, duplicating, and default URLs on a per-container or bulk basis.",
+  "icons": {
+    "48": "icons/icon_cube.svg",
+    "96": "icons/icon_cube.svg",
+    "128": "icons/icon_cube.svg"
+  },
+  "browser_specific_settings": {
+    "gecko": {
+      "id": "{800215d6-eff0-4a62-9268-09857c048030}",
+      "strict_min_version": "57.0"
+    }
+  },
+  "permissions": ["activeTab", "contextualIdentities", "cookies", "tabs", "storage", "unlimitedStorage"],
+  "browser_action": {
+    "browser_style": true,
+    "default_icon": "icons/icon_cube.svg",
+    "default_title": "Containers Helper",
+    "default_popup": "popup.html"
+  },
+  "background": {
+    "scripts": ["background.js"]
+  },
+  "commands": {
+    "_execute_browser_action": {
+      "suggested_key": {
+        "default": "Alt+Shift+D",
+        "mac": "Command+Shift+E"
+      },
+      "description": "Open containers helper panel"
+    }
+  },
+  "options_ui": {
+    "page": "options-redir.html",
+    "browser_style": false
+  }
+}
