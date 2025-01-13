@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="color-scheme" content="light dark">
+    <link rel="stylesheet" href="css/bootstrap-dark.css">
+    <link rel="stylesheet" href="css/custom.css">
+    <link rel="stylesheet" href="css/popup.css">
+</head>
+
+<body>
+    <div class="container-fluid p-2 m-0" id="mainDivContainer">
+        <div class="modal modal-backdrop modal-hide" id="modal" tabindex="-1" role="dialog" aria-labelledby="modalTitle"
+            aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content" id="modalAlertContent">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="modalAlertTitle">Alert</h5>
+                    </div>
+                    <div class="modal-body"><span id="modalAlertText"></span></div>
+                    <div class="modal-footer">
+                        <button type="button" id="btnModalAlertOK" class="btn btn-primary">OK</button>
+                    </div>
+                </div>
+                <div class="modal-content" id="modalConfirmContent">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="modalConfirmTitle">Confirm?</h5>
+                    </div>
+                    <div class="modal-body"><span id="modalConfirmText"></span></div>
+                    <div class="modal-footer">
+                        <button type="button" id="btnModalConfirmCancel" class="btn btn-secondary">Cancel</button>
+                        <button type="button" id="btnModalConfirmSecondary" class="btn btn-secondary">No</button>
+                        <button type="button" id="btnModalConfirmPrimary" class="btn btn-primary">Yes</button>
+                    </div>
+                </div>
+                <div class="modal-content" id="modalPromptContent">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="modalPromptTitle">Prompt</h5>
+                    </div>
+                    <div class="modal-body" id="modalPromptBody">
+                        <form id="modalPromptForm">
+                            <div class="form-group form-row">
+                                <div class="col-12">
+                                    <label for="modalPromptInput" id="modalPromptText"
+                                        class="form-check-label mb-3"></label>
+                                    <div class="input-group">
+                                        <input type="text" class="form-control" placeholder="Enter value here"
+                                            id="modalPromptInput" />
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" id="btnModalPromptCancel" class="btn btn-secondary">Cancel</button>
+                        <button type="button" id="btnModalPromptOK" class="btn btn-primary">OK</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <form id="searchContainerForm">
+            <div class="form-group form-row mb-2 p-0">
+                <div class="col-12">
+                    <div class="input-group m-0 p-0">
+                        <input type="text" class="form-control" placeholder="Search Containers"
+                            id="searchContainerInput" />
+                        <div class="input-group-append">
+                            <button class="btn btn-secondary" type="button" id="addNewContainer">+</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group form-row mb-2 p-0">
+                <div class="col-12">
+                    <select class="custom-select" id="modeSelect">
+                        <option value="openOnClick" selected>1. Open as Tab(s)</option>
+                        <option value="setDefaultUrlsOnClick">2. Set Default URL</option>
+                        <option value="renameOnClick">3. Set Name</option>
+                        <option value="setColorOnClick">4. Set Color</option>
+                        <option value="setIconOnClick">5. Set Icon</option>
+                        <option value="replaceInNameOnClick">6. Replace in Name</option>
+                        <option value="replaceInUrlOnClick">7. Replace in URL</option>
+                        <option value="duplicateOnClick">8. Duplicate</option>
+                        <option value="deleteContainersOnClick">9. Delete</option>
+                        <option value="refreshOnClick">10. Refresh</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group form-row mb-2 p-0">
+                <div class="col-12">
+                    <select class="custom-select" id="sortModeSelect">
+                        <option value="none" selected>Default Sort</option>
+                        <option value="none-r">Default Sort Reversed</option>
+                        <option value="name-a">Sort by Name Ascending</option>
+                        <option value="name-d">Sort by Name Descending</option>
+                        <option value="url-a">Sort by URL Ascending</option>
+                        <option value="url-d">Sort by URL Descending</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-row m-0 p-0 mb-1">
+                <div class="col-12 d-flex justify-content-center align-items-center align-content-center">
+                    <div class="form-group form-check-inline small m-0 mr-1 p-0">
+                        <input type="checkbox" id="windowStayOpenState" class="form-check-input" checked="true">
+                        <label for="windowStayOpenState" id="windowStayOpenStateLabel" class="form-check-label">
+                            Sticky Popup
+                        </label>
+                    </div>
+                    <div class="form-group form-check-inline small m-0 mr-1 p-0">
+                        <input type="checkbox" id="selectionMode" class="form-check-input" checked="false">
+                        <label for="selectionMode" id="selectionModeLabel" class="form-check-label">
+                            Selection Mode
+                        </label>
+                    </div>
+                </div>
+            </div>
+            <div class="form-row m-0 p-0">
+                <div class="col-12 d-flex justify-content-center align-items-center align-content-center">
+                    <div class="form-group form-check-inline small m-0 p-0">
+                        <input type="checkbox" id="openCurrentPage" class="form-check-input" checked="false">
+                        <label for="openCurrentPage" id="openCurrentPageLabel" class="form-check-label">
+                            Override with current tab's URL
+                        </label>
+                    </div>
+                </div>
+            </div>
+        </form>
+        <div class="row m-0 mb-1 p-0">
+            <div class="col-12 text-center">
+                <span class="text-muted small" id="helpText"></span>
+            </div>
+        </div>
+        <div class="row m-0 p-0">
+            <div class="col-12 mx-0 px-0">
+                <div id="container-list" class="overflow-scroll-vertical"></div>
+            </div>
+        </div>
+        <div class="row m-0 p-0">
+            <div class="col-12 text-center text-muted">
+                <span class="text-muted text-center small" id="summaryText"></span> |
+                <span class="text-muted small">
+                    <a href="https://codeberg.org/firefox-containers-helper/firefox-containers-helper" target="_blank"
+                        rel="noopener noreferrer">
+                        Readme</a> |
+                    <a href="options.html" target="_blank" rel="noopener noreferrer">
+                        Preferences</a> |
+                    <a href="popup.html" target="_blank" rel="noopener noreferrer">
+                        Open in Tab</a>
+                </span>
+            </div>
+        </div>
+    </div>
+    <script src="context.js"></script>
+</body>
+
+</html>
