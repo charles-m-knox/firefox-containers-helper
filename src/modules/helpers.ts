@@ -1,4 +1,4 @@
-import { Container, ContainerDefaultURL, ExtensionConfig, SelectedContextIndex } from 'src/types';
+import { Container, ContainerDefaultURL, ExtensionConfig, SelectedContextIndex } from '../types';
 import { CLASS_ELEMENT_HIDE, CLASS_ELEMENT_SHOW } from './classes';
 import { UrlMatchTypes } from './constants';
 import { showAlert } from './modals';

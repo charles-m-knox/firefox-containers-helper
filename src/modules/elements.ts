@@ -1,4 +1,4 @@
-import { ActHandler, Container, ContainerDefaultURL, SelectedContextIndex } from 'src/types';
+import { ActHandler, Container, ContainerDefaultURL, SelectedContextIndex } from '../types';
 import {
   CLASSES_CONTAINER_LI_SELECTED,
   CLASSES_CONTAINER_LI_INACTIVE,
@@ -104,10 +104,7 @@ export const buildContainerLabel = async (
           urlLabel.innerHTML = `<s>${url.substring(
             0,
             40,
-          )}</s><br/>${urlMatchType} match, will open in this URL:<br/>${overrideUrl.substring(
-            0,
-            40,
-          )}`;
+          )}</s><br/>${urlMatchType} match, will open in this URL:<br/>${overrideUrl.substring(0, 40)}`;
         } else {
           urlLabel.innerText = `${url.substring(0, 40)}`;
         }

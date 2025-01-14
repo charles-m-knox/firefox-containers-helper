@@ -1,9 +1,10 @@
-import { SelectedContextIndex } from 'src/types';
+import { SelectedContextIndex } from '../types';
 import { getSetting } from './config';
 import { CONF, PlatformModifierKey } from './constants';
 import { reflectSelected } from './elements';
-import { help, helpful } from './html';
+import { helpful } from './html';
 import { toggleConfigFlag, filter, add, setMode, setSortMode, deselect } from './lib';
+import { help } from './help';
 
 const stayOpenToggle = async (/* _: MouseEvent */) => {
   await toggleConfigFlag(CONF.windowStayOpenState);
@@ -15,9 +16,7 @@ const selectionModeToggle = async (/* _: MouseEvent */) => {
   reflectSelected((await getSetting(CONF.selectedContextIndices)) as SelectedContextIndex);
 
   if (await getSetting(CONF.selectionMode)) {
-    help(
-      `${PlatformModifierKey}+Click to select 1; ${PlatformModifierKey}+Shift+Click for a range`,
-    );
+    help(`${PlatformModifierKey}+Click to select 1; ${PlatformModifierKey}+Shift+Click for a range`);
     return;
   }
 

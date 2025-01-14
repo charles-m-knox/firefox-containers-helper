@@ -1,4 +1,4 @@
-import { Container, ContainerDefaultURL, ExtensionConfig, SelectedContextIndex } from 'src/types';
+import { Container, ContainerDefaultURL, ExtensionConfig, SelectedContextIndex } from '../types';
 import { getSetting, setSettings } from './config';
 import {
   CONF,
@@ -25,7 +25,8 @@ import {
 } from './elements';
 import { getModifiers, preventUnload, relieveUnload } from './events';
 import { alertOnError, getCurrentTabOverrideUrl, isAnyContextSelected, queryUrls } from './helpers';
-import { bottomHelp, help, helpful } from './html';
+import { bottomHelp, helpful } from './html';
+import { help } from './help';
 import { showAlert, showPrompt, showConfirm } from './modals';
 import { getElem, getElemNullable } from './documentQueries';
 

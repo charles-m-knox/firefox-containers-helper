@@ -28,5 +28,7 @@
         "editor.rulers": []
     },
     "xml.format.maxLineWidth": 0,
-    "html.format.wrapLineLength": 0
+    "html.format.wrapLineLength": 0,
+    "jest.jestCommandLine": "pnpm run test",
+    "jest.runMode": "on-demand"
 }

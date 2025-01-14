@@ -1,7 +1,8 @@
 import { ensureConfig, getSetting, getSettings } from './modules/config';
 import { PlatformModifierKey, CONF } from './modules/constants';
 import { checkDirty } from './modules/helpers';
-import { help, helpful } from './modules/html';
+import { helpful } from './modules/html';
+import { help } from './modules/help';
 import { filter } from './modules/lib';
 import { showAlert } from './modules/modals';
 import { setHandlers } from './modules/handlers';

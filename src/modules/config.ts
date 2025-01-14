@@ -93,9 +93,7 @@ export const getSetting = async (setting: CONF, type?: SettingsTypes): Promise<u
 
   const local = (await browser.storage.local.get(setting)) as Partial<ExtensionConfig>;
   const sync = (await browser.storage.sync.get(setting)) as Partial<ExtensionConfig>;
-
   const preferSync = local.alwaysGetSync || sync.alwaysGetSync;
-
   const settings = preferSync ? sync : local;
 
   if (!settings[setting]) {

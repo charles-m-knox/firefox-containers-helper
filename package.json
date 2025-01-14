@@ -3,7 +3,7 @@
   "version": "0.2.0",
   "description": "",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "jest --coverage",
     "build": "rm -rf dist && webpack",
     "lint": "eslint ./src",
     "pkg": "web-ext build -s ./dist --overwrite-dest"
@@ -12,10 +12,14 @@
   "license": "AGPL-3.0-or-later",
   "devDependencies": {
     "@types/firefox-webext-browser": "^120.0.4",
+    "@types/jest": "^29.5.14",
     "@typescript-eslint/eslint-plugin": "^8.17.0",
     "@typescript-eslint/parser": "^8.17.0",
     "copy-webpack-plugin": "^11.0.0",
     "eslint": "^8.57.0",
+    "jest": "^29.7.0",
+    "jest-environment-jsdom": "^29.7.0",
+    "ts-jest": "^29.2.5",
     "ts-loader": "^9.4.2",
     "typescript": "^5.7.2",
     "web-ext": "^8.3.0",
@@ -46,6 +50,15 @@
     "singleAttributePerLine": false,
     "singleQuote": true,
     "trailingComma": "all"
+  },
+  "jest": {
+    "testEnvironment": "jsdom",
+    "transform": {
+      "^.+\\.ts$": [
+        "ts-jest",
+        {}
+      ]
+    }
   },
   "repository": {
     "url": "https://github.com/charles-m-knox/firefox-containers-helper"

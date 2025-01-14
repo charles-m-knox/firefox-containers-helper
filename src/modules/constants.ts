@@ -60,17 +60,7 @@ export enum CONF {
 }
 
 /** All allowable container (context) colors. */
-export const CONTEXT_COLORS = [
-  'blue',
-  'turquoise',
-  'green',
-  'yellow',
-  'orange',
-  'red',
-  'pink',
-  'purple',
-  'toolbar',
-];
+export const CONTEXT_COLORS = ['blue', 'turquoise', 'green', 'yellow', 'orange', 'red', 'pink', 'purple', 'toolbar'];
 
 /** Random list of help messages to show in the Help Text area. */
 export const helpTextMessages = [

@@ -1,4 +1,4 @@
-import { ActHandler, Container, SelectedContextIndex } from 'src/types';
+import { ActHandler, Container, SelectedContextIndex } from '../types';
 import {
   CLASSES_CONTAINER_LI_URL_LABEL_INVERTED,
   CLASSES_CONTAINER_LI_URL_LABEL,
