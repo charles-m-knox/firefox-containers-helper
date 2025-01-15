@@ -681,19 +681,22 @@ export const done = async (currentUrl: string) => {
 };
 
 /**
- * Updates the selected containers index based on user input and state.
+ * Updates the selected containers index based on user input and state. This function modifies the `selected` object,
+ * and also returns it for convenience.
  *
- * TODO: This function is a great candidate for unit testing due to its cyclomatic complexity and numerous branching
- * paths.
+ * @param filtered The entire list of filtered containers
+ * @param clicked The currently clicked container, should be present in the `filtered` array
+ * @param selected The index of selected containers
+ * @param shiftModifier
+ * @param prev The previously clicked container index
  */
-const selectionChanged = async (
+export const selectionChanged = async (
   filtered: Container[],
   clicked: Container,
   selected: SelectedContextIndex,
   shiftModifier: boolean,
+  prev: number,
 ) => {
-  const prev = (await getSetting(CONF.lastSelectedContextIndex)) as number;
-
   // determine the index of the context that was selected
   for (let i = 0; i < filtered.length; i++) {
     // initialize the the list of indices if there isn't a value there
@@ -737,13 +740,11 @@ const selectionChanged = async (
     }
   }
 
-  await setSettings({ selectedContextIndices: selected });
-
-  reflectSelected(selected);
+  return selected;
 };
 
 /** Determines the actionable containers based on the user's current selection or filtered view. */
-const getActionable = async (
+export const getActionable = (
   filtered: Container[],
   clicked: Container,
   selected: SelectedContextIndex,
@@ -910,11 +911,14 @@ export const actHandler = async (filtered: Container[], clicked: Container, even
     const selectionMode = (await getSetting(CONF.selectionMode)) as boolean;
     const selected = (await getSetting(CONF.selectedContextIndices)) as SelectedContextIndex;
     if (selectionMode && ctrl) {
-      await selectionChanged(filtered, clicked, selected, shift);
+      const prev = (await getSetting(CONF.lastSelectedContextIndex)) as number;
+      const updatedSelection = await selectionChanged(filtered, clicked, selected, shift, prev);
+      await setSettings({ selectedContextIndices: updatedSelection });
+      reflectSelected(updatedSelection);
       return;
     }
 
-    const contexts = await getActionable(filtered, clicked, selected, shift);
+    const contexts = getActionable(filtered, clicked, selected, shift);
     if (contexts.length > 50) {
       // estimate of 100 container actions / second, but cut that in half
       // to be safe

@@ -7,15 +7,11 @@ import { toggleConfigFlag, filter, add, setMode, setSortMode, deselect } from '.
 import { help } from './help';
 import { getElem } from './get';
 
-const stayOpenToggle = async (/* _: MouseEvent */) => {
-  await toggleConfigFlag(CONF.windowStayOpenState);
-};
+const stayOpenToggle = async (/* _: MouseEvent */) => await toggleConfigFlag(CONF.windowStayOpenState);
 
 const selectionModeToggle = async (/* _: MouseEvent */) => {
   await toggleConfigFlag(CONF.selectionMode);
-
   reflectSelected((await getSetting(CONF.selectedContextIndices)) as SelectedContextIndex);
-
   if (await getSetting(CONF.selectionMode)) {
     help(`${PlatformModifierKey}+Click to select 1; ${PlatformModifierKey}+Shift+Click for a range`);
     return;
@@ -36,17 +32,12 @@ const openCurrentPageToggle = async (/* _: MouseEvent */) => {
   await filter();
 };
 
-const addClick = async (/* _: MouseEvent */) => {
-  await add();
-};
+const addClick = async (/* _: MouseEvent */) => await add();
 
 const modeChange = async (event: Event) => {
   if (!event.target) return;
-
   const target = event.target as HTMLSelectElement;
-
   await setMode(target.value);
-
   event.preventDefault();
 };
 
@@ -59,13 +50,8 @@ const sortChange = async (event: Event) => {
   event.preventDefault();
 };
 
-const searchKeyUp = (event: KeyboardEvent) => {
-  filter(event);
-};
-
-const searchSubmit = (submitEvent: SubmitEvent) => {
-  submitEvent.preventDefault();
-};
+const searchKeyUp = (event: KeyboardEvent) => filter(event);
+const searchSubmit = (submitEvent: SubmitEvent) => submitEvent.preventDefault();
 
 /** Sets HTML event handlers for all interactive components. */
 export const setHandlers = () => {

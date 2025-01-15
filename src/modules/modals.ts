@@ -131,20 +131,23 @@ export const focusModalBtnConfirmCancel = () => {
 
   btn.focus();
 };
-export const focusModalBtnConfirmSecondary = () => {
-  const btn = getModalBtnConfirmSecondary();
 
-  if (!btn) return;
+// export const focusModalBtnConfirmSecondary = () => {
+//   const btn = getModalBtnConfirmSecondary();
 
-  btn.focus();
-};
-export const focusModalBtnConfirmPrimary = () => {
-  const btn = getModalBtnConfirmPrimary();
+//   if (!btn) return;
 
-  if (!btn) return;
+//   btn.focus();
+// };
 
-  btn.focus();
-};
+// export const focusModalBtnConfirmPrimary = () => {
+//   const btn = getModalBtnConfirmPrimary();
+
+//   if (!btn) return;
+
+//   btn.focus();
+// };
+
 export const focusModalBtnAlertOK = () => {
   const btn = getModalBtnAlertOK();
 
@@ -152,20 +155,22 @@ export const focusModalBtnAlertOK = () => {
 
   btn.focus();
 };
-export const focusModalBtnPromptCancel = () => {
-  const btn = getModalBtnPromptCancel();
 
-  if (!btn) return;
+// export const focusModalBtnPromptCancel = () => {
+//   const btn = getModalBtnPromptCancel();
 
-  btn.focus();
-};
-export const focusModalBtnPromptOK = () => {
-  const btn = getModalBtnPromptOK();
+//   if (!btn) return;
 
-  if (!btn) return;
+//   btn.focus();
+// };
 
-  btn.focus();
-};
+// export const focusModalBtnPromptOK = () => {
+//   const btn = getModalBtnPromptOK();
+
+//   if (!btn) return;
+
+//   btn.focus();
+// };
 
 // -- targeted element manipulation functions
 
@@ -179,46 +184,46 @@ const replaceModalBtnAlertOK = () => replaceElement(getModalBtnAlertOK());
 // const replaceModalBtnPromptOK = () => replaceElement(getModalBtnPromptOK());
 
 /** Resets the alert modal's text to an empty string. */
-export const resetModalAlertText = () => {
-  const el = getModalAlertText();
-  if (!el) return;
-  el.innerText = '';
-};
+// export const resetModalAlertText = () => {
+//   const el = getModalAlertText();
+//   if (!el) return;
+//   el.innerText = '';
+// };
 
 /** Resets the confirm modal's text to an empty string. */
-export const resetModalConfirmText = () => {
-  const el = getModalConfirmText();
-  if (!el) return;
-  el.innerText = '';
-};
+// export const resetModalConfirmText = () => {
+//   const el = getModalConfirmText();
+//   if (!el) return;
+//   el.innerText = '';
+// };
 
 /** Resets the alert modal's title text to an empty string. */
-export const resetModalAlertTitle = () => {
-  const el = getModalAlertTitle();
-  if (!el) return;
-  el.innerText = '';
-};
+// export const resetModalAlertTitle = () => {
+//   const el = getModalAlertTitle();
+//   if (!el) return;
+//   el.innerText = '';
+// };
 
 /** Resets the confirm modal's title text to an empty string. */
-export const resetModalConfirmTitle = () => {
-  const el = getModalConfirmTitle();
-  if (!el) return;
-  el.innerText = '';
-};
+// export const resetModalConfirmTitle = () => {
+//   const el = getModalConfirmTitle();
+//   if (!el) return;
+//   el.innerText = '';
+// };
 
 /** Resets the prompt modal's title text to an empty string. */
-export const resetModalPromptTitle = () => {
-  const el = getModalPromptTitle();
-  if (!el) return;
-  el.innerText = '';
-};
+// export const resetModalPromptTitle = () => {
+//   const el = getModalPromptTitle();
+//   if (!el) return;
+//   el.innerText = '';
+// };
 
 /** Removes the contents of the "prompt" modal's main content area. */
-export const resetModalPromptInput = () => {
-  const el = getModalPromptInput();
-  if (!el) return;
-  el.replaceChildren('');
-};
+// export const resetModalPromptInput = () => {
+//   const el = getModalPromptInput();
+//   if (!el) return;
+//   el.replaceChildren('');
+// };
 
 /** Hides the modal by setting a few classes. */
 export const hideModal = () => {
