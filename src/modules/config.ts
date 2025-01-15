@@ -5,6 +5,23 @@ let cached: Partial<ExtensionConfig> = {};
 let cacheLocal: Partial<ExtensionConfig> = {};
 let cacheSync: Partial<ExtensionConfig> = {};
 
+const defaultConfig: ExtensionConfig = {
+  windowStayOpenState: true,
+  selectionMode: false,
+  sort: SORT_MODE_NONE,
+  openCurrentPage: false,
+  mode: MODES.OPEN,
+  lastQuery: '',
+  containerDefaultUrls: {},
+  selectedContextIndices: {},
+  lastSelectedContextIndex: -1,
+  alwaysGetSync: false,
+  alwaysSetSync: false,
+  neverConfirmOpenNonHttpUrls: false,
+  neverConfirmSaveNonHttpUrls: false,
+  openCurrentTabUrlOnMatch: UrlMatchTypes.empty,
+};
+
 /**
  * Returns all settings, depending on whether the user prefers Sync or not.
  */
@@ -22,47 +39,38 @@ export const getSettings = async () => {
 };
 
 /**
- * Returns only sync settings. Do not use unless you specifically need them,
- * such as on the Preferences page.
+ * Returns only sync settings. Do not use unless you specifically need them, such as on the Preferences page.
  *
- * Prefer to use the `getSettings` where possible, since it automatically
- * determines whether or not to use sync/local.
+ * Prefer to use the `getSettings` where possible, since it automatically determines whether or not to use sync/local.
  */
 export const getSyncSettings = async () => (await browser.storage.sync.get()) as ExtensionConfig;
 
 /**
- * Returns only local settings. Do not use unless you specifically need them,
- * such as on the Preferences page.
+ * Returns only local settings. Do not use unless you specifically need them, such as on the Preferences page.
  *
- * Prefer to use the `getSettings` where possible, since it automatically
- * determines whether or not to use sync/local.
+ * Prefer to use the `getSettings` where possible, since it automatically determines whether or not to use sync/local.
  */
 export const getLocalSettings = async () => (await browser.storage.local.get()) as ExtensionConfig;
 
 /**
- * Saves only sync settings. Do not use unless you specifically need them,
- * such as on the Preferences page.
+ * Saves only sync settings. Do not use unless you specifically need them, such as on the Preferences page.
  *
- * Prefer to use the `getSettings` where possible, since it automatically
- * determines whether or not to use sync/local.
+ * Prefer to use the `getSettings` where possible, since it automatically determines whether or not to use sync/local.
  */
 export const setSyncSettings = async (updates: Partial<ExtensionConfig>) => await browser.storage.sync.set(updates);
 
 /**
- * Saves only local settings. Do not use unless you specifically need them,
- * such as on the Preferences page.
+ * Saves only local settings. Do not use unless you specifically need them, such as on the Preferences page.
  *
- * Prefer to use the `getSettings` where possible, since it automatically
- * determines whether or not to use sync/local.
+ * Prefer to use the `getSettings` where possible, since it automatically determines whether or not to use sync/local.
  */
 export const setLocalSettings = async (updates: Partial<ExtensionConfig>) => await browser.storage.local.set(updates);
 
 /**
  * Retrieves a setting from the extension config.
  *
- * If either the `local` or Firefox Sync extension storage has
- * `alwaysGetSync` set to true, then settings will always come from
- * Firefox Sync.
+ * If either the `local` or Firefox Sync extension storage has `alwaysGetSync` set to true, then settings will always
+ * come from Firefox Sync.
  */
 export const getSetting = async (setting: CONF, type?: SettingsTypes): Promise<unknown> => {
   // queries against the browser.storage API might be slow, so use
@@ -106,9 +114,8 @@ export const getSetting = async (setting: CONF, type?: SettingsTypes): Promise<u
 /**
  * Pushes settings to the extension config.
  *
- * If either the `local` or Firefox Sync extension storage has
- * `alwaysSetSync` set to true, then settings will always go to local AND
- * Firefox Sync.
+ * If either the `local` or Firefox Sync extension storage has `alwaysSetSync` set to true, then settings will always go
+ * to local AND Firefox Sync.
  */
 export const setSettings = async (updates: Partial<ExtensionConfig>) => {
   const sync = (await getSetting(CONF.alwaysSetSync, SettingsTypes.Sync)) === true;
@@ -119,34 +126,11 @@ export const setSettings = async (updates: Partial<ExtensionConfig>) => {
   await getSettings();
 };
 
-/** Generates a template initial extension config. */
-export const getInitialConfig = () => {
-  const config: ExtensionConfig = {
-    windowStayOpenState: true,
-    selectionMode: false,
-    sort: SORT_MODE_NONE,
-    openCurrentPage: false,
-    mode: MODES.OPEN,
-    lastQuery: '',
-    containerDefaultUrls: {},
-    selectedContextIndices: {},
-    lastSelectedContextIndex: -1,
-    alwaysGetSync: false,
-    alwaysSetSync: false,
-    neverConfirmOpenNonHttpUrls: false,
-    neverConfirmSaveNonHttpUrls: false,
-    openCurrentTabUrlOnMatch: UrlMatchTypes.empty,
-  };
-  return config;
-};
-
-/** Ensures that at a fresh config is set, if
- * there isn't an existing config.
- */
+/** Ensures that at a fresh config is set, if there isn't an existing config. */
 export const ensureConfig = async () => {
   const settings = await getSettings();
   const mergedSettings = {
-    ...getInitialConfig(),
+    ...defaultConfig,
     ...settings,
   };
   cached = { ...mergedSettings };

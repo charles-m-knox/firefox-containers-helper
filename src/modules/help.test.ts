@@ -1,6 +1,6 @@
 import { helpfulStrings } from '../strings/strings';
 import { MODES } from './constants';
-import { helpful } from './html';
+import { helpful } from './helpful';
 import { help } from './help';
 
 jest.mock('./help', () => ({

@@ -2,7 +2,7 @@
 export const getElem = <T>(elementId: string): T => {
   const element = document.getElementById(elementId);
   if (!element) {
-    throw `The ${element} element could not be found.`;
+    throw `The ${elementId} element could not be found.`;
   }
 
   return element as T;

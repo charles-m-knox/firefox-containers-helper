@@ -4,7 +4,7 @@ import { bulkExport, bulkImport } from './modules/preferences';
 import { showAlert, showConfirm } from './modules/modals';
 import { ExtensionConfig } from './types';
 import { UrlMatchTypes } from './modules/constants';
-import { getElem, getElemNullable } from './modules/documentQueries';
+import { getElem, getElemNullable } from './modules/get';
 
 // https://github.com/mdn/webextensions-examples/blob/60ce50b10ee66f6d706b0715909e756e4bdba63d/commands/options.js
 // https://github.com/mdn/webextensions-examples/blob/60ce50b10ee66f6d706b0715909e756e4bdba63d/commands/options.html

@@ -16,7 +16,7 @@ import { MODES, CONF, UrlMatchTypes, CONTAINER_LIST_GROUP_ID } from './constants
 import { getCurrentTabOverrideUrl } from './helpers';
 import { addEmptyEventListeners, setEventListeners } from './events';
 import { getSetting, getSettings } from './config';
-import { getElem, getElemNullable } from './documentQueries';
+import { getElem, getElemNullable } from './get';
 
 /**
  * As part of rebuilding the filtered list of containers, this function

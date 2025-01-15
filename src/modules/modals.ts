@@ -1,6 +1,6 @@
 // -- constants
 
-import { hideElement, replaceElement, showElement } from './helpers';
+import { hideElement, replaceElement, showElement } from './dom';
 
 // modal types
 export const MODAL_TYPE_ALERT = 'modal-type-alert';

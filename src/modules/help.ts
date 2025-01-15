@@ -1,5 +1,5 @@
 import { helpTextMessages } from './constants';
-import { getElemNullable } from './documentQueries';
+import { getElemNullable } from './get';
 
 /**
  * Sets a message inside the "warning" text element.

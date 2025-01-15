@@ -1,22 +1,10 @@
 import { getSetting } from './config';
 import { CONF, MODES } from './constants';
-import { getElemNullable } from './documentQueries';
 import { helpfulStrings } from '../strings/strings';
 import { help } from './help';
 
 /**
- * Sets a message inside the "summary" text element, such as "Showing x/y containers"
- * @param message The HTML string to put inside the summary text element.
- */
-export const bottomHelp = (message: string) => {
-  const summary = getElemNullable<HTMLSpanElement>('summaryText');
-  if (!summary) return;
-  summary.innerText = message;
-};
-
-/**
- * Based on the currently selected mode, set a helpful message to show
- * to the user.
+ * Based on the currently selected mode, set a helpful message to show to the user.
  */
 export const helpful = async (mode?: MODES) => {
   if (!mode) mode = (await getSetting(CONF.mode)) as MODES;

@@ -25,10 +25,10 @@ import {
 } from './elements';
 import { getModifiers, preventUnload, relieveUnload } from './events';
 import { alertOnError, getCurrentTabOverrideUrl, isAnyContextSelected, queryUrls } from './helpers';
-import { bottomHelp, helpful } from './html';
+import { helpful } from './helpful';
 import { help } from './help';
 import { showAlert, showPrompt, showConfirm } from './modals';
-import { getElem, getElemNullable } from './documentQueries';
+import { getElem, getElemNullable } from './get';
 
 /**
  * Asks if the user wants to delete multiple containers, and executes if the user says so.
@@ -247,17 +247,15 @@ export const open = async (contexts: Container[], pinned: boolean, tab: browser.
   for (const context of contexts) {
     let url = urls[context.cookieStoreId] || '';
 
-    // requested in
-    // GH issue 29
-    if (useCurrentTabUrl && tab.url) {
+    // requested in GH issue 29
+    if (useCurrentTabUrl && tab?.url) {
       const overrideUrl = getCurrentTabOverrideUrl(url, tab.url, useCurrentTabUrl);
       if (overrideUrl) {
         url = overrideUrl;
       }
     }
 
-    // requested in
-    // GH issue 31
+    // requested in GH issue 31
     if (tab.url && openCurrentPage) {
       url = tab.url;
     }
@@ -685,8 +683,8 @@ export const done = async (currentUrl: string) => {
 /**
  * Updates the selected containers index based on user input and state.
  *
- * TODO: This function is a great candidate for unit testing due to its
- * cyclomatic complexity and numerous branching paths.
+ * TODO: This function is a great candidate for unit testing due to its cyclomatic complexity and numerous branching
+ * paths.
  */
 const selectionChanged = async (
   filtered: Container[],
@@ -744,10 +742,7 @@ const selectionChanged = async (
   reflectSelected(selected);
 };
 
-/**
- * Determines the actionable containers based on the user's current selection
- * or filtered view.
- */
+/** Determines the actionable containers based on the user's current selection or filtered view. */
 const getActionable = async (
   filtered: Container[],
   clicked: Container,
@@ -779,12 +774,9 @@ const getActionable = async (
 };
 
 /**
- * `getActionableUrl` exists because in sticky popup mode,
- * the current tab URL changes to blank at first, and
- * `filter()` will not show the URL overrides.
- * So, we have to look at the last container in the array
- * and force `filter()` to treat that URL as the
- * active tab URL.
+ * `getActionableUrl` exists because in sticky popup mode, the current tab URL changes to blank at first, and `filter()`
+ * will not show the URL overrides. So, we have to look at the last container in the array and force `filter()` to treat
+ * that URL as the active tab URL.
  *
  * @return The URL to act on.
  */
@@ -805,10 +797,8 @@ const getActionableUrl = async (contexts: Container[], tab: browser.tabs.Tab): P
   const urls = (await getSetting(CONF.containerDefaultUrls)) as ContainerDefaultURL;
   const openCurrentTabUrlOnMatch = (await getSetting(CONF.openCurrentTabUrlOnMatch)) as UrlMatchTypes;
 
-  // the last container opened will be used as the last URL;
-  // this will be passed into the actionCompletedHandler. I had
-  // to choose something to put here, and the last URL makes the
-  // most sense.
+  // the last container opened will be used as the last URL; this will be passed into the actionCompletedHandler. I had
+  // to choose something to put here, and the last URL makes the most sense.
   url = urls[last.cookieStoreId];
 
   // TODO: this is refactorable logic copy/pasted from open()
@@ -850,9 +840,8 @@ const getActiveTab = async (): Promise<browser.tabs.Tab> => {
 /**
  * Delete, rename, set URL, open, refresh, etc - the action is triggered here.
  *
- * The primary decision tree for determine what action to perform when a user
- * clicks a selection of containers or hits the enter key for their filtered
- * search.
+ * The primary decision tree for determine what action to perform when a user clicks a selection of containers or hits
+ * the enter key for their filtered search.
  */
 const act = async (contexts: Container[], ctrl: boolean) => {
   const tab = await getActiveTab();
@@ -1051,7 +1040,11 @@ export const filter = async (event?: Event | KeyboardEvent | MouseEvent | null, 
     // passes at the contexts array.
     const results = await applyQuery(contexts, queryLower);
     await reflectFiltered(results, actualTabUrl);
-    bottomHelp(`${results.length}/${contexts.length} shown`);
+
+    const bottomHelpText = getElemNullable<HTMLSpanElement>('summaryText');
+    if (bottomHelpText) {
+      bottomHelpText.innerText = `${results.length}/${contexts.length} shown`;
+    }
 
     if (event) {
       const keyboardEvent = event as KeyboardEvent;
@@ -1102,7 +1095,7 @@ export const setMode = async (mode: string | MODES) => {
     case MODES.DUPLICATE:
     case MODES.DELETE:
     case MODES.REFRESH:
-      await setSettings({ mode: mode });
+      await setSettings({ mode });
       break;
     default:
       await showAlert(`Invalid mode '${mode}'.`, 'Invalid Mode');

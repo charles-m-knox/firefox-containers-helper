@@ -1,5 +1,4 @@
 import { Container, ContainerDefaultURL, ExtensionConfig, SelectedContextIndex } from '../types';
-import { CLASS_ELEMENT_HIDE, CLASS_ELEMENT_SHOW } from './classes';
 import { UrlMatchTypes } from './constants';
 import { showAlert } from './modals';
 
@@ -13,71 +12,14 @@ export const alertOnError = (fn: any) => async (msg: string, title: string) => {
 };
 
 /**
- * Reusable function to hide an HTML element.
- * @param el {HTMLElement | null} The element to hide
- */
-export const hideElement = (el: HTMLElement | null) => {
-  if (!el) return;
-  el.classList.remove(CLASS_ELEMENT_SHOW);
-  el.classList.add(CLASS_ELEMENT_HIDE);
-};
-
-/**
- * Reusable function to show an HTML element.
- * @param el {HTMLElement | null} The element to show
- */
-export const showElement = (el: HTMLElement | null) => {
-  if (!el) return;
-  el.classList.add(CLASS_ELEMENT_SHOW);
-  el.classList.remove(CLASS_ELEMENT_HIDE);
-};
-
-/**
- * `replaceElement` provides a quick way to remove all event listeners from
- * e.g. a button. It clones the original element and removes the original
- * element and adds the newly cloned element to the original element's
- * parent's children. Note that the order of elements may not be fully
- * preserved, so be careful.
- */
-export const replaceElement = (el: HTMLElement | null): HTMLElement | null => {
-  if (!el || !el.parentElement) return null;
-
-  const nEl = el.cloneNode(true);
-
-  el.parentElement.appendChild(nEl);
-  el.parentElement.removeChild(el);
-
-  const elem = document.getElementById(el.id);
-
-  return elem;
-};
-
-/**
- * `replaceElementById` provides a quick way to remove all event listeners from
- * e.g. a button. It clones the original element (found by querying for `id`)
- * and removes the original element and adds the newly cloned element to
- * the original element's parent's children. Note that the order of elements
- * may not be fully preserved, so be careful.
- *
- * @param id The DOM ID corresponding to the element to be replaced.
- * @return {HTMLElement} The newly cloned element.
- */
-export const replaceElementById = (id: string): HTMLElement | null => {
-  const el = document.getElementById(id);
-  if (!el) return null;
-
-  return replaceElement(el);
-};
-
-/**
- * Determines whether or not to override the container's default URL with
- * the current tab's URL, based on config.openCurrentTabUrlOnMatch
- *
- * TODO: move into helpers module and unit test this function
+ * Determines whether or not to override the container's default URL with the current tab's URL, based on
+ * `config.openCurrentTabUrlOnMatch`
  *
  * @param {string} url The URL to open
  * @param {string} current The current tab's URL
  * @param {UrlMatchTypes} match The method to use for identifying url matches
+ *
+ * @returns An empty string if there is no URL to override. Otherwise, it returns the new URL to navigate to.
  */
 export const getCurrentTabOverrideUrl = (url: string, current: string, match: UrlMatchTypes): string => {
   if (!url || !current) return '';
@@ -127,21 +69,11 @@ export const getCurrentTabOverrideUrl = (url: string, current: string, match: Ur
   return '';
 };
 
-export const scrollToTop = () => window.scrollTo(0, 0);
-
-/**
- * Quickly checks to see if a context is selected, via the selection mode
- * @param i The index of a particular context within the array of filteredContexts
- * @returns Whether or not the current context is selected
- */
-export const isContextSelected = (i: number, selected: SelectedContextIndex) => selected[i] === 1;
-
 /**
  * Quickly checks to see if *any* context is selected, via the selection mode
  * @returns Whether or not *any* current context is selected
  */
 export const isAnyContextSelected = (selected: SelectedContextIndex) => {
-  // TODO: refactor using for..of and set type to Record<foo,bar>?
   const keys = Object.keys(selected);
   for (let i = 0; i < keys.length; i++) {
     const key = parseInt(keys[i], 10);

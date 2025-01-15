@@ -9,7 +9,6 @@ import {
 } from './classes';
 import { getSetting } from './config';
 import { MODES, CONF } from './constants';
-import { isContextSelected } from './helpers';
 
 /**
  * When mousing over a list item, child elements can mess up the way classes are
@@ -83,7 +82,7 @@ export const setEventListeners = async (
 
       const selected = (await getSetting(CONF.selectedContextIndices)) as SelectedContextIndex;
 
-      if (isContextSelected(i, selected)) {
+      if (selected[i] === 1) {
         target.className = CLASSES_CONTAINER_LI_SELECTED;
         if (urlLabel) urlLabel.className = CLASSES_CONTAINER_LI_URL_LABEL_INVERTED;
 
@@ -129,7 +128,7 @@ export const setEventListeners = async (
 
       const selected = (await getSetting(CONF.selectedContextIndices)) as SelectedContextIndex;
 
-      if (isContextSelected(i, selected)) {
+      if (selected[i] === 1) {
         target.className = CLASSES_CONTAINER_LI_SELECTED;
         return;
       }
