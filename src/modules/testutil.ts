@@ -20,3 +20,15 @@ export const getFakeContainerDefaultURLs = (fields?: Partial<ContainerDefaultURL
     ...fields,
   };
 };
+
+export const getFakeBrowserTab = (fields?: Partial<browser.tabs.Tab>): browser.tabs.Tab => {
+  return {
+    active: false,
+    highlighted: false,
+    incognito: false,
+    index: 0,
+    pinned: false,
+    id: browser.tabs.TAB_ID_NONE,
+    ...fields,
+  };
+};

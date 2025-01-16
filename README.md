@@ -135,10 +135,10 @@ If you have suggestions, please feel free to voice them on [GitHub](https://gith
 To build, run the following:
 
 ```bash
-# ensure you're using node v18.14.2 or another compatible version
-yarn
-yarn run build
-yarn run pkg
+# ensure you're using node v20.18.1 or another compatible version
+pnpm install
+pnpm run build
+pnpm run pkg
 ```
 
 Then, log in to the [AMO portal](https://addons.mozilla.org/en-US/firefox/addon/containers-helper/) and upload a new version via the built `web-ext-artifacts/containers_helper-x.y.z.zip` archive, ensuring that release notes are added.

@@ -96,8 +96,7 @@ export enum UrlMatchTypes {
 }
 
 /**
- * The `<div>` ID of the container list. This is where all of the queried
- * containers will go.
+ * The `<div>` ID of the container list. This is where all of the queried containers will go.
  */
 export const CONTAINER_LIST_DIV_ID = 'container-list';
 

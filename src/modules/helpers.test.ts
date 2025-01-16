@@ -1,4 +1,4 @@
-import { getCurrentTabOverrideUrl, isAnyContextSelected, queryUrls } from './helpers';
+import { getCurrentTabOverrideUrl, isAnyContextSelected, objectEquals, queryUrls } from './helpers';
 import { Container, ContainerDefaultURL, SelectedContextIndex } from '../types';
 import { getFakeContainer, getFakeContainerDefaultURLs } from './testutil';
 import { UrlMatchTypes } from './constants';
@@ -217,6 +217,80 @@ describe('getCurrentTabOverrideUrl', () => {
   tests.forEach((test) =>
     it(test.name, () => {
       const actual = getCurrentTabOverrideUrl(test.url, test.current, test.match);
+      expect(actual).toBe(test.expected);
+    }),
+  );
+});
+
+describe('objectEquals', () => {
+  interface Test {
+    name: string;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    x: any;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    y: any;
+    expected: boolean;
+  }
+
+  const sameFunc = () => true;
+  const sameRegex = /^someRegex$/;
+
+  const tests: Test[] = [
+    {
+      name: 'returns true if two equal objects are passed',
+      x: {
+        0: 0,
+        1: 0,
+        2: 0,
+        foo: undefined,
+        foo1: null,
+        foo2: sameFunc,
+        foo3: sameRegex,
+      },
+      y: {
+        0: 0,
+        1: 0,
+        2: 0,
+        foo: undefined,
+        foo1: null,
+        foo2: sameFunc,
+        foo3: sameRegex,
+      },
+      expected: true,
+    },
+    {
+      name: 'returns false when array lengths differ',
+      x: { foo: [] },
+      y: { foo: ['bar'] },
+      expected: false,
+    },
+    {
+      name: 'returns false when dates differ',
+      x: { foo: new Date(100) },
+      y: { foo: new Date(0) },
+      expected: false,
+    },
+    {
+      name: 'returns false when receiving differing constructors',
+      x: { constructor: [undefined] },
+      y: { constructor: [null] },
+      expected: false,
+    },
+    {
+      name: 'returns false when receiving non-object instanceOf results (x)',
+      x: { foo: 5 },
+      y: { foo: 6 },
+      expected: false,
+    },
+  ];
+
+  afterAll(() => {
+    jest.resetAllMocks();
+  });
+
+  tests.forEach((test) =>
+    it(test.name, () => {
+      const actual = objectEquals(test.x, test.y);
       expect(actual).toBe(test.expected);
     }),
   );

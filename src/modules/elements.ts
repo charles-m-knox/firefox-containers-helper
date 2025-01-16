@@ -16,7 +16,7 @@ import { MODES, CONF, UrlMatchTypes, CONTAINER_LIST_GROUP_ID } from './constants
 import { getCurrentTabOverrideUrl } from './helpers';
 import { addEmptyEventListeners, setEventListeners } from './events';
 import { getSetting, getSettings } from './config';
-import { getElem, getElemNullable } from './get';
+import { getElem } from './get';
 
 /**
  * As part of rebuilding the filtered list of containers, this function
@@ -24,8 +24,8 @@ import { getElem, getElemNullable } from './get';
  *
  * @returns The `<ul>` list group element that will hold the child `<li>` container list items.
  */
-export const buildContainerListGroupElement = (): HTMLUListElement => {
-  const ul = document.createElement('ul') as HTMLUListElement;
+export const buildContainerListGroupElement = () => {
+  const ul = document.createElement('ul');
   ul.id = CONTAINER_LIST_GROUP_ID;
   ul.className = 'list-group';
   return ul;
@@ -36,11 +36,11 @@ export const buildContainerListGroupElement = (): HTMLUListElement => {
  * context - The container that this icon element will represent
  * @returns An HTML element containing the colorized container icon for `context`.
  */
-export const buildContainerIcon = (context: Container): HTMLDivElement => {
-  const iconDiv = document.createElement('div') as HTMLDivElement;
+export const buildContainerIcon = (context: Container) => {
+  const iconDiv = document.createElement('div');
   iconDiv.className = CLASSES_CONTAINER_ICON_DIV;
 
-  const icon = document.createElement('i') as HTMLElement;
+  const icon = document.createElement('i');
   icon.style.webkitMaskSize = 'cover';
   icon.style.maskSize = 'cover';
   icon.style.webkitMaskImage = `url(${context.iconUrl})`;
@@ -151,25 +151,22 @@ export const buildContainerLabel = async (
 
 /**
  * Assembles an HTML element that contains a text label for empty search results.
- * @returns An HTML element containing text that represents the
- * container's name and default URL, if defined.
+ *
+ * @returns An HTML element containing text that represents the container's name and default URL, if defined.
  */
-export const buildEmptyContainerLabelElement = (label: string): HTMLDivElement => {
-  const div = document.createElement('div') as HTMLDivElement;
+export const buildEmptyContainerLabelElement = (label: string) => {
+  const div = document.createElement('div');
   div.className = CLASSES_CONTAINER_DIV;
-
   const containerLabelElement = document.createElement('span');
-  containerLabelElement.innerText = `${label}`;
-
+  containerLabelElement.innerHTML = `${label}`;
   addEmptyEventListeners([containerLabelElement, div]);
-
   div.appendChild(containerLabelElement);
-
   return div;
 };
 
 /**
  * Assembles an HTML element that contains an entire container list item.
+ *
  * @param filteredResults A list of the currently filtered set of browser.contextualIdentities
  * @param context The contextualIdentity that this list item will represent
  * @param i The index of this contextualIdentity within the filteredResults array
@@ -227,15 +224,15 @@ export const buildContainerListItem = async (
  * @param i A unique value that will make the class/id of the element unique
  * @returns An HTML element with event listeners, formatted with css as a bootstrap list item.
  */
-export const buildContainerListItemEmpty = (i: number): HTMLLIElement => {
-  const li = document.createElement('li') as HTMLLIElement;
+export const buildContainerListItemEmpty = (i: number) => {
+  const li = document.createElement('li');
   li.className = CLASSES_CONTAINER_LI_EMPTY;
 
   const label = buildEmptyContainerLabelElement('No results');
 
   const icon = document.createElement('span');
   icon.className = CLASSES_CONTAINER_ICON_EMPTY_TEXT;
-  icon.innerText = 'x';
+  icon.innerHTML = 'x';
 
   li.appendChild(icon);
   li.appendChild(label);
@@ -247,19 +244,7 @@ export const buildContainerListItemEmpty = (i: number): HTMLLIElement => {
 };
 
 /**
- * In preparation for rebuilding the filtered list of containers, this function
- * finds and deletes the container list group elements.
- * @param containerListElement The empty (by default, before population) `<div>` on the `popup.html` page that holds the entire container list element collection. Retrieve by using document.getElementById(CONTAINER_LIST_DIV_ID)
- */
-export const removeExistingContainerListGroupElement = (containerListElement: HTMLElement) => {
-  const list = getElemNullable<HTMLUListElement>(CONTAINER_LIST_GROUP_ID);
-  if (!list) return;
-  containerListElement.removeChild(list);
-};
-
-/**
- * Sets the proper class names for filtered contexts that are either selected
- * or not
+ * Sets the proper class names for filtered contexts that are either selected or not
  */
 export const reflectSelected = (selected: SelectedContextIndex) => {
   const keys = Object.keys(selected);
@@ -285,8 +270,7 @@ export const reflectSelected = (selected: SelectedContextIndex) => {
 };
 
 /**
- * Retrieves extension settings from browser storage and reflects their values
- * in UI elements.
+ * Retrieves extension settings from browser storage and reflects their values in UI elements.
  */
 export const reflectSettings = async () => {
   const settings = await getSettings();

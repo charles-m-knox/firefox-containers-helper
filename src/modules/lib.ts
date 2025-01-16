@@ -14,10 +14,10 @@ import {
   SORT_MODE_URL_DESC,
   UrlMatchTypes,
   SortModes,
+  CONTAINER_LIST_GROUP_ID,
 } from './constants';
 import {
   reflectSelected,
-  removeExistingContainerListGroupElement,
   buildContainerListGroupElement,
   buildContainerListItem,
   buildContainerListItemEmpty,
@@ -996,8 +996,7 @@ const applyQuery = async (contexts: Container[], queryLower: string) => {
 };
 
 /**
- * Manipulates the popup UI/HTML to show the passed-in set of filtered
- * results.
+ * Manipulates the popup UI/HTML to show the passed-in set of filtered results.
  */
 const reflectFiltered = async (results: Container[], actualTabUrl?: string | null) => {
   // finally, propagate the sorted results to the UI:
@@ -1006,7 +1005,8 @@ const reflectFiltered = async (results: Container[], actualTabUrl?: string | nul
   const containerList = getElem<HTMLDivElement>(CONTAINER_LIST_DIV_ID);
 
   // prepare by clearing out the old query's HTML output
-  removeExistingContainerListGroupElement(containerList);
+  const list = getElemNullable<HTMLUListElement>(CONTAINER_LIST_GROUP_ID);
+  if (list) containerList.removeChild(list);
 
   // now build its successor
   const ul = buildContainerListGroupElement();
@@ -1025,8 +1025,11 @@ const reflectFiltered = async (results: Container[], actualTabUrl?: string | nul
 
 /**
  * Applies the user's search query, and updates the list of containers accordingly.
+ *
  * @param event The event that called this function, such as a key press or mouse click
- * @param actualTabUrl When in sticky popup mode, when opening a new URL, the new tab page might not be loaded yet, so the tab query returns an empty URL. actualTabUrl allows a URL to be passed in in advance, so that the extension can properly show URL overrides in the UI.
+ * @param actualTabUrl When in sticky popup mode, when opening a new URL, the new tab page might not be loaded yet, so
+ * the tab query returns an empty URL. actualTabUrl allows a URL to be passed in in advance, so that the extension can
+ * properly show URL overrides in the UI.
  */
 export const filter = async (event?: Event | KeyboardEvent | MouseEvent | null, actualTabUrl?: string | null) =>
   alertOnError(async () => {
