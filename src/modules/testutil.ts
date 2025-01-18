@@ -1,4 +1,4 @@
-import { Container, ContainerDefaultURL } from '../types';
+import { Container, ContainerDefaultURL, Tab } from '../types';
 
 export const getFakeContainer = (fields?: Partial<Container>): Container => {
   return {
@@ -21,7 +21,7 @@ export const getFakeContainerDefaultURLs = (fields?: Partial<ContainerDefaultURL
   };
 };
 
-export const getFakeBrowserTab = (fields?: Partial<browser.tabs.Tab>): browser.tabs.Tab => {
+export const getFakeBrowserTab = (fields?: Partial<Tab>): Tab => {
   return {
     active: false,
     highlighted: false,

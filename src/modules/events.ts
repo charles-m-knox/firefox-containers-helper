@@ -40,7 +40,7 @@ export const addEmptyEventListeners = (elements: HTMLElement[]) =>
 /**
  * Adds click and other event handlers to a container list item HTML element.
  * @param li The container list item that will receive all event listeners
- * @param filtered A list of the currently filtered set of browser.contextualIdentities
+ * @param filtered A list of the currently filtered set of containers
  * @param context The contextualIdentity that this list item will represent
  * @param i The index of this contextualIdentity within the filteredResults array
  * @returns Any error message, or empty string if no errors occurred.

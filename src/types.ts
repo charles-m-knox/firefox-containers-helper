@@ -1,6 +1,9 @@
 import { MODES, UrlMatchTypes } from './modules/constants';
 
+export type Tab = browser.tabs.Tab;
 export type Container = browser.contextualIdentities.ContextualIdentity;
+export type ContainerUpdates = browser.contextualIdentities._UpdateDetails;
+export type ContainerCreate = browser.contextualIdentities._CreateDetails;
 
 /**
  * `containerDefaultUrls` is a key-value pair of container ID's to
@@ -17,12 +20,10 @@ export interface ContextualIdentityWithURL extends Container {
 }
 
 /**
- * `selectedContextIndices` keeps track of every context that is selected
- * in selection mode - this is simply an object with every key as a counter,
- * and every value as a 1 or 0 depending on whether or not the corresponding
- * filtered context (container) is selected. Any time the filtered array
- * changes, this array should be completely reset, since the mappings
- * will be inaccurate.
+ * `selectedContextIndices` keeps track of every context that is selected in selection mode - this is simply an object
+ * with every key as a counter, and every value as a 1 or 0 depending on whether or not the corresponding filtered
+ * context (container) is selected. Any time the filtered array changes, this array should be completely reset, since
+ * the mappings will be inaccurate.
  *
  * @example {0: 1, 1: 1, 2: 0, 3: 1}
  */
@@ -30,21 +31,20 @@ export type SelectedContextIndex = Record<number, number>;
 
 /**
  * All configuration options for this web extension are stored in this object.
- * Note: If this gets updated, please update the `CONF` enum
- * in constants.ts to include any new or deleted keys.
+ *
+ * Note: If this gets updated, please update the `CONF` enum in constants.ts to include any new or deleted keys.
  */
 export interface ExtensionConfig {
   /**
-   * windowStayOpenState is what keeps the window open while the user
-   * clicks on a container tab.
+   * windowStayOpenState is what keeps the window open while the user clicks on a container tab.
    *
    * Defaults to `true`.
    */
   windowStayOpenState: boolean;
 
   /**
-   * selectionMode is what allows the user to individually click or
-   * shift+click to select ranges of containers from the list.
+   * selectionMode is what allows the user to individually click or shift+click to select ranges of containers from the
+   * list.
    *
    * Defaults to `false`.
    *
@@ -57,8 +57,7 @@ export interface ExtensionConfig {
   sort: string;
 
   /**
-   * openCurrentPage will force every filtered container to open the current
-   * tab's URL.
+   * openCurrentPage will force every filtered container to open the current tab's URL.
    *
    * Defaults to `false`.
    *
@@ -66,8 +65,7 @@ export interface ExtensionConfig {
   openCurrentPage: boolean;
 
   /**
-   * mode is the current mode the user is operating in, such as
-   * deleteContainersOnClick or setDefaultUrlsOnClick.
+   * mode is the current mode the user is operating in, such as deleteContainersOnClick or setDefaultUrlsOnClick.
    *
    * Defaults to `openOnClick`
    *
@@ -95,8 +93,8 @@ export interface ExtensionConfig {
   lastSelectedContextIndex: number;
 
   /**
-   * alwaysGetSync controls whether or not the settings are always loaded
-   * from Firefox sync, or from local storage (default false)
+   * alwaysGetSync controls whether or not the settings are always loaded from Firefox sync, or from local storage
+   * (default false)
    *
    * Defaults to `false`.
    *
@@ -104,8 +102,8 @@ export interface ExtensionConfig {
   alwaysGetSync: boolean;
 
   /**
-   * alwaysSetSync controls whether or not the settings are always pushed
-   * to Firefox sync as well to local storage (always).
+   * alwaysSetSync controls whether or not the settings are always pushed to Firefox sync as well to local storage
+   * (always).
    *
    * Defaults to `false`.
    *
@@ -113,8 +111,8 @@ export interface ExtensionConfig {
   alwaysSetSync: boolean;
 
   /**
-   * neverConfirmOpenNonHttpUrls controls whether or not users get prompted
-   * to open a URL that doesn't start with http:// or https://.
+   * neverConfirmOpenNonHttpUrls controls whether or not users get prompted to open a URL that doesn't start with
+   * http:// or https://.
    *
    * Defaults to `false`.
    *
@@ -122,8 +120,8 @@ export interface ExtensionConfig {
   neverConfirmOpenNonHttpUrls: boolean;
 
   /**
-   * neverConfirmSaveNonHttpUrls controls whether or not users get prompted
-   * to save a URL that doesn't start with http:// or https://.
+   * neverConfirmSaveNonHttpUrls controls whether or not users get prompted to save a URL that doesn't start with
+   * http:// or https://.
    *
    * Defaults to `false`.
    *
@@ -131,9 +129,8 @@ export interface ExtensionConfig {
   neverConfirmSaveNonHttpUrls: boolean;
 
   /**
-   * openCurrentTabUrlOnMatch will open the current tab's URL if a container
-   * tab's default URL domain matches the current tab's URL. Can be configured
-   * to match a couple different things.
+   * openCurrentTabUrlOnMatch will open the current tab's URL if a container tab's default URL domain matches the
+   * current tab's URL. Can be configured to match a couple different things.
    *
    * See the URL() object for things that can match.
    *
@@ -143,9 +140,8 @@ export interface ExtensionConfig {
 }
 
 /**
- * This is the type definition for the primary action handler that is triggered
- * when the user hits enter or clicks to open containers. This function is
- * `act` and was previously named `containerClickHandler`.
+ * This is the type definition for the primary action handler that is triggered when the user hits enter or clicks to
+ * open containers. This function is `act` and was previously named `containerClickHandler`.
  *
  * @see `act()` function in ``modules/lib.ts`
  */

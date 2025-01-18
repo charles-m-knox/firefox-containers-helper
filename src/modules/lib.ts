@@ -1,4 +1,4 @@
-import { Container, ContainerDefaultURL, ExtensionConfig, SelectedContextIndex } from '../types';
+import { Container, ContainerDefaultURL, ContainerUpdates, ExtensionConfig, SelectedContextIndex, Tab } from '../types';
 import { getSetting, setSettings } from './config';
 import {
   CONF,
@@ -29,9 +29,12 @@ import { helpful } from './helpful';
 import { help } from './help';
 import { showAlert, showPrompt, showConfirm } from './modals';
 import { getElem, getElemNullable } from './get';
+import { createContainer, queryContainers, removeContainer, updateContainer } from './browser/containers';
+import { browserTabsQuery } from './browser/tabs';
 
 /**
  * Asks if the user wants to delete multiple containers, and executes if the user says so.
+ *
  * @param contexts The `contextualIdentity` array to possibly be deleted.
  * @param prompt If false, no modals are shown.
  * @return number The number of deleted containers
@@ -85,7 +88,7 @@ export const del = async (contexts: Container[], prompt = true): Promise<number>
   try {
     for (const context of contexts) {
       try {
-        const d = await browser.contextualIdentities.remove(context.cookieStoreId);
+        const d = await removeContainer(context.cookieStoreId);
 
         if (urls[context.cookieStoreId]) {
           delete urls[context.cookieStoreId];
@@ -229,7 +232,7 @@ export const setUrlsPrompt = async (contexts: Container[]) => {
  * @param pinned Whether or not to open as a pinned tab.
  * @param tab The currently active tab. https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/API/tabs/Tab
  */
-export const open = async (contexts: Container[], pinned: boolean, tab: browser.tabs.Tab) => {
+export const open = async (contexts: Container[], pinned: boolean, tab: Tab) => {
   const question = `Are you sure you want to open ${contexts.length} container tabs?`;
   const isMany = contexts.length >= 10;
 
@@ -262,7 +265,7 @@ export const open = async (contexts: Container[], pinned: boolean, tab: browser.
 
     // don't even bother querying tabs if the "tab url matching"
     // configuration option isn't set
-    const newTab: Partial<browser.tabs.Tab> = {
+    const newTab: Partial<Tab> = {
       cookieStoreId: context.cookieStoreId,
       pinned: pinned,
     };
@@ -308,7 +311,7 @@ export const rename = async (contexts: Container[]) => {
 
   for (const context of contexts) {
     try {
-      const update = await browser.contextualIdentities.update(context.cookieStoreId, {
+      const update = await updateContainer(context.cookieStoreId, {
         name: rename,
       });
 
@@ -331,12 +334,12 @@ export const update = async (contexts: Container[], key: string, value: string) 
   const updated: Container[] = [];
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const updates: browser.contextualIdentities._UpdateDetails | any = {};
+  const updates: ContainerUpdates | any = {};
   updates[key] = value;
 
   for (const context of contexts) {
     try {
-      const update = await browser.contextualIdentities.update(context.cookieStoreId, updates);
+      const update = await updateContainer(context.cookieStoreId, updates);
 
       updated.push(update);
 
@@ -439,7 +442,7 @@ export const replaceInName = async (contexts: Container[]) => {
 
       const rename = context.name.replaceAll(find, replace);
 
-      const update = await browser.contextualIdentities.update(context.cookieStoreId, {
+      const update = await updateContainer(context.cookieStoreId, {
         name: rename,
       });
 
@@ -552,7 +555,7 @@ export const duplicate = async (contexts: Container[], prompt = true): Promise<n
       };
 
       try {
-        const created = await browser.contextualIdentities.create(newContext);
+        const created = await createContainer(newContext);
         const urlToSet = urls[context.cookieStoreId] || 'none';
         duplicated.push(created);
         urlsToSet.push(urlToSet);
@@ -604,7 +607,7 @@ export const add = async () => {
   };
 
   try {
-    const created = await browser.contextualIdentities.create(newContext);
+    const created = await createContainer(newContext);
 
     await filter();
 
@@ -781,7 +784,7 @@ export const getActionable = (
  *
  * @return The URL to act on.
  */
-const getActionableUrl = async (contexts: Container[], tab: browser.tabs.Tab): Promise<string> => {
+const getActionableUrl = async (contexts: Container[], tab: Tab): Promise<string> => {
   let url = '';
 
   if (!contexts.length) return '';
@@ -826,15 +829,12 @@ const getActionableUrl = async (contexts: Container[], tab: browser.tabs.Tab): P
  * @return The current active tab. Throws an exception if the current tab
  * could not be found.
  */
-const getActiveTab = async (): Promise<browser.tabs.Tab> => {
-  const tabs = await browser.tabs.query({ currentWindow: true, active: true });
-
+const getActiveTab = async (): Promise<Tab> => {
+  const tabs = await browserTabsQuery({ currentWindow: true, active: true });
   for (const tab of tabs) {
     if (!tab.active) continue;
-
     return tab;
   }
-
   throw 'Failed to determine the current tab.';
 };
 
@@ -901,7 +901,7 @@ const act = async (contexts: Container[], ctrl: boolean) => {
 /**
  * Adds click and other event handlers to a container list item HTML element.
  *
- * @param filteredResults A list of the currently filtered set of `browser.contextualIdentities`
+ * @param filteredResults A list of the currently filtered set of containers
  * @param context The `contextualIdentity` associated with this handler, assume that a user clicked on a specific container to open if this is defined
  * @param event The event that called this function, such as a key press or mouse click
  */
@@ -1036,7 +1036,7 @@ export const filter = async (event?: Event | KeyboardEvent | MouseEvent | null, 
     if (event) event.preventDefault();
     const query = await getQuery();
     const queryLower = query.toLowerCase();
-    const contexts = await browser.contextualIdentities.query({});
+    const contexts = await queryContainers({});
 
     if (!Array.isArray(contexts)) {
       reflectSelected((await getSetting(CONF.selectedContextIndices)) as SelectedContextIndex);

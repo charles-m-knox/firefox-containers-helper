@@ -63,7 +63,7 @@ export enum CONF {
 export const CONTEXT_COLORS = ['blue', 'turquoise', 'green', 'yellow', 'orange', 'red', 'pink', 'purple', 'toolbar'];
 
 /** Random list of help messages to show in the Help Text area. */
-export const helpTextMessages = [
+export const HELP_MESSAGES = [
   'Tip: Press Enter or click on a container below.',
   `Tip: Use ${platformModifierKey}(+Shift) to open pinned tabs.`,
   'Tip: Shift+Click operates on every result.',

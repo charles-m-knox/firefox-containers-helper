@@ -5,6 +5,8 @@ import { showAlert, showConfirm } from './modules/modals';
 import { ExtensionConfig } from './types';
 import { UrlMatchTypes } from './modules/constants';
 import { getElem, getElemNullable } from './modules/get';
+import { browserCommandsUpdate, browserCommandsReset, browserCommandsGetAll } from './modules/browser/commands';
+import { browserStorageLocalClear, browserStorageSyncClear } from 'modules/browser/storage';
 
 // https://github.com/mdn/webextensions-examples/blob/60ce50b10ee66f6d706b0715909e756e4bdba63d/commands/options.js
 // https://github.com/mdn/webextensions-examples/blob/60ce50b10ee66f6d706b0715909e756e4bdba63d/commands/options.html
@@ -18,7 +20,7 @@ const reflectKeyboardShortcut = async () => {
     return;
   }
 
-  const commands = await browser.commands.getAll();
+  const commands = await browserCommandsGetAll();
   for (const command of commands) {
     if (command.name === commandName && command.shortcut) {
       shortcut.value = command.shortcut;
@@ -195,7 +197,7 @@ const btnImportContainersClick = () =>
 /** Reset the keyboard shortcut and update the text box. */
 const resetShortcut = async (cmd: string) =>
   alertOnError(async () => {
-    await browser.commands.reset(cmd);
+    await browserCommandsReset(cmd);
     await reflectKeyboardShortcut();
   })(`Failed to reset the keyboard shortcut`, 'Keyboard Shortcut Error');
 
@@ -203,7 +205,7 @@ const resetShortcut = async (cmd: string) =>
 const btnUpdateShortcutClick = () =>
   alertOnError(
     async () =>
-      await browser.commands.update({
+      await browserCommandsUpdate({
         name: commandName,
         shortcut: getElem<HTMLInputElement>('shortcut').value,
       }),
@@ -329,7 +331,7 @@ const btnResetLocalSettingsClick = () =>
   alertOnError(async () => {
     const question = 'Are you sure you want to reset local settings? You may not be able to undo this.';
     if (!(await showConfirm(question, 'Reset local settings?'))) return;
-    await browser.storage.local.clear();
+    await browserStorageLocalClear();
     await reflectLocalSettings();
   })('Failed to clear local settings', 'Clear Settings Error');
 
@@ -337,7 +339,7 @@ const btnResetSyncSettingsClick = () =>
   alertOnError(async () => {
     const question = 'Are you sure you want to reset sync settings? You may not be able to undo this.';
     if (!(await showConfirm(question, 'Reset sync settings?'))) return;
-    await browser.storage.sync.clear();
+    await browserStorageSyncClear();
     await reflectSyncSettings();
   })('Failed to clear sync settings', 'Clear Settings Error');
 

@@ -1,4 +1,4 @@
-import { ensureConfig, getSetting, getSettings } from './modules/config';
+import { getSetting, getSettings } from './modules/config';
 import { PlatformModifierKey, CONF } from './modules/constants';
 import { checkDirty } from './modules/helpers';
 import { helpful } from './modules/helpful';
@@ -8,6 +8,7 @@ import { showAlert } from './modules/modals';
 import { setHandlers } from './modules/handlers';
 import { reflectSettings } from './modules/elements';
 import { getElemNullable } from './modules/get';
+import { ensureConfig } from './modules/config/ensureConfig';
 
 const init = async () => {
   if (!document) return;

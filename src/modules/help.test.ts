@@ -1,81 +1,68 @@
-import { helpfulStrings } from '../strings/strings';
-import { MODES } from './constants';
-import { helpful } from './helpful';
+import { HELP_MESSAGES } from './constants';
+import { getElemNullable } from './get';
 import { help } from './help';
+import { getRandomIndex } from './helpers/random';
 
-jest.mock('./help', () => ({
-  help: jest.fn().mockImplementation(() => {}),
+jest.mock('./helpers/random', () => ({
+  getRandomIndex: jest.fn().mockImplementation(() => 5),
 }));
 
-describe('helpful', () => {
+describe('help', () => {
   interface Test {
     name: string;
-    mode?: MODES;
+    message: string;
+    isPresent: boolean;
+    innerHTML: string;
     expected: string;
+    element?: () => HTMLSpanElement | null;
   }
 
   const tests: Test[] = [
     {
-      name: 'sets help for the SET_URL mode',
-      mode: MODES.SET_URL,
-      expected: helpfulStrings[MODES.SET_URL],
+      name: 'sets help to a random message',
+      message: '',
+      isPresent: true,
+      innerHTML: `<span id="helpText"></span>`,
+      expected: HELP_MESSAGES[5],
+      element: () => getElemNullable<HTMLSpanElement>('helpText'),
     },
     {
-      name: 'sets help for the SET_NAME mode',
-      mode: MODES.SET_NAME,
-      expected: helpfulStrings[MODES.SET_NAME],
+      name: 'sets help to a real message',
+      message: 'Foo!',
+      isPresent: true,
+      innerHTML: `<span id="helpText"></span>`,
+      expected: 'Foo!',
+      element: () => getElemNullable<HTMLSpanElement>('helpText'),
     },
     {
-      name: 'sets help for the REPLACE_IN_URL mode',
-      mode: MODES.REPLACE_IN_URL,
-      expected: helpfulStrings[MODES.REPLACE_IN_URL],
-    },
-    {
-      name: 'sets help for the REPLACE_IN_NAME mode',
-      mode: MODES.REPLACE_IN_NAME,
-      expected: helpfulStrings[MODES.REPLACE_IN_NAME],
-    },
-    {
-      name: 'sets help for the SET_ICON mode',
-      mode: MODES.SET_ICON,
-      expected: helpfulStrings[MODES.SET_ICON],
-    },
-    {
-      name: 'sets help for the SET_COLOR mode',
-      mode: MODES.SET_COLOR,
-      expected: helpfulStrings[MODES.SET_COLOR],
-    },
-    {
-      name: 'sets help for the DUPLICATE mode',
-      mode: MODES.DUPLICATE,
-      expected: helpfulStrings[MODES.DUPLICATE],
-    },
-    {
-      name: 'sets help for the DELETE mode',
-      mode: MODES.DELETE,
-      expected: helpfulStrings[MODES.DELETE],
-    },
-    {
-      name: 'sets help for the REFRESH mode',
-      mode: MODES.REFRESH,
-      expected: helpfulStrings[MODES.REFRESH],
-    },
-    {
-      name: 'sets help for an empty input',
-      mode: 'fake value' as MODES,
+      name: 'does not set help since the element is not present',
+      message: '',
+      isPresent: false,
+      innerHTML: `<span id="foo"></span>`,
       expected: '',
     },
   ];
 
-  afterAll(() => {
-    jest.resetAllMocks();
+  beforeEach(() => {
+    jest.clearAllMocks();
+    document.body.innerHTML = '';
+  });
+
+  afterEach(() => {
+    jest.clearAllMocks();
+    document.body.innerHTML = '';
   });
 
   tests.forEach((test) =>
     it(test.name, () => {
-      helpful(test.mode);
-      expect(help).toHaveBeenCalled();
-      expect(help).toHaveBeenCalledWith(test.expected);
+      document.body.innerHTML = test.innerHTML;
+      help(test.message);
+      if (!test.message) expect(getRandomIndex).toHaveBeenCalled();
+      if (test.isPresent && test.element) {
+        const actual = test.element();
+        if (!actual) throw 'test element was not found';
+        expect(actual.innerText).toBe(test.expected);
+      }
     }),
   );
 });

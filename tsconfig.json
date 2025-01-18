@@ -6,8 +6,7 @@
         ],
         "types": [
             "@types/jest",
-            "@types/firefox-webext-browser",
-            "@types/sinon"
+            "@types/firefox-webext-browser"
         ],
         "baseUrl": "./src",
         "outDir": "./dist",

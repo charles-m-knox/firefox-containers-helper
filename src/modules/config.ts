@@ -1,11 +1,21 @@
 import { ExtensionConfig } from '../types';
 import { CONF, MODES, SettingsTypes, SORT_MODE_NONE, UrlMatchTypes } from './constants';
+import {
+  getConfigCache,
+  getConfigCacheLocal,
+  getConfigCacheSync,
+  setConfigCache,
+  setConfigCacheLocal,
+  setConfigCacheSync,
+} from './config/cache';
+import {
+  browserStorageLocalGet,
+  browserStorageLocalSet,
+  browserStorageSyncGet,
+  browserStorageSyncSet,
+} from './browser/storage';
 
-let cached: Partial<ExtensionConfig> = {};
-let cacheLocal: Partial<ExtensionConfig> = {};
-let cacheSync: Partial<ExtensionConfig> = {};
-
-const defaultConfig: ExtensionConfig = {
+export const defaultConfig: ExtensionConfig = {
   windowStayOpenState: true,
   selectionMode: false,
   sort: SORT_MODE_NONE,
@@ -26,14 +36,14 @@ const defaultConfig: ExtensionConfig = {
  * Returns all settings, depending on whether the user prefers Sync or not.
  */
 export const getSettings = async () => {
-  const local = (await browser.storage.local.get()) as ExtensionConfig;
-  const sync = (await browser.storage.sync.get()) as ExtensionConfig;
+  const local = (await browserStorageLocalGet()) as ExtensionConfig;
+  const sync = (await browserStorageSyncGet()) as ExtensionConfig;
   const preferSync = sync.alwaysGetSync || local.alwaysGetSync;
   const settings = preferSync ? sync : local;
 
-  cached = { ...settings };
-  cacheLocal = { ...local };
-  cacheSync = { ...sync };
+  setConfigCache({ ...settings });
+  setConfigCacheLocal({ ...local });
+  setConfigCacheSync({ ...sync });
 
   return settings;
 };
@@ -43,40 +53,39 @@ export const getSettings = async () => {
  *
  * Prefer to use the `getSettings` where possible, since it automatically determines whether or not to use sync/local.
  */
-export const getSyncSettings = async () => (await browser.storage.sync.get()) as ExtensionConfig;
+export const getSyncSettings = async () => (await browserStorageSyncGet()) as ExtensionConfig;
 
 /**
  * Returns only local settings. Do not use unless you specifically need them, such as on the Preferences page.
  *
  * Prefer to use the `getSettings` where possible, since it automatically determines whether or not to use sync/local.
  */
-export const getLocalSettings = async () => (await browser.storage.local.get()) as ExtensionConfig;
+export const getLocalSettings = async () => (await browserStorageLocalGet()) as ExtensionConfig;
 
 /**
  * Saves only sync settings. Do not use unless you specifically need them, such as on the Preferences page.
  *
  * Prefer to use the `getSettings` where possible, since it automatically determines whether or not to use sync/local.
  */
-export const setSyncSettings = async (updates: Partial<ExtensionConfig>) => await browser.storage.sync.set(updates);
+export const setSyncSettings = async (updates: Partial<ExtensionConfig>) => await browserStorageSyncSet(updates);
 
 /**
  * Saves only local settings. Do not use unless you specifically need them, such as on the Preferences page.
  *
  * Prefer to use the `getSettings` where possible, since it automatically determines whether or not to use sync/local.
  */
-export const setLocalSettings = async (updates: Partial<ExtensionConfig>) => await browser.storage.local.set(updates);
+export const setLocalSettings = async (updates: Partial<ExtensionConfig>) => await browserStorageLocalSet(updates);
 
 /**
  * Retrieves a setting from the extension config.
  *
  * If either the `local` or Firefox Sync extension storage has `alwaysGetSync` set to true, then settings will always
  * come from Firefox Sync.
+ *
+ * TODO: make this generic?
  */
 export const getSetting = async (setting: CONF, type?: SettingsTypes): Promise<unknown> => {
-  // queries against the browser.storage API might be slow, so use
-  // cached results if possible - note that the cached object does
-  // get updated automatically any setting is changed, so generally it
-  // will always be up to date
+  const cached = getConfigCache();
   if (setting in cached) return cached[setting];
 
   // some of the settings that might create difficulties validating cached
@@ -86,28 +95,23 @@ export const getSetting = async (setting: CONF, type?: SettingsTypes): Promise<u
   // tab for a long time.
   switch (type) {
     case SettingsTypes.Local: {
+      const cacheLocal = getConfigCacheLocal();
       if (setting in cacheLocal) return cacheLocal[setting];
-      const l = await browser.storage.local.get(setting);
-      return l[setting];
+      return (await browserStorageLocalGet(setting))[setting];
     }
     case SettingsTypes.Sync: {
+      const cacheSync = getConfigCacheSync();
       if (setting in cacheSync) return cacheSync[setting];
-      const s = await browser.storage.sync.get(setting);
-      return s[setting];
+      return (await browserStorageSyncGet(setting))[setting];
     }
-    default:
-      break;
   }
 
-  const local = (await browser.storage.local.get(setting)) as Partial<ExtensionConfig>;
-  const sync = (await browser.storage.sync.get(setting)) as Partial<ExtensionConfig>;
+  const local = (await browserStorageLocalGet(setting)) as Partial<ExtensionConfig>;
+  const sync = (await browserStorageSyncGet(setting)) as Partial<ExtensionConfig>;
   const preferSync = local.alwaysGetSync || sync.alwaysGetSync;
   const settings = preferSync ? sync : local;
 
-  if (!settings[setting]) {
-    return null;
-  }
-
+  if (!settings[setting]) return null;
   return settings[setting];
 };
 
@@ -120,19 +124,8 @@ export const getSetting = async (setting: CONF, type?: SettingsTypes): Promise<u
 export const setSettings = async (updates: Partial<ExtensionConfig>) => {
   const sync = (await getSetting(CONF.alwaysSetSync, SettingsTypes.Sync)) === true;
   const local = (await getSetting(CONF.alwaysSetSync, SettingsTypes.Local)) === true;
-  await browser.storage.local.set(updates);
-  if (sync || local) await browser.storage.sync.set(updates);
+  await browserStorageLocalSet(updates);
+  if (sync || local) await browserStorageSyncSet(updates);
   // refresh the cache any time this function is called
   await getSettings();
-};
-
-/** Ensures that at a fresh config is set, if there isn't an existing config. */
-export const ensureConfig = async () => {
-  const settings = await getSettings();
-  const mergedSettings = {
-    ...defaultConfig,
-    ...settings,
-  };
-  cached = { ...mergedSettings };
-  await setSettings(mergedSettings);
 };

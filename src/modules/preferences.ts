@@ -1,23 +1,21 @@
-/** The functions in this file generally are meant to be used only with
- * the preferences page. The preferences page doesn't exclusively use the
- * `config.ts` functions because it directly modifies and parses configuration
- * options and loads/saves them. Avoid using these elsewhere.
+/**
+ * The functions in this file generally are meant to be used only with the preferences page. The preferences page
+ * doesn't exclusively use the `config.ts` functions because it directly modifies and parses configuration options and
+ * loads/saves them. Avoid using these elsewhere.
  */
 import { showConfirm } from './modals';
-import { ContainerDefaultURL, ContextualIdentityWithURL } from '../types';
+import { ContainerCreate, ContainerDefaultURL, ContextualIdentityWithURL } from '../types';
 import { getSetting, setSettings } from './config';
 import { CONF } from './constants';
+import { createContainer, queryContainers } from './browser/containers';
 
 export const bulkImport = async (str: string): Promise<ContextualIdentityWithURL[]> => {
   try {
     const contexts = JSON.parse(str) as ContextualIdentityWithURL[];
 
     // start by validating input
-
     if (!Array.isArray(contexts)) throw 'Input must be valid JSON, and it must be an array of objects.';
-
     if (!contexts?.length) return [];
-
     for (const context of contexts) {
       if (!context.name) throw `A value lacks a container name: ${JSON.stringify(context)}`;
     }
@@ -31,17 +29,14 @@ export const bulkImport = async (str: string): Promise<ContextualIdentityWithURL
     const imported: ContextualIdentityWithURL[] = [];
     const urls = (await getSetting(CONF.containerDefaultUrls)) as ContainerDefaultURL;
     for (const context of contexts) {
-      const c: browser.contextualIdentities._CreateDetails = {
+      const c: ContainerCreate = {
         name: context.name,
         icon: context.icon || 'circle',
         color: context.color || 'toolbar',
       };
 
-      const cc = await browser.contextualIdentities.create(c);
-
-      const i: ContextualIdentityWithURL = {
-        ...cc,
-      };
+      const cc = await createContainer(c);
+      const i: ContextualIdentityWithURL = { ...cc };
 
       if (context?.defaultUrl) {
         urls[cc.cookieStoreId] = context.defaultUrl;
@@ -62,7 +57,7 @@ export const bulkImport = async (str: string): Promise<ContextualIdentityWithURL
 export const bulkExport = async () => {
   try {
     const urls = (await getSetting(CONF.containerDefaultUrls)) as ContainerDefaultURL;
-    const contexts = await browser.contextualIdentities.query({});
+    const contexts = await queryContainers({});
     const results: ContextualIdentityWithURL[] = [];
 
     for (const context of contexts) {

@@ -1,6 +1,7 @@
 import { Container, ContainerDefaultURL, ExtensionConfig, SelectedContextIndex } from '../types';
 import { UrlMatchTypes } from './constants';
 import { showAlert } from './modals';
+import { getContainer } from './browser/containers';
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const alertOnError = (fn: any) => async (msg: string, title: string) => {
@@ -96,7 +97,7 @@ export const checkDirty = async (conf: ExtensionConfig) => {
   const removed: string[] = [];
   for (const id in conf.containerDefaultUrls) {
     try {
-      const context = await browser.contextualIdentities.get(id);
+      const context = await getContainer(id);
 
       if (!context) removed.push(id);
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -134,7 +135,7 @@ export const getCleanSettings = async (conf: ExtensionConfig) => {
     };
 
     try {
-      const context = await browser.contextualIdentities.get(id);
+      const context = await getContainer(id);
       if (!context) remove(id);
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
     } catch (err) {
@@ -148,9 +149,10 @@ export const getCleanSettings = async (conf: ExtensionConfig) => {
 };
 
 /**
- * Checks if a given container's `contextualIdentity` (`context`) has a default
- * URL value set in `config.containerDefaultUrls`.
- * @param context The context for a container, straight from `browser.contextualIdentities`
+ * Checks if a given container's `contextualIdentity` (`context`) has a default URL value set in
+ * `config.containerDefaultUrls`.
+ *
+ * @param context The container
  * @param userQuery The text that the user has searched for
  * @returns Whether or not the container `context` has a default URL set
  */

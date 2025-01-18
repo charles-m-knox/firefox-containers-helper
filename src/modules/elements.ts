@@ -1,4 +1,4 @@
-import { ActHandler, Container, ContainerDefaultURL, SelectedContextIndex } from '../types';
+import { ActHandler, Container, ContainerDefaultURL, SelectedContextIndex, Tab } from '../types';
 import {
   CLASSES_CONTAINER_LI_SELECTED,
   CLASSES_CONTAINER_LI_INACTIVE,
@@ -19,8 +19,7 @@ import { getSetting, getSettings } from './config';
 import { getElem } from './get';
 
 /**
- * As part of rebuilding the filtered list of containers, this function
- * assembles a list group element.
+ * As part of rebuilding the filtered list of containers, this function assembles a list group element.
  *
  * @returns The `<ul>` list group element that will hold the child `<li>` container list items.
  */
@@ -32,8 +31,9 @@ export const buildContainerListGroupElement = () => {
 };
 
 /**
- * Assembles an HTML element that contains the colorized container icon for a given container.
- * context - The container that this icon element will represent
+ * Assembles an HTML element that contains the colorized container icon for a given container. context - The container
+ * that this icon element will represent
+ *
  * @returns An HTML element containing the colorized container icon for `context`.
  */
 export const buildContainerIcon = (context: Container) => {
@@ -60,8 +60,9 @@ export const buildContainerIcon = (context: Container) => {
 
 /**
  * Assembles an HTML element that contains a text label for a given container.
- * context - The contextualIdentity that this text element will represent
- * @param i The index of this contextualIdentity within the filteredResults array
+ *
+ * @param context - The container that this text element will represent
+ * @param i The index of this container within the `filteredResults` array
  * @param currentTab The currently active tab. https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/API/tabs/Tab
  * @param actualCurrentUrl The URL that the current tab is supposed to be loading.
  * @returns An HTML element containing text that represents the
@@ -70,7 +71,7 @@ export const buildContainerIcon = (context: Container) => {
 export const buildContainerLabel = async (
   context: Container,
   i: number,
-  currentTab: browser.tabs.Tab,
+  currentTab: Tab,
   actualCurrentUrl: string,
 ): Promise<HTMLDivElement> => {
   try {
@@ -167,7 +168,7 @@ export const buildEmptyContainerLabelElement = (label: string) => {
 /**
  * Assembles an HTML element that contains an entire container list item.
  *
- * @param filteredResults A list of the currently filtered set of browser.contextualIdentities
+ * @param filteredResults A list of the currently filtered set of containers
  * @param context The contextualIdentity that this list item will represent
  * @param i The index of this contextualIdentity within the filteredResults array
  * @param currentTab The currently active tab. https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/API/tabs/Tab
@@ -178,7 +179,7 @@ export const buildContainerListItem = async (
   filteredResults: Container[],
   context: Container,
   i: number,
-  currentTab: browser.tabs.Tab,
+  currentTab: Tab,
   actualCurrentUrl: string,
   mode: MODES,
   actHandler: ActHandler,
