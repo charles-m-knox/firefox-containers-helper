@@ -1,5 +1,5 @@
 import { helpfulStrings } from '../strings/strings';
-import { MODES } from './constants';
+import { Modes } from './constants';
 import { helpful } from './helpful';
 import { help } from './help';
 
@@ -10,59 +10,59 @@ jest.mock('./help', () => ({
 describe('helpful', () => {
   interface Test {
     name: string;
-    mode?: MODES;
+    mode?: Modes;
     expected: string;
   }
 
   const tests: Test[] = [
     {
       name: 'sets help for the SET_URL mode',
-      mode: MODES.SET_URL,
-      expected: helpfulStrings[MODES.SET_URL],
+      mode: Modes.SET_URL,
+      expected: helpfulStrings[Modes.SET_URL],
     },
     {
       name: 'sets help for the SET_NAME mode',
-      mode: MODES.SET_NAME,
-      expected: helpfulStrings[MODES.SET_NAME],
+      mode: Modes.SET_NAME,
+      expected: helpfulStrings[Modes.SET_NAME],
     },
     {
       name: 'sets help for the REPLACE_IN_URL mode',
-      mode: MODES.REPLACE_IN_URL,
-      expected: helpfulStrings[MODES.REPLACE_IN_URL],
+      mode: Modes.REPLACE_IN_URL,
+      expected: helpfulStrings[Modes.REPLACE_IN_URL],
     },
     {
       name: 'sets help for the REPLACE_IN_NAME mode',
-      mode: MODES.REPLACE_IN_NAME,
-      expected: helpfulStrings[MODES.REPLACE_IN_NAME],
+      mode: Modes.REPLACE_IN_NAME,
+      expected: helpfulStrings[Modes.REPLACE_IN_NAME],
     },
     {
       name: 'sets help for the SET_ICON mode',
-      mode: MODES.SET_ICON,
-      expected: helpfulStrings[MODES.SET_ICON],
+      mode: Modes.SET_ICON,
+      expected: helpfulStrings[Modes.SET_ICON],
     },
     {
       name: 'sets help for the SET_COLOR mode',
-      mode: MODES.SET_COLOR,
-      expected: helpfulStrings[MODES.SET_COLOR],
+      mode: Modes.SET_COLOR,
+      expected: helpfulStrings[Modes.SET_COLOR],
     },
     {
       name: 'sets help for the DUPLICATE mode',
-      mode: MODES.DUPLICATE,
-      expected: helpfulStrings[MODES.DUPLICATE],
+      mode: Modes.DUPLICATE,
+      expected: helpfulStrings[Modes.DUPLICATE],
     },
     {
       name: 'sets help for the DELETE mode',
-      mode: MODES.DELETE,
-      expected: helpfulStrings[MODES.DELETE],
+      mode: Modes.DELETE,
+      expected: helpfulStrings[Modes.DELETE],
     },
     {
       name: 'sets help for the REFRESH mode',
-      mode: MODES.REFRESH,
-      expected: helpfulStrings[MODES.REFRESH],
+      mode: Modes.REFRESH,
+      expected: helpfulStrings[Modes.REFRESH],
     },
     {
       name: 'sets help for an empty input',
-      mode: 'fake value' as MODES,
+      mode: 'fake value' as Modes,
       expected: '',
     },
   ];

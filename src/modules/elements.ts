@@ -12,7 +12,7 @@ import {
   CLASSES_CONTAINER_ICON_EMPTY_TEXT,
   CLASSES_CONTAINER_ICON,
 } from './classes';
-import { MODES, CONF, UrlMatchTypes, CONTAINER_LIST_GROUP_ID } from './constants';
+import { Modes, ConfKey, UrlMatchTypes, CONTAINER_LIST_GROUP_ID } from './constants';
 import { getCurrentTabOverrideUrl } from './helpers';
 import { addEmptyEventListeners, setEventListeners } from './events';
 import { getSetting, getSettings } from './config';
@@ -85,12 +85,12 @@ export const buildContainerLabel = async (
     urlLabel.className = CLASSES_CONTAINER_LI_URL_LABEL;
     urlLabel.id = `filtered-context-${i}-url-label`;
 
-    const urls = (await getSetting(CONF.containerDefaultUrls)) as ContainerDefaultURL;
+    const urls = (await getSetting(ConfKey.containerDefaultUrls)) as ContainerDefaultURL;
 
     const url = urls[context.cookieStoreId];
 
     if (url) {
-      const urlMatchType = (await getSetting(CONF.openCurrentTabUrlOnMatch)) as UrlMatchTypes;
+      const urlMatchType = (await getSetting(ConfKey.openCurrentTabUrlOnMatch)) as UrlMatchTypes;
 
       if (urlMatchType && (currentTab || actualCurrentUrl)) {
         // if the current tab isn't loaded yet, the url might be empty,
@@ -120,7 +120,7 @@ export const buildContainerLabel = async (
       urlLabel.title = 'Opens in a blank container tab. Set a default URL to change this.';
     }
 
-    const openCurrentPage = (await getSetting(CONF.openCurrentPage)) as boolean;
+    const openCurrentPage = (await getSetting(ConfKey.openCurrentPage)) as boolean;
 
     // similar to the above - if the "openCurrentPage" config option has been selected,
     // then we should override all URL's, as a finality
@@ -181,7 +181,7 @@ export const buildContainerListItem = async (
   i: number,
   currentTab: Tab,
   actualCurrentUrl: string,
-  mode: MODES,
+  mode: Modes,
   actHandler: ActHandler,
 ): Promise<HTMLLIElement> => {
   try {
@@ -191,7 +191,7 @@ export const buildContainerListItem = async (
     const icon = buildContainerIcon(context);
     const label = await buildContainerLabel(context, i, currentTab, actualCurrentUrl);
 
-    if (mode === MODES.DELETE || mode === MODES.REFRESH) {
+    if (mode === Modes.DELETE || mode === Modes.REFRESH) {
       const div = document.createElement('div') as HTMLDivElement;
 
       div.className = CLASSES_CONTAINER_DIV_DESTRUCTIVE;
@@ -277,25 +277,25 @@ export const reflectSettings = async () => {
   const settings = await getSettings();
   for (const key in settings) {
     switch (key) {
-      case CONF.mode:
+      case ConfKey.mode:
         getElem<HTMLSelectElement>('modeSelect').value = settings[key] as string;
         break;
-      case CONF.sort:
+      case ConfKey.sort:
         getElem<HTMLSelectElement>('sortModeSelect').value = settings[key] as string;
         break;
-      case CONF.windowStayOpenState:
+      case ConfKey.windowStayOpenState:
         getElem<HTMLInputElement>('windowStayOpenState').checked = settings[key] as boolean;
         break;
-      case CONF.selectionMode:
+      case ConfKey.selectionMode:
         getElem<HTMLInputElement>('selectionMode').checked = settings[key] as boolean;
         break;
-      case CONF.openCurrentPage:
+      case ConfKey.openCurrentPage:
         getElem<HTMLInputElement>('openCurrentPage').checked = settings[key] as boolean;
         break;
-      case CONF.lastQuery:
+      case ConfKey.lastQuery:
         getElem<HTMLInputElement>('searchContainerInput').value = settings[key] as string;
         break;
-      case CONF.containerDefaultUrls: // no UI elements for this currently
+      case ConfKey.containerDefaultUrls: // no UI elements for this currently
       default:
         break;
     }

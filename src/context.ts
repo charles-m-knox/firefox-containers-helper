@@ -1,5 +1,5 @@
 import { getSetting, getSettings } from './modules/config';
-import { PlatformModifierKey, CONF } from './modules/constants';
+import { PlatformModifierKey, ConfKey } from './modules/constants';
 import { checkDirty } from './modules/helpers';
 import { helpful } from './modules/helpful';
 import { help } from './modules/help';
@@ -18,7 +18,7 @@ const init = async () => {
     await reflectSettings();
     await filter();
 
-    if ((await getSetting(CONF.selectionMode)) === true) {
+    if ((await getSetting(ConfKey.selectionMode)) === true) {
       help(`${PlatformModifierKey}+Click to select 1; ${PlatformModifierKey}+Shift+Click for a range`);
     } else {
       await helpful();

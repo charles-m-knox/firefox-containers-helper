@@ -1,4 +1,4 @@
-import { MODES } from '../constants';
+import { Modes } from '../constants';
 import {
   setConfigCache,
   getConfigCache,
@@ -13,9 +13,9 @@ describe('configCache', () => {
     setConfigCache({ alwaysGetSync: true });
     const cache1 = getConfigCache();
     expect(cache1).toStrictEqual({ alwaysGetSync: true });
-    setConfigCacheLocal({ mode: MODES.DELETE });
+    setConfigCacheLocal({ mode: Modes.DELETE });
     const cache2 = getConfigCacheLocal();
-    expect(cache2).toStrictEqual({ mode: MODES.DELETE });
+    expect(cache2).toStrictEqual({ mode: Modes.DELETE });
     setConfigCacheSync({ lastQuery: 'foo' });
     const cache3 = getConfigCacheSync();
     expect(cache3).toStrictEqual({ lastQuery: 'foo' });

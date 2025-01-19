@@ -28,7 +28,7 @@ export const CONTEXT_ICONS = [
 ];
 
 /** All functional modes that allow the user to interact with containers. */
-export enum MODES {
+export enum Modes {
   OPEN = 'openOnClick',
   SET_URL = 'setDefaultUrlsOnClick',
   SET_NAME = 'renameOnClick',
@@ -41,8 +41,8 @@ export enum MODES {
   REFRESH = 'refreshOnClick',
 }
 
-/** All keys for the ExtensionConfiguration interface. */
-export enum CONF {
+/** All keys for the `ExtensionConfiguration` interface. */
+export enum ConfKey {
   windowStayOpenState = 'windowStayOpenState',
   selectionMode = 'selectionMode',
   sort = 'sort',

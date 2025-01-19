@@ -1,24 +1,24 @@
 import { getSetting } from './config';
-import { CONF, MODES } from './constants';
+import { ConfKey, Modes } from './constants';
 import { helpfulStrings } from '../strings/strings';
 import { help } from './help';
 
 /**
  * Based on the currently selected mode, set a helpful message to show to the user.
  */
-export const helpful = async (mode?: MODES) => {
-  if (!mode) mode = (await getSetting(CONF.mode)) as MODES;
+export const helpful = async (mode?: Modes) => {
+  if (!mode) mode = (await getSetting(ConfKey.mode)) as Modes;
 
   switch (mode) {
-    case MODES.SET_URL:
-    case MODES.SET_NAME:
-    case MODES.REPLACE_IN_URL:
-    case MODES.REPLACE_IN_NAME:
-    case MODES.SET_ICON:
-    case MODES.SET_COLOR:
-    case MODES.DUPLICATE:
-    case MODES.DELETE:
-    case MODES.REFRESH:
+    case Modes.SET_URL:
+    case Modes.SET_NAME:
+    case Modes.REPLACE_IN_URL:
+    case Modes.REPLACE_IN_NAME:
+    case Modes.SET_ICON:
+    case Modes.SET_COLOR:
+    case Modes.DUPLICATE:
+    case Modes.DELETE:
+    case Modes.REFRESH:
       help(helpfulStrings[mode]);
       break;
     default:

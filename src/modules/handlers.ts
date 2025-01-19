@@ -1,18 +1,18 @@
 import { SelectedContainerIndex } from '../types';
 import { getSetting } from './config';
-import { CONF, PlatformModifierKey } from './constants';
+import { ConfKey, PlatformModifierKey } from './constants';
 import { reflectSelected } from './elements';
 import { helpful } from './helpful';
 import { toggleConfigFlag, filter, add, setMode, setSortMode, deselect } from './lib';
 import { help } from './help';
 import { getElem } from './get';
 
-const stayOpenToggle = async (/* _: MouseEvent */) => await toggleConfigFlag(CONF.windowStayOpenState);
+const stayOpenToggle = async (/* _: MouseEvent */) => await toggleConfigFlag(ConfKey.windowStayOpenState);
 
 const selectionModeToggle = async (/* _: MouseEvent */) => {
-  await toggleConfigFlag(CONF.selectionMode);
-  reflectSelected((await getSetting(CONF.selectedContextIndices)) as SelectedContainerIndex);
-  if (await getSetting(CONF.selectionMode)) {
+  await toggleConfigFlag(ConfKey.selectionMode);
+  reflectSelected((await getSetting(ConfKey.selectedContextIndices)) as SelectedContainerIndex);
+  if (await getSetting(ConfKey.selectionMode)) {
     help(`${PlatformModifierKey}+Click to select 1; ${PlatformModifierKey}+Shift+Click for a range`);
     return;
   }
@@ -21,9 +21,9 @@ const selectionModeToggle = async (/* _: MouseEvent */) => {
 };
 
 const openCurrentPageToggle = async (/* _: MouseEvent */) => {
-  await toggleConfigFlag(CONF.openCurrentPage);
+  await toggleConfigFlag(ConfKey.openCurrentPage);
 
-  if (await getSetting(CONF.openCurrentPage)) {
+  if (await getSetting(ConfKey.openCurrentPage)) {
     help(`Every container will open your current tab's URL.`);
   } else {
     await helpful();

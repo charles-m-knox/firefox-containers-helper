@@ -1,5 +1,5 @@
 import { ExtensionConfig } from '../types';
-import { CONF, MODES, SettingsTypes, SORT_MODE_NONE, UrlMatchTypes } from './constants';
+import { ConfKey, Modes, SettingsTypes, SORT_MODE_NONE, UrlMatchTypes } from './constants';
 import {
   getConfigCache,
   getConfigCacheLocal,
@@ -20,7 +20,7 @@ export const defaultConfig: ExtensionConfig = {
   selectionMode: false,
   sort: SORT_MODE_NONE,
   openCurrentPage: false,
-  mode: MODES.OPEN,
+  mode: Modes.OPEN,
   lastQuery: '',
   containerDefaultUrls: {},
   selectedContextIndices: {},
@@ -30,22 +30,6 @@ export const defaultConfig: ExtensionConfig = {
   neverConfirmOpenNonHttpUrls: false,
   neverConfirmSaveNonHttpUrls: false,
   openCurrentTabUrlOnMatch: UrlMatchTypes.empty,
-};
-
-/**
- * Returns all settings, depending on whether the user prefers Sync or not.
- */
-export const getSettings = async () => {
-  const local = (await browserStorageLocalGet()) as ExtensionConfig;
-  const sync = (await browserStorageSyncGet()) as ExtensionConfig;
-  const preferSync = sync.alwaysGetSync || local.alwaysGetSync;
-  const settings = preferSync ? sync : local;
-
-  setConfigCache({ ...settings });
-  setConfigCacheLocal({ ...local });
-  setConfigCacheSync({ ...sync });
-
-  return settings;
 };
 
 /**
@@ -84,7 +68,7 @@ export const setLocalSettings = async (updates: Partial<ExtensionConfig>) => awa
  *
  * TODO: make this generic?
  */
-export const getSetting = async (setting: CONF, type?: SettingsTypes): Promise<unknown> => {
+export const getSetting = async (setting: ConfKey, type?: SettingsTypes): Promise<unknown> => {
   const cached = getConfigCache();
   if (setting in cached) return cached[setting];
 
@@ -116,14 +100,30 @@ export const getSetting = async (setting: CONF, type?: SettingsTypes): Promise<u
 };
 
 /**
+ * Returns all settings, depending on whether the user prefers Sync or not.
+ */
+export const getSettings = async () => {
+  const local = (await browserStorageLocalGet()) as ExtensionConfig;
+  const sync = (await browserStorageSyncGet()) as ExtensionConfig;
+  const preferSync = sync.alwaysGetSync || local.alwaysGetSync;
+  const settings = preferSync ? sync : local;
+
+  setConfigCache({ ...settings });
+  setConfigCacheLocal({ ...local });
+  setConfigCacheSync({ ...sync });
+
+  return settings;
+};
+
+/**
  * Pushes settings to the extension config.
  *
  * If either the `local` or Firefox Sync extension storage has `alwaysSetSync` set to true, then settings will always go
  * to local AND Firefox Sync.
  */
 export const setSettings = async (updates: Partial<ExtensionConfig>) => {
-  const sync = (await getSetting(CONF.alwaysSetSync, SettingsTypes.Sync)) === true;
-  const local = (await getSetting(CONF.alwaysSetSync, SettingsTypes.Local)) === true;
+  const sync = (await getSetting(ConfKey.alwaysSetSync, SettingsTypes.Sync)) === true;
+  const local = (await getSetting(ConfKey.alwaysSetSync, SettingsTypes.Local)) === true;
   await browserStorageLocalSet(updates);
   if (sync || local) await browserStorageSyncSet(updates);
   // refresh the cache any time this function is called

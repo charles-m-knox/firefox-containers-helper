@@ -6,7 +6,7 @@
 import { showConfirm } from './modals/modals';
 import { ContainerCreate, ContainerDefaultURL, ContainerWithUrl } from '../types';
 import { getSetting, setSettings } from './config';
-import { CONF } from './constants';
+import { ConfKey } from './constants';
 import { createContainer, queryContainers } from './browser/containers';
 
 export const bulkImport = async (str: string): Promise<ContainerWithUrl[]> => {
@@ -27,7 +27,7 @@ export const bulkImport = async (str: string): Promise<ContainerWithUrl[]> => {
 
     // begin import
     const imported: ContainerWithUrl[] = [];
-    const urls = (await getSetting(CONF.containerDefaultUrls)) as ContainerDefaultURL;
+    const urls = (await getSetting(ConfKey.containerDefaultUrls)) as ContainerDefaultURL;
     for (const context of contexts) {
       const c: ContainerCreate = {
         name: context.name,
@@ -56,7 +56,7 @@ export const bulkImport = async (str: string): Promise<ContainerWithUrl[]> => {
 
 export const bulkExport = async () => {
   try {
-    const urls = (await getSetting(CONF.containerDefaultUrls)) as ContainerDefaultURL;
+    const urls = (await getSetting(ConfKey.containerDefaultUrls)) as ContainerDefaultURL;
     const contexts = await queryContainers({});
     const results: ContainerWithUrl[] = [];
 

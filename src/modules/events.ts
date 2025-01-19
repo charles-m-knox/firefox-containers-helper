@@ -8,7 +8,7 @@ import {
   CLASSES_CONTAINER_LI_INACTIVE,
 } from './classes';
 import { getSetting } from './config';
-import { MODES, CONF } from './constants';
+import { Modes, ConfKey } from './constants';
 
 /**
  * When mousing over a list item, child elements can mess up the way classes are
@@ -60,9 +60,9 @@ export const setEventListeners = async (
 
       const target = event.target as HTMLElement;
 
-      const mode = await getSetting(CONF.mode);
+      const mode = await getSetting(ConfKey.mode);
 
-      if (mode === MODES.DELETE || mode === MODES.REFRESH) {
+      if (mode === Modes.DELETE || mode === Modes.REFRESH) {
         target.className = CLASSES_CONTAINER_LI_ACTIVE_DANGER;
         return;
       }
@@ -80,7 +80,7 @@ export const setEventListeners = async (
 
       const urlLabel = document.getElementById(urlLabelId) as HTMLSpanElement;
 
-      const selected = (await getSetting(CONF.selectedContextIndices)) as SelectedContainerIndex;
+      const selected = (await getSetting(ConfKey.selectedContextIndices)) as SelectedContainerIndex;
 
       if (selected[i] === 1) {
         target.className = CLASSES_CONTAINER_LI_SELECTED;
@@ -108,9 +108,9 @@ export const setEventListeners = async (
 
       const target = event.target as HTMLElement;
 
-      const mode = await getSetting(CONF.mode);
+      const mode = await getSetting(ConfKey.mode);
 
-      if (mode === MODES.DELETE || mode === MODES.REFRESH) {
+      if (mode === Modes.DELETE || mode === Modes.REFRESH) {
         target.className = CLASSES_CONTAINER_LI_ACTIVE_DANGER;
         return;
       }
@@ -126,7 +126,7 @@ export const setEventListeners = async (
 
       const target = event.target as HTMLElement;
 
-      const selected = (await getSetting(CONF.selectedContextIndices)) as SelectedContainerIndex;
+      const selected = (await getSetting(ConfKey.selectedContextIndices)) as SelectedContainerIndex;
 
       if (selected[i] === 1) {
         target.className = CLASSES_CONTAINER_LI_SELECTED;

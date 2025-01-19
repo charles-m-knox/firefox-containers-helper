@@ -8,11 +8,11 @@ import {
 } from '../types';
 import { getSetting, setSettings } from './config';
 import {
-  CONF,
+  ConfKey,
   CONTEXT_COLORS,
   CONTEXT_ICONS,
   CONTAINER_LIST_DIV_ID,
-  MODES,
+  Modes,
   SORT_MODE_NAME_ASC,
   SORT_MODE_NAME_DESC,
   SORT_MODE_NONE,
@@ -89,7 +89,7 @@ export const del = async (contexts: Container[], prompt = true): Promise<number>
   // proceed to delete every provided context
   const deleted = [];
 
-  const urls = (await getSetting(CONF.containerDefaultUrls)) as ContainerDefaultURL;
+  const urls = (await getSetting(ConfKey.containerDefaultUrls)) as ContainerDefaultURL;
 
   let changed = false;
 
@@ -159,7 +159,7 @@ export const setUrls = async (contexts: Container[], url: string[], allowAnyProt
   const first = url[0];
 
   const clear = oneUrl && first === 'none';
-  const requireHTTP = !(await getSetting(CONF.neverConfirmSaveNonHttpUrls));
+  const requireHTTP = !(await getSetting(ConfKey.neverConfirmSaveNonHttpUrls));
   const noHTTPS = oneUrl && first.indexOf(`https://`) !== 0;
   const noHTTP = oneUrl && first.indexOf(`http://`) !== 0;
   const question =
@@ -170,7 +170,7 @@ export const setUrls = async (contexts: Container[], url: string[], allowAnyProt
 
   const s = single ? '' : 's';
 
-  const urls = (await getSetting(CONF.containerDefaultUrls)) as ContainerDefaultURL;
+  const urls = (await getSetting(ConfKey.containerDefaultUrls)) as ContainerDefaultURL;
 
   let changed = false;
 
@@ -219,7 +219,7 @@ export const setUrlsPrompt = async (contexts: Container[]) => {
   let prefill = '';
 
   if (one) {
-    const urls = (await getSetting(CONF.containerDefaultUrls)) as ContainerDefaultURL;
+    const urls = (await getSetting(ConfKey.containerDefaultUrls)) as ContainerDefaultURL;
     const context = contexts[0];
     const contextUrl = urls[context.cookieStoreId];
     if (urls[context.cookieStoreId]) {
@@ -250,10 +250,10 @@ export const open = async (contexts: Container[], pinned: boolean, tab: Tab) => 
 
   let shouldPrompt = true;
 
-  const requireHTTP = !(await getSetting(CONF.neverConfirmOpenNonHttpUrls));
-  const useCurrentTabUrl = (await getSetting(CONF.openCurrentTabUrlOnMatch)) as UrlMatchTypes;
-  const openCurrentPage = (await getSetting(CONF.openCurrentPage)) as boolean;
-  const urls = (await getSetting(CONF.containerDefaultUrls)) as ContainerDefaultURL;
+  const requireHTTP = !(await getSetting(ConfKey.neverConfirmOpenNonHttpUrls));
+  const useCurrentTabUrl = (await getSetting(ConfKey.openCurrentTabUrlOnMatch)) as UrlMatchTypes;
+  const openCurrentPage = (await getSetting(ConfKey.openCurrentPage)) as boolean;
+  const urls = (await getSetting(ConfKey.containerDefaultUrls)) as ContainerDefaultURL;
 
   for (const context of contexts) {
     let url = urls[context.cookieStoreId] || '';
@@ -473,7 +473,7 @@ export const replaceInUrls = async (contexts: Container[]) => {
 
   let prefill = '';
 
-  const urls = (await getSetting(CONF.containerDefaultUrls)) as ContainerDefaultURL;
+  const urls = (await getSetting(ConfKey.containerDefaultUrls)) as ContainerDefaultURL;
   if (one) {
     const context = contexts[0];
     const contextUrl = urls[context.cookieStoreId];
@@ -552,7 +552,7 @@ export const duplicate = async (contexts: Container[], prompt = true): Promise<n
   const urlsToSet: string[] = [];
 
   // if the containers have default URL associations, we need to update those too
-  const urls = (await getSetting(CONF.containerDefaultUrls)) as ContainerDefaultURL;
+  const urls = (await getSetting(ConfKey.containerDefaultUrls)) as ContainerDefaultURL;
 
   try {
     for (const context of contexts) {
@@ -678,7 +678,7 @@ export const deselect = async () => {
  * "active" when filtering containers
  */
 export const done = async (currentUrl: string) => {
-  const stay = (await getSetting(CONF.windowStayOpenState)) as boolean;
+  const stay = (await getSetting(ConfKey.windowStayOpenState)) as boolean;
 
   relieveUnload();
 
@@ -806,8 +806,8 @@ const getActionableUrl = async (contexts: Container[], tab: Tab): Promise<string
 
   const last = contexts[contexts.length - 1];
 
-  const urls = (await getSetting(CONF.containerDefaultUrls)) as ContainerDefaultURL;
-  const openCurrentTabUrlOnMatch = (await getSetting(CONF.openCurrentTabUrlOnMatch)) as UrlMatchTypes;
+  const urls = (await getSetting(ConfKey.containerDefaultUrls)) as ContainerDefaultURL;
+  const openCurrentTabUrlOnMatch = (await getSetting(ConfKey.openCurrentTabUrlOnMatch)) as UrlMatchTypes;
 
   // the last container opened will be used as the last URL; this will be passed into the actionCompletedHandler. I had
   // to choose something to put here, and the last URL makes the most sense.
@@ -824,7 +824,7 @@ const getActionableUrl = async (contexts: Container[], tab: Tab): Promise<string
 
   // override the URL if the user has elected to open the current page
   // for all filtered tabs
-  const openCurrentPage = (await getSetting(CONF.openCurrentPage)) as boolean;
+  const openCurrentPage = (await getSetting(ConfKey.openCurrentPage)) as boolean;
 
   if (openCurrentPage && tab.url) return tab.url;
 
@@ -857,45 +857,45 @@ const act = async (contexts: Container[], ctrl: boolean) => {
 
   let navigatedUrl = '';
 
-  const mode = (await getSetting(CONF.mode)) as MODES;
+  const mode = (await getSetting(ConfKey.mode)) as Modes;
 
   preventUnload();
 
   switch (mode) {
-    case MODES.SET_NAME:
+    case Modes.SET_NAME:
       await rename(contexts);
       break;
-    case MODES.DELETE: {
+    case Modes.DELETE: {
       const deleted = await del(contexts);
       if (deleted > 0) await deselect();
       break;
     }
-    case MODES.REFRESH: {
+    case Modes.REFRESH: {
       const [removed, refreshed] = await refresh(contexts);
       if (removed > 0 || refreshed > 0) await deselect();
       break;
     }
-    case MODES.SET_URL:
+    case Modes.SET_URL:
       await setUrlsPrompt(contexts);
       break;
-    case MODES.SET_COLOR:
+    case Modes.SET_COLOR:
       await setColors(contexts);
       break;
-    case MODES.SET_ICON:
+    case Modes.SET_ICON:
       await setIcons(contexts);
       break;
-    case MODES.REPLACE_IN_NAME:
+    case Modes.REPLACE_IN_NAME:
       await replaceInName(contexts);
       break;
-    case MODES.REPLACE_IN_URL:
+    case Modes.REPLACE_IN_URL:
       await replaceInUrls(contexts);
       break;
-    case MODES.DUPLICATE: {
+    case Modes.DUPLICATE: {
       const duplicated = await duplicate(contexts);
       if (duplicated > 0) await deselect();
       break;
     }
-    case MODES.OPEN:
+    case Modes.OPEN:
       navigatedUrl = await getActionableUrl(contexts, tab);
       await open(contexts, ctrl, tab);
       break;
@@ -916,10 +916,10 @@ const act = async (contexts: Container[], ctrl: boolean) => {
 export const actHandler = async (filtered: Container[], clicked: Container, event: MouseEvent | KeyboardEvent) =>
   alertOnError(async () => {
     const [ctrl, shift] = getModifiers(event);
-    const selectionMode = (await getSetting(CONF.selectionMode)) as boolean;
-    const selected = (await getSetting(CONF.selectedContextIndices)) as SelectedContainerIndex;
+    const selectionMode = (await getSetting(ConfKey.selectionMode)) as boolean;
+    const selected = (await getSetting(ConfKey.selectedContextIndices)) as SelectedContainerIndex;
     if (selectionMode && ctrl) {
-      const prev = (await getSetting(CONF.lastSelectedContextIndex)) as number;
+      const prev = (await getSetting(ConfKey.lastSelectedContextIndex)) as number;
       const updatedSelection = await selectionChanged(filtered, clicked, selected, shift, prev);
       await setSettings({ selectedContextIndices: updatedSelection });
       reflectSelected(updatedSelection);
@@ -952,7 +952,7 @@ export const actHandler = async (filtered: Container[], clicked: Container, even
  */
 const getQuery = async () => {
   const query = getElemNullable<HTMLInputElement>('searchContainerInput')?.value?.trim()?.toLowerCase() || '';
-  if (query !== (await getSetting(CONF.lastQuery))) {
+  if (query !== (await getSetting(ConfKey.lastQuery))) {
     // the query has changed, so reset any items the user has selected
     await deselect();
   }
@@ -964,7 +964,7 @@ const applyQuery = async (contexts: Container[], queryLower: string) => {
   const results: Container[] = [];
 
   // first, apply filtering directly:
-  const urls = (await getSetting(CONF.containerDefaultUrls)) as ContainerDefaultURL;
+  const urls = (await getSetting(ConfKey.containerDefaultUrls)) as ContainerDefaultURL;
 
   for (const context of contexts) {
     const nameLower = context.name.toLowerCase();
@@ -976,7 +976,7 @@ const applyQuery = async (contexts: Container[], queryLower: string) => {
   }
 
   // second, sort according to the user-configured sort:
-  const sort = (await getSetting(CONF.sort)) as SortModes;
+  const sort = (await getSetting(ConfKey.sort)) as SortModes;
 
   results.sort((a: Container, b: Container) => {
     const urlA: string = (urls[a.cookieStoreId] || '').toLowerCase();
@@ -1009,7 +1009,7 @@ const applyQuery = async (contexts: Container[], queryLower: string) => {
 const reflectFiltered = async (results: Container[], actualTabUrl?: string | null) => {
   // finally, propagate the sorted results to the UI:
   const tab = await getActiveTab();
-  const mode = (await getSetting(CONF.mode)) as MODES;
+  const mode = (await getSetting(ConfKey.mode)) as Modes;
   const containerList = getElem<HTMLDivElement>(CONTAINER_LIST_DIV_ID);
 
   // prepare by clearing out the old query's HTML output
@@ -1047,7 +1047,7 @@ export const filter = async (event?: Event | KeyboardEvent | MouseEvent | null, 
     const contexts = await queryContainers({});
 
     if (!Array.isArray(contexts)) {
-      reflectSelected((await getSetting(CONF.selectedContextIndices)) as SelectedContainerIndex);
+      reflectSelected((await getSetting(ConfKey.selectedContextIndices)) as SelectedContainerIndex);
       return;
     }
 
@@ -1070,7 +1070,7 @@ export const filter = async (event?: Event | KeyboardEvent | MouseEvent | null, 
       event.preventDefault();
     }
 
-    reflectSelected((await getSetting(CONF.selectedContextIndices)) as SelectedContainerIndex);
+    reflectSelected((await getSetting(ConfKey.selectedContextIndices)) as SelectedContainerIndex);
   })('Failed to filter the list of containers', 'Filter Error');
 
 /**
@@ -1081,7 +1081,7 @@ export const filter = async (event?: Event | KeyboardEvent | MouseEvent | null, 
  *
  * @param key The `ExtensionConfig` key to toggle.
  */
-export const toggleConfigFlag = async (key: CONF) => {
+export const toggleConfigFlag = async (key: ConfKey) => {
   const original = (await getSetting(key)) as boolean;
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -1098,18 +1098,18 @@ export const toggleConfigFlag = async (key: CONF) => {
  * configuration value accordingly.
  * @param mode The mode to set.
  */
-export const setMode = async (mode: string | MODES) => {
+export const setMode = async (mode: string | Modes) => {
   switch (mode) {
-    case MODES.OPEN:
-    case MODES.SET_URL:
-    case MODES.SET_NAME:
-    case MODES.SET_COLOR:
-    case MODES.SET_ICON:
-    case MODES.REPLACE_IN_NAME:
-    case MODES.REPLACE_IN_URL:
-    case MODES.DUPLICATE:
-    case MODES.DELETE:
-    case MODES.REFRESH:
+    case Modes.OPEN:
+    case Modes.SET_URL:
+    case Modes.SET_NAME:
+    case Modes.SET_COLOR:
+    case Modes.SET_ICON:
+    case Modes.REPLACE_IN_NAME:
+    case Modes.REPLACE_IN_URL:
+    case Modes.DUPLICATE:
+    case Modes.DELETE:
+    case Modes.REFRESH:
       await setSettings({ mode });
       break;
     default:
