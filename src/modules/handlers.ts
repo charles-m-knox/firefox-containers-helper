@@ -1,4 +1,4 @@
-import { SelectedContextIndex } from '../types';
+import { SelectedContainerIndex } from '../types';
 import { getSetting } from './config';
 import { CONF, PlatformModifierKey } from './constants';
 import { reflectSelected } from './elements';
@@ -11,7 +11,7 @@ const stayOpenToggle = async (/* _: MouseEvent */) => await toggleConfigFlag(CON
 
 const selectionModeToggle = async (/* _: MouseEvent */) => {
   await toggleConfigFlag(CONF.selectionMode);
-  reflectSelected((await getSetting(CONF.selectedContextIndices)) as SelectedContextIndex);
+  reflectSelected((await getSetting(CONF.selectedContextIndices)) as SelectedContainerIndex);
   if (await getSetting(CONF.selectionMode)) {
     help(`${PlatformModifierKey}+Click to select 1; ${PlatformModifierKey}+Shift+Click for a range`);
     return;

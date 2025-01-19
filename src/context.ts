@@ -4,7 +4,7 @@ import { checkDirty } from './modules/helpers';
 import { helpful } from './modules/helpful';
 import { help } from './modules/help';
 import { filter } from './modules/lib';
-import { showAlert } from './modules/modals';
+import { showAlert } from './modules/modals/modals';
 import { setHandlers } from './modules/handlers';
 import { reflectSettings } from './modules/elements';
 import { getElemNullable } from './modules/get';

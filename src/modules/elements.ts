@@ -1,4 +1,4 @@
-import { ActHandler, Container, ContainerDefaultURL, SelectedContextIndex, Tab } from '../types';
+import { ActHandler, Container, ContainerDefaultURL, SelectedContainerIndex, Tab } from '../types';
 import {
   CLASSES_CONTAINER_LI_SELECTED,
   CLASSES_CONTAINER_LI_INACTIVE,
@@ -247,7 +247,7 @@ export const buildContainerListItemEmpty = (i: number) => {
 /**
  * Sets the proper class names for filtered contexts that are either selected or not
  */
-export const reflectSelected = (selected: SelectedContextIndex) => {
+export const reflectSelected = (selected: SelectedContainerIndex) => {
   const keys = Object.keys(selected);
   for (let i = 0; i < keys.length; i++) {
     const li = document.getElementById(`filtered-context-${i}-li`) as HTMLLIElement;

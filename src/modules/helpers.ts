@@ -1,6 +1,6 @@
-import { Container, ContainerDefaultURL, ExtensionConfig, SelectedContextIndex } from '../types';
+import { Container, ContainerDefaultURL, ExtensionConfig, SelectedContainerIndex } from '../types';
 import { UrlMatchTypes } from './constants';
-import { showAlert } from './modals';
+import { showAlert } from './modals/modals';
 import { getContainer } from './browser/containers';
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -72,9 +72,10 @@ export const getCurrentTabOverrideUrl = (url: string, current: string, match: Ur
 
 /**
  * Quickly checks to see if *any* context is selected, via the selection mode
+ *
  * @returns Whether or not *any* current context is selected
  */
-export const isAnyContextSelected = (selected: SelectedContextIndex) => {
+export const isAnyContextSelected = (selected: SelectedContainerIndex) => {
   const keys = Object.keys(selected);
   for (let i = 0; i < keys.length; i++) {
     const key = parseInt(keys[i], 10);

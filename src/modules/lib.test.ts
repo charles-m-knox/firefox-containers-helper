@@ -1,4 +1,4 @@
-import { Container, ExtensionConfig, SelectedContextIndex } from '../types';
+import { Container, ExtensionConfig, SelectedContainerIndex } from '../types';
 import { getFakeContainer } from './testutil';
 import { setSettings } from './config';
 import { getActionable, selectionChanged } from './lib';
@@ -12,11 +12,11 @@ describe('selectionChanged', () => {
     name: string;
     filtered: Container[];
     clicked: Container;
-    selected: SelectedContextIndex;
+    selected: SelectedContainerIndex;
     shiftModifier: boolean;
     prev: number;
     setSettingsArgs?: Partial<ExtensionConfig>;
-    expected: SelectedContextIndex;
+    expected: SelectedContainerIndex;
   }
 
   const fakeContainer1 = getFakeContainer({ cookieStoreId: 'unique01' });
@@ -108,7 +108,7 @@ describe('getActionable', () => {
     name: string;
     filtered: Container[];
     clicked: Container;
-    selected: SelectedContextIndex;
+    selected: SelectedContainerIndex;
     shiftModifier: boolean;
     expected: Container[];
   }

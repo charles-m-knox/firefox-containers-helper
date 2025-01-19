@@ -1,4 +1,4 @@
-import { ActHandler, Container, SelectedContextIndex } from '../types';
+import { ActHandler, Container, SelectedContainerIndex } from '../types';
 import {
   CLASSES_CONTAINER_LI_URL_LABEL_INVERTED,
   CLASSES_CONTAINER_LI_URL_LABEL,
@@ -80,7 +80,7 @@ export const setEventListeners = async (
 
       const urlLabel = document.getElementById(urlLabelId) as HTMLSpanElement;
 
-      const selected = (await getSetting(CONF.selectedContextIndices)) as SelectedContextIndex;
+      const selected = (await getSetting(CONF.selectedContextIndices)) as SelectedContainerIndex;
 
       if (selected[i] === 1) {
         target.className = CLASSES_CONTAINER_LI_SELECTED;
@@ -126,7 +126,7 @@ export const setEventListeners = async (
 
       const target = event.target as HTMLElement;
 
-      const selected = (await getSetting(CONF.selectedContextIndices)) as SelectedContextIndex;
+      const selected = (await getSetting(CONF.selectedContextIndices)) as SelectedContainerIndex;
 
       if (selected[i] === 1) {
         target.className = CLASSES_CONTAINER_LI_SELECTED;
@@ -149,16 +149,6 @@ export const setEventListeners = async (
     throw `failed to apply an event listener: ${JSON.stringify(e)}`;
   }
 };
-
-/**
- * Determines if `ctrl` and if `shift` are individually pressed.
- *
- * @returns Two booleans in order: `ctrlModifier` and `shiftModifier`.
- */
-export const getModifiers = (event?: MouseEvent | KeyboardEvent): [boolean, boolean] =>
-  event
-    ? [event.getModifierState('Control') || event.getModifierState('Meta'), event.getModifierState('Shift')]
-    : [false, false];
 
 const unloader = async (event: BeforeUnloadEvent) => {
   if (!event) return;

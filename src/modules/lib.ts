@@ -1,4 +1,11 @@
-import { Container, ContainerDefaultURL, ContainerUpdates, ExtensionConfig, SelectedContextIndex, Tab } from '../types';
+import {
+  Container,
+  ContainerDefaultURL,
+  ContainerUpdates,
+  ExtensionConfig,
+  SelectedContainerIndex,
+  Tab,
+} from '../types';
 import { getSetting, setSettings } from './config';
 import {
   CONF,
@@ -23,11 +30,12 @@ import {
   buildContainerListItemEmpty,
   reflectSettings,
 } from './elements';
-import { getModifiers, preventUnload, relieveUnload } from './events';
+import { getModifiers } from './events/modifiers';
+import { preventUnload, relieveUnload } from './events';
 import { alertOnError, getCurrentTabOverrideUrl, isAnyContextSelected, queryUrls } from './helpers';
 import { helpful } from './helpful';
 import { help } from './help';
-import { showAlert, showPrompt, showConfirm } from './modals';
+import { showAlert, showPrompt, showConfirm } from './modals/modals';
 import { getElem, getElemNullable } from './get';
 import { createContainer, queryContainers, removeContainer, updateContainer } from './browser/containers';
 import { browserTabsQuery } from './browser/tabs';
@@ -696,7 +704,7 @@ export const done = async (currentUrl: string) => {
 export const selectionChanged = async (
   filtered: Container[],
   clicked: Container,
-  selected: SelectedContextIndex,
+  selected: SelectedContainerIndex,
   shiftModifier: boolean,
   prev: number,
 ) => {
@@ -750,7 +758,7 @@ export const selectionChanged = async (
 export const getActionable = (
   filtered: Container[],
   clicked: Container,
-  selected: SelectedContextIndex,
+  selected: SelectedContainerIndex,
   shiftModifier: boolean,
 ) => {
   const contexts: Container[] = [];
@@ -909,7 +917,7 @@ export const actHandler = async (filtered: Container[], clicked: Container, even
   alertOnError(async () => {
     const [ctrl, shift] = getModifiers(event);
     const selectionMode = (await getSetting(CONF.selectionMode)) as boolean;
-    const selected = (await getSetting(CONF.selectedContextIndices)) as SelectedContextIndex;
+    const selected = (await getSetting(CONF.selectedContextIndices)) as SelectedContainerIndex;
     if (selectionMode && ctrl) {
       const prev = (await getSetting(CONF.lastSelectedContextIndex)) as number;
       const updatedSelection = await selectionChanged(filtered, clicked, selected, shift, prev);
@@ -1039,7 +1047,7 @@ export const filter = async (event?: Event | KeyboardEvent | MouseEvent | null, 
     const contexts = await queryContainers({});
 
     if (!Array.isArray(contexts)) {
-      reflectSelected((await getSetting(CONF.selectedContextIndices)) as SelectedContextIndex);
+      reflectSelected((await getSetting(CONF.selectedContextIndices)) as SelectedContainerIndex);
       return;
     }
 
@@ -1062,7 +1070,7 @@ export const filter = async (event?: Event | KeyboardEvent | MouseEvent | null, 
       event.preventDefault();
     }
 
-    reflectSelected((await getSetting(CONF.selectedContextIndices)) as SelectedContextIndex);
+    reflectSelected((await getSetting(CONF.selectedContextIndices)) as SelectedContainerIndex);
   })('Failed to filter the list of containers', 'Filter Error');
 
 /**

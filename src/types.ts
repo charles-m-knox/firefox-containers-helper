@@ -15,7 +15,7 @@ export interface ContainerDefaultURL {
   [name: string]: string;
 }
 
-export interface ContextualIdentityWithURL extends Container {
+export interface ContainerWithUrl extends Container {
   defaultUrl?: string;
 }
 
@@ -27,7 +27,7 @@ export interface ContextualIdentityWithURL extends Container {
  *
  * @example {0: 1, 1: 1, 2: 0, 3: 1}
  */
-export type SelectedContextIndex = Record<number, number>;
+export type SelectedContainerIndex = Record<number, number>;
 
 /**
  * All configuration options for this web extension are stored in this object.
@@ -82,7 +82,7 @@ export interface ExtensionConfig {
 
   containerDefaultUrls: ContainerDefaultURL;
 
-  selectedContextIndices: SelectedContextIndex;
+  selectedContextIndices: SelectedContainerIndex;
 
   /**
    * lastSelectedContextIndex keeps track of the item that was last selected

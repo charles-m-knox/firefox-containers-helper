@@ -1,5 +1,5 @@
 import { getCurrentTabOverrideUrl, isAnyContextSelected, objectEquals, queryUrls } from './helpers';
-import { Container, ContainerDefaultURL, SelectedContextIndex } from '../types';
+import { Container, ContainerDefaultURL, SelectedContainerIndex } from '../types';
 import { getFakeContainer, getFakeContainerDefaultURLs } from './testutil';
 import { UrlMatchTypes } from './constants';
 
@@ -10,7 +10,7 @@ import { UrlMatchTypes } from './constants';
 describe('isAnyContextSelected', () => {
   interface Test {
     name: string;
-    selected: SelectedContextIndex;
+    selected: SelectedContainerIndex;
     expected: boolean;
   }
 
