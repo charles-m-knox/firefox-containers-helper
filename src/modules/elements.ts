@@ -16,7 +16,7 @@ import { Modes, ConfKey, UrlMatchTypes, CONTAINER_LIST_GROUP_ID } from './consta
 import { getCurrentTabOverrideUrl } from './helpers';
 import { addEmptyEventListeners, setEventListeners } from './events';
 import { getSetting, getSettings } from './config';
-import { getElem } from './get';
+import { getElem, getElemNullable } from './get';
 
 /**
  * As part of rebuilding the filtered list of containers, this function assembles a list group element.
@@ -250,8 +250,8 @@ export const buildContainerListItemEmpty = (i: number) => {
 export const reflectSelected = (selected: SelectedContainerIndex) => {
   const keys = Object.keys(selected);
   for (let i = 0; i < keys.length; i++) {
-    const li = document.getElementById(`filtered-context-${i}-li`) as HTMLLIElement;
-    const urlLabel = document.getElementById(`filtered-context-${i}-url-label`) as HTMLSpanElement;
+    const li = getElemNullable<HTMLLIElement>(`filtered-context-${i}-li`);
+    const urlLabel = getElemNullable<HTMLSpanElement>(`filtered-context-${i}-url-label`);
     if (selected[i] === 1) {
       if (li) {
         li.className = CLASSES_CONTAINER_LI_SELECTED;
@@ -295,9 +295,9 @@ export const reflectSettings = async () => {
       case ConfKey.lastQuery:
         getElem<HTMLInputElement>('searchContainerInput').value = settings[key] as string;
         break;
-      case ConfKey.containerDefaultUrls: // no UI elements for this currently
-      default:
-        break;
+      // case ConfKey.containerDefaultUrls: // no UI elements for this currently
+      // default:
+      //   break;
     }
   }
 };
