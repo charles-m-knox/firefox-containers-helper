@@ -1,10 +1,6 @@
-let platformModifierKey = 'Ctrl'; // windows, linux
-// https://stackoverflow.com/a/11752084
-if (navigator.platform.toUpperCase().indexOf('MAC') >= 0) {
-  platformModifierKey = 'Cmd'; // mac
-}
+import { getPlatformModifierKey } from './navigator/platform';
 
-export const PlatformModifierKey = platformModifierKey;
+export const PlatformModifierKey = getPlatformModifierKey();
 
 /**
  * All allowable container (context) icons.
@@ -65,7 +61,7 @@ export const CONTEXT_COLORS = ['blue', 'turquoise', 'green', 'yellow', 'orange',
 /** Random list of help messages to show in the Help Text area. */
 export const HELP_MESSAGES = [
   'Tip: Press Enter or click on a container below.',
-  `Tip: Use ${platformModifierKey}(+Shift) to open pinned tabs.`,
+  `Tip: Use ${PlatformModifierKey}(+Shift) to open pinned tabs.`,
   'Tip: Shift+Click operates on every result.',
   'Tip: Visit Preferences for bulk import/export.',
 ];

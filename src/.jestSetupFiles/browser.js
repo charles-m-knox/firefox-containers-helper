@@ -31,3 +31,8 @@ global.browser = {
     TAB_ID_NONE: 100,
   },
 };
+
+// eslint-disable-next-line no-undef
+window.navigator = {
+  platform: 'linux',
+};
