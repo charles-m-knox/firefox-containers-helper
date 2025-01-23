@@ -22,6 +22,8 @@ import {
   showModal,
   setModalType,
   ModalType,
+  showConfirm,
+  showAlert,
 } from './modals';
 
 describe('modals', () => {
@@ -119,5 +121,122 @@ describe('modals', () => {
     expect(modalPromptContent?.className).toBe(CLASS_ELEMENT_SHOW);
     expect(modalConfirmContent?.className).toBe(CLASS_ELEMENT_HIDE);
     expect(modalAlertContent?.className).toBe(CLASS_ELEMENT_HIDE);
+  });
+});
+
+describe('showConfirm', () => {
+  beforeEach(() => {
+    document.body.innerHTML = '';
+  });
+
+  afterEach(() => {
+    document.body.innerHTML = '';
+  });
+
+  const testHtml = `<div id="modal">
+  <div id="modalConfirmContent"></div>
+  <h1 id="modalConfirmTitle"></h1>
+  <span id="modalConfirmText"></span>
+  <button id="btnModalConfirmCancel">
+  <button id="btnModalConfirmSecondary">
+  <button id="btnModalConfirmPrimary">
+  </button>
+</div>`;
+
+  it('returns true when the primary btn is clicked', async () => {
+    document.body.innerHTML = testHtml;
+    showConfirm('foo', 'bar').then((result) => {
+      expect(result).toBe(true);
+    });
+    const modal = getModal();
+    const cancel = getModalBtnConfirmCancel();
+    const primary = getModalBtnConfirmPrimary();
+    const txt = getModalConfirmText();
+    const content = getModalConfirmContent();
+    const title = getModalConfirmTitle();
+    expect(document.activeElement).toBe(cancel);
+    expect(txt?.innerText).toBe('foo');
+    expect(title?.innerText).toBe('bar');
+    expect(modal?.className).toBe(`${ModalState.Show} ${ModalState.Open}`);
+    expect(content?.className).toBe(`${CLASS_ELEMENT_SHOW}`);
+    expect(primary).toBeTruthy();
+    primary?.click();
+  });
+
+  it('returns false when the secondary btn is clicked', async () => {
+    document.body.innerHTML = testHtml;
+    showConfirm('foo', 'bar').then((result) => {
+      expect(result).toBe(false);
+    });
+    const modal = getModal();
+    const cancel = getModalBtnConfirmCancel();
+    const secondary = getModalBtnConfirmSecondary();
+    const txt = getModalConfirmText();
+    const content = getModalConfirmContent();
+    const title = getModalConfirmTitle();
+    expect(document.activeElement).toBe(cancel);
+    expect(txt?.innerText).toBe('foo');
+    expect(title?.innerText).toBe('bar');
+    expect(modal?.className).toBe(`${ModalState.Show} ${ModalState.Open}`);
+    expect(content?.className).toBe(`${CLASS_ELEMENT_SHOW}`);
+    expect(secondary).toBeTruthy();
+    secondary?.click();
+  });
+
+  it('returns false when the cancel btn is clicked', async () => {
+    document.body.innerHTML = testHtml;
+    showConfirm('foo', 'bar').then((result) => {
+      expect(result).toBe(null);
+    });
+    const modal = getModal();
+    const cancel = getModalBtnConfirmCancel();
+    const txt = getModalConfirmText();
+    const content = getModalConfirmContent();
+    const title = getModalConfirmTitle();
+    expect(document.activeElement).toBe(cancel);
+    expect(txt?.innerText).toBe('foo');
+    expect(title?.innerText).toBe('bar');
+    expect(modal?.className).toBe(`${ModalState.Show} ${ModalState.Open}`);
+    expect(content?.className).toBe(`${CLASS_ELEMENT_SHOW}`);
+    expect(cancel).toBeTruthy();
+    cancel?.click();
+  });
+});
+
+describe('showAlert', () => {
+  beforeEach(() => {
+    document.body.innerHTML = '';
+  });
+
+  afterEach(() => {
+    document.body.innerHTML = '';
+  });
+
+  const testHtml = `<div id="modal">
+  <div id="modalAlertContent"></div>
+  <h1 id="modalAlertTitle"></h1>
+  <span id="modalAlertText"></span>
+  <button id="btnModalAlertOK">
+  </button>
+</div>`;
+
+  it('returns true when the primary btn is clicked', async () => {
+    document.body.innerHTML = testHtml;
+    showAlert('foo', 'bar').then(() => {
+      const modal = getModal();
+      expect(modal?.className).toBe(`${ModalState.Hide}`);
+    });
+    const modal = getModal();
+    const primary = getModalBtnAlertOK();
+    const txt = getModalAlertText();
+    const content = getModalAlertContent();
+    const title = getModalAlertTitle();
+    expect(document.activeElement).toBe(primary);
+    expect(txt?.innerText).toBe('foo');
+    expect(title?.innerText).toBe('bar');
+    expect(modal?.className).toBe(`${ModalState.Show} ${ModalState.Open}`);
+    expect(content?.className).toBe(`${CLASS_ELEMENT_SHOW}`);
+    expect(primary).toBeTruthy();
+    primary?.click();
   });
 });
