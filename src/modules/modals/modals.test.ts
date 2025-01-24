@@ -24,6 +24,8 @@ import {
   ModalType,
   showConfirm,
   showAlert,
+  getModalPromptInput,
+  showPrompt,
 } from './modals';
 
 describe('modals', () => {
@@ -124,6 +126,119 @@ describe('modals', () => {
   });
 });
 
+describe('showPrompt', () => {
+  beforeEach(() => {
+    document.body.innerHTML = '';
+  });
+
+  afterEach(() => {
+    document.body.innerHTML = '';
+  });
+
+  const testHtml = `<div id="modal">
+  <div id="modalPromptContent"></div>
+  <h1 id="modalPromptTitle"></h1>
+  <span id="modalPromptText"></span>
+  <input id="modalPromptInput"/>
+  <button id="btnModalPromptCancel"></button>
+  <button id="btnModalPromptOK"></button>
+</div>`;
+
+  it('returns the provided input when the primary btn is clicked', async () => {
+    document.body.innerHTML = testHtml;
+    showPrompt('foo', 'bar').then((result) => {
+      expect(result).toBe('baz');
+    });
+    const modal = getModal();
+    const primary = getModalBtnPromptOK();
+    const txt = getModalPromptText();
+    const content = getModalPromptContent();
+    const title = getModalPromptTitle();
+    const input = getModalPromptInput();
+    expect(document.activeElement).toBe(input);
+    expect(txt?.innerText).toBe('foo');
+    expect(title?.innerText).toBe('bar');
+    expect(input?.value).toBe('');
+    expect(modal?.className).toBe(`${ModalState.Show} ${ModalState.Open}`);
+    expect(content?.className).toBe(`${CLASS_ELEMENT_SHOW}`);
+    expect(primary).toBeTruthy();
+    if (input) {
+      input.value = 'baz';
+    }
+    primary?.click();
+  });
+
+  it('returns the provided input when the enter key is pressed', async () => {
+    document.body.innerHTML = testHtml;
+    showPrompt('foo', 'bar').then((result) => {
+      expect(result).toBe('baz');
+    });
+    const modal = getModal();
+    // const cancel = getModalBtnPromptCancel();
+    const primary = getModalBtnPromptOK();
+    const txt = getModalPromptText();
+    const content = getModalPromptContent();
+    const title = getModalPromptTitle();
+    const input = getModalPromptInput();
+    expect(document.activeElement).toBe(input);
+    expect(txt?.innerText).toBe('foo');
+    expect(title?.innerText).toBe('bar');
+    expect(input?.value).toBe('');
+    expect(modal?.className).toBe(`${ModalState.Show} ${ModalState.Open}`);
+    expect(content?.className).toBe(`${CLASS_ELEMENT_SHOW}`);
+    expect(primary).toBeTruthy();
+    if (input) {
+      input.value = 'baz';
+    }
+    input?.dispatchEvent(
+      new KeyboardEvent('keydown', {
+        bubbles: true,
+        cancelable: true,
+        key: 'Enter',
+        code: 'Enter',
+        keyCode: 13,
+        which: 13,
+      }),
+    );
+  });
+
+  it('returns null when the cancel btn is clicked', async () => {
+    document.body.innerHTML = testHtml;
+    showPrompt('foo', 'bar').then((result) => {
+      expect(result).toBe(null);
+    });
+    const modal = getModal();
+    const cancel = getModalBtnPromptCancel();
+    const primary = getModalBtnPromptOK();
+    const txt = getModalPromptText();
+    const content = getModalPromptContent();
+    const title = getModalPromptTitle();
+    const input = getModalPromptInput();
+    expect(document.activeElement).toBe(input);
+    expect(txt?.innerText).toBe('foo');
+    expect(title?.innerText).toBe('bar');
+    expect(input?.value).toBe('');
+    expect(modal?.className).toBe(`${ModalState.Show} ${ModalState.Open}`);
+    expect(content?.className).toBe(`${CLASS_ELEMENT_SHOW}`);
+    expect(primary).toBeTruthy();
+    if (input) {
+      input.value = 'baz';
+    }
+    cancel?.click();
+  });
+
+  it('throws when the prompt input field is unavailable', async () => {
+    document.body.innerHTML = ``;
+    expect(getModalPromptInputText()).toBe('');
+    try {
+      await showPrompt('foo', 'bar');
+      expect(false).toBe(true); // failk intentionally
+    } catch (err) {
+      expect(err).toBeTruthy();
+    }
+  });
+});
+
 describe('showConfirm', () => {
   beforeEach(() => {
     document.body.innerHTML = '';
@@ -137,10 +252,9 @@ describe('showConfirm', () => {
   <div id="modalConfirmContent"></div>
   <h1 id="modalConfirmTitle"></h1>
   <span id="modalConfirmText"></span>
-  <button id="btnModalConfirmCancel">
-  <button id="btnModalConfirmSecondary">
-  <button id="btnModalConfirmPrimary">
-  </button>
+  <button id="btnModalConfirmCancel"></button>
+  <button id="btnModalConfirmSecondary"></button>
+  <button id="btnModalConfirmPrimary"></button>
 </div>`;
 
   it('returns true when the primary btn is clicked', async () => {
@@ -216,8 +330,7 @@ describe('showAlert', () => {
   <div id="modalAlertContent"></div>
   <h1 id="modalAlertTitle"></h1>
   <span id="modalAlertText"></span>
-  <button id="btnModalAlertOK">
-  </button>
+  <button id="btnModalAlertOK"></button>
 </div>`;
 
   it('returns true when the primary btn is clicked', async () => {
