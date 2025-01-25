@@ -169,15 +169,15 @@ export const buildEmptyContainerLabelElement = (label: string) => {
  * Assembles an HTML element that contains an entire container list item.
  *
  * @param filteredResults A list of the currently filtered set of containers
- * @param context The contextualIdentity that this list item will represent
- * @param i The index of this contextualIdentity within the filteredResults array
+ * @param container The container that this list item will represent
+ * @param i The index of this container within the filteredResults array
  * @param currentTab The currently active tab. https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/API/tabs/Tab
  * @param actualCurrentUrl The URL that the current tab is supposed to be loading.
  * @returns An HTML element with event listeners, formatted with css as a bootstrap list item.
  */
 export const buildContainerListItem = async (
   filteredResults: Container[],
-  context: Container,
+  container: Container,
   i: number,
   currentTab: Tab,
   actualCurrentUrl: string,
@@ -188,8 +188,8 @@ export const buildContainerListItem = async (
     const li = document.createElement('li') as HTMLLIElement;
     li.className = CLASSES_CONTAINER_LI;
 
-    const icon = buildContainerIcon(context);
-    const label = await buildContainerLabel(context, i, currentTab, actualCurrentUrl);
+    const icon = buildContainerIcon(container);
+    const label = await buildContainerLabel(container, i, currentTab, actualCurrentUrl);
 
     if (mode === Modes.DELETE || mode === Modes.REFRESH) {
       const div = document.createElement('div') as HTMLDivElement;
@@ -211,11 +211,11 @@ export const buildContainerListItem = async (
     label.id = `filtered-context-${i}-label`;
     li.id = `filtered-context-${i}-li`;
 
-    await setEventListeners(li, filteredResults, context, i, actHandler);
+    await setEventListeners(li, filteredResults, container, i, actHandler);
 
     return li;
   } catch (e) {
-    throw `encountered error building list item for container ${context.name}: ${e}`;
+    throw `encountered error building list item for container ${container.name}: ${e}`;
   }
 };
 

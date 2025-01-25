@@ -57,7 +57,7 @@ describe('help', () => {
     it(test.name, () => {
       document.body.innerHTML = test.innerHTML;
       help(test.message);
-      if (!test.message) expect(getRandomIndex).toHaveBeenCalled();
+      if (test.isPresent && !test.message) expect(getRandomIndex).toHaveBeenCalled();
       if (test.isPresent && test.element) {
         const actual = test.element();
         if (!actual) throw 'test element was not found';

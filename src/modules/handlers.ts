@@ -1,11 +1,82 @@
-import { SelectedContainerIndex } from '../types';
-import { getSetting } from './config';
-import { ConfKey, PlatformModifierKey } from './constants';
-import { reflectSelected } from './elements';
+import { ExtensionConfig, SelectedContainerIndex } from '../types';
+import { getSetting, setSettings } from './config';
+import { ConfKey, Modes, PlatformModifierKey, SortModes } from './constants';
+import { reflectSelected, reflectSettings } from './elements';
 import { helpful } from './helpful';
-import { toggleConfigFlag, filter, add, setMode, setSortMode, deselect } from './lib';
+import { deselect } from './lib/deselect';
+import { filter } from './lib/filter';
+import { add } from './lib/add';
 import { help } from './help';
 import { getElem } from './get';
+import { showAlert } from './modals/modals';
+
+/**
+ * When a user checks a checkbox, this function toggles that value in the `config` object, as well as setting all of the
+ * other mutually exclusive options to `false`. It will also update the UI checkboxes to reflect the values.
+ *
+ * @param key The `ExtensionConfig` key to toggle.
+ */
+const toggleConfigFlag = async (key: ConfKey) => {
+  const original = (await getSetting(key)) as boolean;
+
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const updates: any = {};
+
+  updates[key] = !original;
+
+  await setSettings(updates as Partial<ExtensionConfig>);
+  await reflectSettings();
+};
+
+/**
+ * When the user changes the current mode, this function sets the stored
+ * configuration value accordingly.
+ * @param mode The mode to set.
+ */
+const setMode = async (mode: string | Modes) => {
+  switch (mode) {
+    case Modes.OPEN:
+    case Modes.SET_URL:
+    case Modes.SET_NAME:
+    case Modes.SET_COLOR:
+    case Modes.SET_ICON:
+    case Modes.REPLACE_IN_NAME:
+    case Modes.REPLACE_IN_URL:
+    case Modes.DUPLICATE:
+    case Modes.DELETE:
+    case Modes.REFRESH:
+      await setSettings({ mode });
+      break;
+    default:
+      await showAlert(`Invalid mode '${mode}'.`, 'Invalid Mode');
+      return;
+  }
+  await reflectSettings();
+  await helpful();
+};
+
+/**
+ * When the user changes the current sort mode, this function sets the stored configuration value accordingly.
+ *
+ * @param mode The mode to set.
+ */
+const setSortMode = async (mode: string | SortModes) => {
+  switch (mode) {
+    case SortModes.NameAsc:
+    case SortModes.NameDesc:
+    case SortModes.None:
+    case SortModes.NoneReverse:
+    case SortModes.UrlAsc:
+    case SortModes.UrlDesc:
+      await setSettings({ sort: mode });
+      break;
+    default:
+      await showAlert(`Invalid sort mode '${mode}'.`, 'Invalid Sort Mode');
+      break;
+  }
+
+  await reflectSettings();
+};
 
 const stayOpenToggle = async (/* _: MouseEvent */) => await toggleConfigFlag(ConfKey.windowStayOpenState);
 

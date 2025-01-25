@@ -75,7 +75,7 @@ export const getCurrentTabOverrideUrl = (url: string, current: string, match: Ur
  *
  * @returns Whether or not *any* current context is selected
  */
-export const isAnyContextSelected = (selected: SelectedContainerIndex) => {
+export const isAnyContainerSelected = (selected: SelectedContainerIndex) => {
   const keys = Object.keys(selected);
   for (let i = 0; i < keys.length; i++) {
     const key = parseInt(keys[i], 10);
@@ -150,15 +150,14 @@ export const getCleanSettings = async (conf: ExtensionConfig) => {
 };
 
 /**
- * Checks if a given container's `contextualIdentity` (`context`) has a default URL value set in
- * `config.containerDefaultUrls`.
+ * Checks if a given container has a default URL value set in `config.containerDefaultUrls`.
  *
- * @param context The container
+ * @param container The container
  * @param userQuery The text that the user has searched for
  * @returns Whether or not the container `context` has a default URL set
  */
-export const queryUrls = (context: Container, query: string, urls: ContainerDefaultURL) => {
-  const lookup = urls[context.cookieStoreId];
+export const queryUrls = (container: Container, query: string, urls: ContainerDefaultURL) => {
+  const lookup = urls[container.cookieStoreId];
   if (!lookup) return false;
   return lookup.toString().toLowerCase().indexOf(query) !== -1;
 };

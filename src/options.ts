@@ -79,7 +79,7 @@ const canParseLocal = async (settings?: string): Promise<boolean> => {
  * Checks if the saved local and sync settings are equal to each other, and
  * updates UI elements according to the result.
  */
-const checkSettingsEqual = async (): Promise<boolean> => {
+const checkSettingsEqual = async () => {
   const sync = await getSyncSettings();
   const local = await getLocalSettings();
 
@@ -98,7 +98,7 @@ const checkSettingsEqual = async (): Promise<boolean> => {
  * Retrieves the extension's locally saved settings, and updates the UI to
  * reflect them.
  */
-const reflectLocalSettings = async (): Promise<ExtensionConfig> => {
+const reflectLocalSettings = async () => {
   try {
     const local = await getLocalSettings();
     const str = JSON.stringify(local);
@@ -119,7 +119,7 @@ const reflectLocalSettings = async (): Promise<ExtensionConfig> => {
  * Retrieves the extension's saved sync settings, and updates the UI to
  * reflect them.
  */
-const reflectSyncSettings = async (): Promise<ExtensionConfig> => {
+const reflectSyncSettings = async () => {
   try {
     const sync = await getSyncSettings();
     await checkSettingsEqual();

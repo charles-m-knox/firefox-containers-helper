@@ -1,4 +1,4 @@
-import { getCurrentTabOverrideUrl, isAnyContextSelected, objectEquals, queryUrls } from './helpers';
+import { getCurrentTabOverrideUrl, isAnyContainerSelected, objectEquals, queryUrls } from './helpers';
 import { Container, ContainerDefaultURL, SelectedContainerIndex } from '../types';
 import { getFakeContainer, getFakeContainerDefaultURLs } from './testutil';
 import { UrlMatchTypes } from './constants';
@@ -7,7 +7,7 @@ import { UrlMatchTypes } from './constants';
 //   help: jest.fn().mockImplementation(() => {}),
 // }));
 
-describe('isAnyContextSelected', () => {
+describe('isAnyContainerSelected', () => {
   interface Test {
     name: string;
     selected: SelectedContainerIndex;
@@ -43,7 +43,7 @@ describe('isAnyContextSelected', () => {
 
   tests.forEach((test) =>
     it(test.name, () => {
-      const actual = isAnyContextSelected(test.selected);
+      const actual = isAnyContainerSelected(test.selected);
       expect(actual).toBe(test.expected);
     }),
   );

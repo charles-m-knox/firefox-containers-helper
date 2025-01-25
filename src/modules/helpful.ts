@@ -8,7 +8,6 @@ import { help } from './help';
  */
 export const helpful = async (mode?: Modes) => {
   if (!mode) mode = (await getSetting(ConfKey.mode)) as Modes;
-
   switch (mode) {
     case Modes.SET_URL:
     case Modes.SET_NAME:

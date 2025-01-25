@@ -9,6 +9,9 @@ import { getSetting, setSettings } from './config';
 import { ConfKey } from './constants';
 import { createContainer, queryContainers } from './browser/containers';
 
+/**
+ * Use this on the preferences page only.
+ */
 export const bulkImport = async (str: string): Promise<ContainerWithUrl[]> => {
   try {
     const contexts = JSON.parse(str) as ContainerWithUrl[];
@@ -54,6 +57,9 @@ export const bulkImport = async (str: string): Promise<ContainerWithUrl[]> => {
   }
 };
 
+/**
+ * Use this on the preferences page only.
+ */
 export const bulkExport = async () => {
   try {
     const urls = (await getSetting(ConfKey.containerDefaultUrls)) as ContainerDefaultURL;
