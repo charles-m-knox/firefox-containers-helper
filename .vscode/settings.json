@@ -1,34 +1,35 @@
 {
+  "editor.formatOnSave": true,
+  "editor.rulers": [
+    120,
+  ],
+  "[javascript]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "editor.formatOnSave": true
+  },
+  "[typescript]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "editor.formatOnSave": true
+  },
+  "[json]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "editor.formatOnSave": true
+  },
+  "[css]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "editor.formatOnSave": true
+  },
+  "[svg]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "editor.formatOnSave": true
+  },
+  "[html]": {
+    "editor.defaultFormatter": "vscode.html-language-features",
     "editor.formatOnSave": true,
-    "editor.rulers": [
-        120,
-    ],
-    "[javascript]": {
-        "editor.defaultFormatter": "esbenp.prettier-vscode",
-        "editor.formatOnSave": true
-    },
-    "[typescript]": {
-        "editor.defaultFormatter": "esbenp.prettier-vscode",
-        "editor.formatOnSave": true
-    },
-    "[json]": {
-        "editor.defaultFormatter": "esbenp.prettier-vscode",
-        "editor.formatOnSave": true
-    },
-    "[css]": {
-        "editor.defaultFormatter": "esbenp.prettier-vscode",
-        "editor.formatOnSave": true
-    },
-    "[svg]": {
-        "editor.defaultFormatter": "esbenp.prettier-vscode",
-        "editor.formatOnSave": true
-    },
-    "[html]": {
-        "editor.formatOnSave": true,
-        "editor.rulers": []
-    },
-    "xml.format.maxLineWidth": 0,
-    "html.format.wrapLineLength": 0,
-    "jest.jestCommandLine": "pnpm run test",
-    "jest.runMode": "on-demand"
+    "editor.rulers": []
+  },
+  "xml.format.maxLineWidth": 0,
+  "html.format.wrapLineLength": 0,
+  "jest.jestCommandLine": "pnpm run test",
+  "jest.runMode": "on-demand"
 }
