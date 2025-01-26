@@ -12,7 +12,7 @@ import { setUrls } from './setUrls';
  *
  * @param prompt If false, no modals are shown.
  */
-export const duplicate = async (containers: Container[], prompt = true): Promise<number> => {
+export const duplicate = async (containers: Container[], prompt = true) => {
   const s = containers.length === 1 ? '' : 's';
   const question = `Are you sure you want to duplicate ${containers.length} containers?`;
 
@@ -23,7 +23,7 @@ export const duplicate = async (containers: Container[], prompt = true): Promise
   const urlsToSet: string[] = [];
 
   // if the containers have default URL associations, we need to update those too
-  const urls = (await getSetting(ConfKey.containerDefaultUrls)) as ContainerDefaultURL;
+  const urls = (await getSetting<ContainerDefaultURL>(ConfKey.containerDefaultUrls)) || {};
 
   try {
     for (const container of containers) {

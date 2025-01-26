@@ -17,7 +17,7 @@ import { showAlert } from './modals/modals';
  * @param key The `ExtensionConfig` key to toggle.
  */
 const toggleConfigFlag = async (key: ConfKey) => {
-  const original = (await getSetting(key)) as boolean;
+  const original = await getSetting<boolean>(key);
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const updates: any = {};
@@ -82,8 +82,8 @@ const stayOpenToggle = async (/* _: MouseEvent */) => await toggleConfigFlag(Con
 
 const selectionModeToggle = async (/* _: MouseEvent */) => {
   await toggleConfigFlag(ConfKey.selectionMode);
-  reflectSelected((await getSetting(ConfKey.selectedContextIndices)) as SelectedContainerIndex);
-  if (await getSetting(ConfKey.selectionMode)) {
+  reflectSelected((await getSetting<SelectedContainerIndex>(ConfKey.selectedContextIndices)) || {});
+  if (await getSetting<boolean>(ConfKey.selectionMode)) {
     help(`${PlatformModifierKey}+Click to select 1; ${PlatformModifierKey}+Shift+Click for a range`);
     return;
   }
@@ -94,7 +94,7 @@ const selectionModeToggle = async (/* _: MouseEvent */) => {
 const openCurrentPageToggle = async (/* _: MouseEvent */) => {
   await toggleConfigFlag(ConfKey.openCurrentPage);
 
-  if (await getSetting(ConfKey.openCurrentPage)) {
+  if (await getSetting<boolean>(ConfKey.openCurrentPage)) {
     help(`Every container will open your current tab's URL.`);
   } else {
     await helpful();

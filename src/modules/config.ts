@@ -66,11 +66,11 @@ export const setLocalSettings = async (updates: Partial<ExtensionConfig>) => awa
  * If either the `local` or Firefox Sync extension storage has `alwaysGetSync` set to true, then settings will always
  * come from Firefox Sync.
  *
- * TODO: make this generic?
+ * TODO: Improve type assertions for stronger type safety.
  */
-export const getSetting = async (setting: ConfKey, type?: SettingsTypes): Promise<unknown> => {
+export const getSetting = async <T>(setting: ConfKey, type?: SettingsTypes): Promise<T | null> => {
   const cached = getConfigCache();
-  if (setting in cached) return cached[setting];
+  if (setting in cached) return cached[setting] as T;
 
   // some of the settings that might create difficulties validating cached
   // settings are only accessible in the Preferences page. Those can't be
@@ -80,13 +80,13 @@ export const getSetting = async (setting: ConfKey, type?: SettingsTypes): Promis
   switch (type) {
     case SettingsTypes.Local: {
       const cacheLocal = getConfigCacheLocal();
-      if (setting in cacheLocal) return cacheLocal[setting];
-      return (await browserStorageLocalGet(setting))[setting];
+      if (setting in cacheLocal) return cacheLocal[setting] as T;
+      return (await browserStorageLocalGet(setting))[setting] as T;
     }
     case SettingsTypes.Sync: {
       const cacheSync = getConfigCacheSync();
-      if (setting in cacheSync) return cacheSync[setting];
-      return (await browserStorageSyncGet(setting))[setting];
+      if (setting in cacheSync) return cacheSync[setting] as T;
+      return (await browserStorageSyncGet(setting))[setting] as T;
     }
   }
 
@@ -96,7 +96,7 @@ export const getSetting = async (setting: ConfKey, type?: SettingsTypes): Promis
   const settings = preferSync ? sync : local;
 
   if (!settings[setting]) return null;
-  return settings[setting];
+  return settings[setting] as T;
 };
 
 /**
@@ -122,8 +122,8 @@ export const getSettings = async () => {
  * to local AND Firefox Sync.
  */
 export const setSettings = async (updates: Partial<ExtensionConfig>) => {
-  const sync = (await getSetting(ConfKey.alwaysSetSync, SettingsTypes.Sync)) === true;
-  const local = (await getSetting(ConfKey.alwaysSetSync, SettingsTypes.Local)) === true;
+  const sync = (await getSetting<boolean>(ConfKey.alwaysSetSync, SettingsTypes.Sync)) === true;
+  const local = (await getSetting<boolean>(ConfKey.alwaysSetSync, SettingsTypes.Local)) === true;
   await browserStorageLocalSet(updates);
   if (sync || local) await browserStorageSyncSet(updates);
   // refresh the cache any time this function is called

@@ -28,7 +28,7 @@ import { duplicate } from './lib/duplicate';
  * @param currentUrl Optional, determines what URL should be considered as "active" when filtering containers
  */
 const done = async (currentUrl: string) => {
-  const stay = (await getSetting(ConfKey.windowStayOpenState)) as boolean;
+  const stay = await getSetting<boolean>(ConfKey.windowStayOpenState);
 
   relieveUnload();
 
@@ -48,7 +48,7 @@ const done = async (currentUrl: string) => {
  *
  * @return The URL to act on.
  */
-const getActionableUrl = async (containers: Container[], tab: Tab): Promise<string> => {
+const getActionableUrl = async (containers: Container[], tab: Tab) => {
   let url = '';
   if (!containers.length) return '';
 
@@ -61,12 +61,12 @@ const getActionableUrl = async (containers: Container[], tab: Tab): Promise<stri
 
   const last = containers[containers.length - 1];
 
-  const urls = (await getSetting(ConfKey.containerDefaultUrls)) as ContainerDefaultURL;
-  const openCurrentTabUrlOnMatch = (await getSetting(ConfKey.openCurrentTabUrlOnMatch)) as UrlMatchTypes;
+  const urls = await getSetting<ContainerDefaultURL>(ConfKey.containerDefaultUrls);
+  const openCurrentTabUrlOnMatch = await getSetting<UrlMatchTypes>(ConfKey.openCurrentTabUrlOnMatch);
 
   // the last container opened will be used as the last URL; this will be passed into the actionCompletedHandler. I had
   // to choose something to put here, and the last URL makes the most sense.
-  url = urls[last.cookieStoreId];
+  if (urls) url = urls[last.cookieStoreId];
 
   // TODO: this is refactorable logic copy/pasted from open()
   if (openCurrentTabUrlOnMatch && tab.url) {
@@ -79,7 +79,7 @@ const getActionableUrl = async (containers: Container[], tab: Tab): Promise<stri
 
   // override the URL if the user has elected to open the current page
   // for all filtered tabs
-  const openCurrentPage = (await getSetting(ConfKey.openCurrentPage)) as boolean;
+  const openCurrentPage = await getSetting<boolean>(ConfKey.openCurrentPage);
 
   if (openCurrentPage && tab.url) return tab.url;
 
@@ -97,7 +97,7 @@ const act = async (containers: Container[], ctrl: boolean) => {
 
   let navigatedUrl = '';
 
-  const mode = (await getSetting(ConfKey.mode)) as Modes;
+  const mode = await getSetting<Modes>(ConfKey.mode);
 
   preventUnload();
 
@@ -157,10 +157,10 @@ const act = async (containers: Container[], ctrl: boolean) => {
 export const actHandler = async (filtered: Container[], clicked: Container, event: MouseEvent | KeyboardEvent) =>
   alertOnError(async () => {
     const [ctrl, shift] = getModifiers(event);
-    const selectionMode = (await getSetting(ConfKey.selectionMode)) as boolean;
-    const selected = (await getSetting(ConfKey.selectedContextIndices)) as SelectedContainerIndex;
+    const selectionMode = await getSetting<boolean>(ConfKey.selectionMode);
+    const selected = (await getSetting<SelectedContainerIndex>(ConfKey.selectedContextIndices)) || {};
     if (selectionMode && ctrl) {
-      const prev = (await getSetting(ConfKey.lastSelectedContextIndex)) as number;
+      const prev = (await getSetting<number>(ConfKey.lastSelectedContextIndex)) || 0;
       const updatedSelection = await selectionChanged(filtered, clicked, selected, shift, prev);
       await setSettings({ selectedContextIndices: updatedSelection });
       reflectSelected(updatedSelection);

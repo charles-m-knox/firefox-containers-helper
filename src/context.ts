@@ -18,7 +18,7 @@ const init = async () => {
     await reflectSettings();
     await filter();
 
-    if ((await getSetting(ConfKey.selectionMode)) === true) {
+    if ((await getSetting<boolean>(ConfKey.selectionMode)) === true) {
       help(`${PlatformModifierKey}+Click to select 1; ${PlatformModifierKey}+Shift+Click for a range`);
     } else {
       await helpful();

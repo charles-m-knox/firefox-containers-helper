@@ -12,7 +12,7 @@ import { createContainer, queryContainers } from './browser/containers';
 /**
  * Use this on the preferences page only.
  */
-export const bulkImport = async (str: string): Promise<ContainerWithUrl[]> => {
+export const bulkImport = async (str: string) => {
   try {
     const contexts = JSON.parse(str) as ContainerWithUrl[];
 
@@ -30,7 +30,7 @@ export const bulkImport = async (str: string): Promise<ContainerWithUrl[]> => {
 
     // begin import
     const imported: ContainerWithUrl[] = [];
-    const urls = (await getSetting(ConfKey.containerDefaultUrls)) as ContainerDefaultURL;
+    const urls = (await getSetting<ContainerDefaultURL>(ConfKey.containerDefaultUrls)) || {};
     for (const context of contexts) {
       const c: ContainerCreate = {
         name: context.name,
@@ -62,7 +62,7 @@ export const bulkImport = async (str: string): Promise<ContainerWithUrl[]> => {
  */
 export const bulkExport = async () => {
   try {
-    const urls = (await getSetting(ConfKey.containerDefaultUrls)) as ContainerDefaultURL;
+    const urls = (await getSetting<ContainerDefaultURL>(ConfKey.containerDefaultUrls)) || {};
     const contexts = await queryContainers({});
     const results: ContainerWithUrl[] = [];
 

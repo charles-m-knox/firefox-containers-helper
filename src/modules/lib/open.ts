@@ -18,10 +18,10 @@ export const open = async (containers: Container[], pinned: boolean, tab: Tab) =
   if (containers.length === 0) return;
   let shouldPrompt = true;
 
-  const requireHTTP = !(await getSetting(ConfKey.neverConfirmOpenNonHttpUrls));
-  const useCurrentTabUrl = (await getSetting(ConfKey.openCurrentTabUrlOnMatch)) as UrlMatchTypes;
-  const openCurrentPage = (await getSetting(ConfKey.openCurrentPage)) as boolean;
-  const urls = (await getSetting(ConfKey.containerDefaultUrls)) as ContainerDefaultURL;
+  const requireHTTP = !(await getSetting<boolean>(ConfKey.neverConfirmOpenNonHttpUrls));
+  const useCurrentTabUrl = await getSetting<UrlMatchTypes>(ConfKey.openCurrentTabUrlOnMatch);
+  const openCurrentPage = await getSetting<boolean>(ConfKey.openCurrentPage);
+  const urls = (await getSetting<ContainerDefaultURL>(ConfKey.containerDefaultUrls)) || {};
 
   for (const container of containers) {
     let url = urls[container.cookieStoreId] || '';

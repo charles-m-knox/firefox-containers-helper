@@ -57,7 +57,7 @@ const setSaveSettingsButtonsDisabled = async (disabled: boolean) => {
  * Parses the text in the local settings text area into JSON, and updates
  * the UI if it succeed or fails to parse.
  */
-const canParseLocal = async (settings?: string): Promise<boolean> => {
+const canParseLocal = async (settings?: string) => {
   try {
     if (!settings) {
       settings = getElem<HTMLTextAreaElement>('localSettingsTextArea').value;

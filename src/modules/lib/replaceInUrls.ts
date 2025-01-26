@@ -13,7 +13,7 @@ export const replaceInUrls = async (containers: Container[]) => {
   const one = containers.length === 1;
   const s = one ? '' : 's';
   let prefill = '';
-  const urls = (await getSetting(ConfKey.containerDefaultUrls)) as ContainerDefaultURL;
+  const urls = (await getSetting<ContainerDefaultURL>(ConfKey.containerDefaultUrls)) || {};
   if (one) {
     const container = containers[0];
     const containerUrl = urls[container.cookieStoreId];

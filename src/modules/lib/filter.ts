@@ -33,7 +33,7 @@ import { deselect } from './deselect';
  */
 const getQuery = async () => {
   const query = getElemNullable<HTMLInputElement>('searchContainerInput')?.value?.trim()?.toLowerCase() || '';
-  if (query !== (await getSetting(ConfKey.lastQuery))) {
+  if (query !== (await getSetting<string>(ConfKey.lastQuery))) {
     // the query has changed, so reset any items the user has selected
     await deselect();
   }
@@ -45,7 +45,7 @@ const applyQuery = async (containers: Container[], queryLower: string) => {
   const results: Container[] = [];
 
   // first, apply filtering directly:
-  const urls = (await getSetting(ConfKey.containerDefaultUrls)) as ContainerDefaultURL;
+  const urls = (await getSetting<ContainerDefaultURL>(ConfKey.containerDefaultUrls)) || {};
 
   for (const container of containers) {
     const nameLower = container.name.toLowerCase();
@@ -57,7 +57,7 @@ const applyQuery = async (containers: Container[], queryLower: string) => {
   }
 
   // second, sort according to the user-configured sort:
-  const sort = (await getSetting(ConfKey.sort)) as SortModes;
+  const sort = await getSetting<SortModes>(ConfKey.sort);
 
   results.sort((a: Container, b: Container) => {
     const urlA: string = (urls[a.cookieStoreId] || '').toLowerCase();
@@ -90,7 +90,7 @@ const applyQuery = async (containers: Container[], queryLower: string) => {
 const reflectFiltered = async (results: Container[], actualTabUrl?: string | null) => {
   // finally, propagate the sorted results to the UI:
   const tab = await getActiveTab();
-  const mode = (await getSetting(ConfKey.mode)) as Modes;
+  const mode = await getSetting<Modes>(ConfKey.mode);
   const containerList = getElem<HTMLDivElement>(CONTAINER_LIST_DIV_ID);
 
   // prepare by clearing out the old query's HTML output
@@ -128,7 +128,7 @@ export const filter = async (event?: Event | KeyboardEvent | MouseEvent | null, 
     const containers = await queryContainers({});
 
     if (!Array.isArray(containers)) {
-      reflectSelected((await getSetting(ConfKey.selectedContextIndices)) as SelectedContainerIndex);
+      reflectSelected((await getSetting<SelectedContainerIndex>(ConfKey.selectedContextIndices)) || {});
       return;
     }
 
@@ -151,5 +151,5 @@ export const filter = async (event?: Event | KeyboardEvent | MouseEvent | null, 
       event.preventDefault();
     }
 
-    reflectSelected((await getSetting(ConfKey.selectedContextIndices)) as SelectedContainerIndex);
+    reflectSelected((await getSetting<SelectedContainerIndex>(ConfKey.selectedContextIndices)) || {});
   })('Failed to filter the list of containers', 'Filter Error');

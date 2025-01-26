@@ -59,7 +59,7 @@ export const setEventListeners = async (
     const mouseOver = async (event: MouseEvent) => {
       if (!event || !event.target) return;
       const target = event.target as HTMLElement;
-      const mode = await getSetting(ConfKey.mode);
+      const mode = await getSetting<Modes>(ConfKey.mode);
       if (mode === Modes.DELETE || mode === Modes.REFRESH) {
         target.className = CLASSES_CONTAINER_LI_ACTIVE_DANGER;
         return;
@@ -74,7 +74,7 @@ export const setEventListeners = async (
       if (!event || !event.target) return;
       const target = event.target as HTMLElement;
       const urlLabel = getElemNullable<HTMLSpanElement>(urlLabelId);
-      const selected = (await getSetting(ConfKey.selectedContextIndices)) as SelectedContainerIndex;
+      const selected = (await getSetting<SelectedContainerIndex>(ConfKey.selectedContextIndices)) || {};
       if (selected[i] === 1) {
         target.className = CLASSES_CONTAINER_LI_SELECTED;
         if (urlLabel) urlLabel.className = CLASSES_CONTAINER_LI_URL_LABEL_INVERTED;
@@ -94,7 +94,7 @@ export const setEventListeners = async (
     const onFocus = async (event: Event) => {
       if (!event || !event.target) return;
       const target = event.target as HTMLElement;
-      const mode = await getSetting(ConfKey.mode);
+      const mode = await getSetting<Modes>(ConfKey.mode);
       if (mode === Modes.DELETE || mode === Modes.REFRESH) {
         target.className = CLASSES_CONTAINER_LI_ACTIVE_DANGER;
         return;
@@ -108,7 +108,7 @@ export const setEventListeners = async (
     const onBlur = async (event: FocusEvent) => {
       if (!event || !event.target) return;
       const target = event.target as HTMLElement;
-      const selected = (await getSetting(ConfKey.selectedContextIndices)) as SelectedContainerIndex;
+      const selected = (await getSetting<SelectedContainerIndex>(ConfKey.selectedContextIndices)) || {};
       if (selected[i] === 1) {
         target.className = CLASSES_CONTAINER_LI_SELECTED;
         return;

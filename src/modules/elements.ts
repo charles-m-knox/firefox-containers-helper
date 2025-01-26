@@ -68,29 +68,23 @@ export const buildContainerIcon = (context: Container) => {
  * @returns An HTML element containing text that represents the
  * container's name and default URL, if defined.
  */
-export const buildContainerLabel = async (
-  context: Container,
-  i: number,
-  currentTab: Tab,
-  actualCurrentUrl: string,
-): Promise<HTMLDivElement> => {
+export const buildContainerLabel = async (context: Container, i: number, currentTab: Tab, actualCurrentUrl: string) => {
   try {
-    const containerDiv = document.createElement('div') as HTMLDivElement;
+    const containerDiv = document.createElement('div');
     containerDiv.className = CLASSES_CONTAINER_DIV;
 
-    const nameLabel = document.createElement('span') as HTMLSpanElement;
+    const nameLabel = document.createElement('span');
     nameLabel.innerText = `${context.name}`;
 
-    const urlLabel = document.createElement('span') as HTMLSpanElement;
+    const urlLabel = document.createElement('span');
     urlLabel.className = CLASSES_CONTAINER_LI_URL_LABEL;
     urlLabel.id = `filtered-context-${i}-url-label`;
 
-    const urls = (await getSetting(ConfKey.containerDefaultUrls)) as ContainerDefaultURL;
-
-    const url = urls[context.cookieStoreId];
+    const urls = await getSetting<ContainerDefaultURL>(ConfKey.containerDefaultUrls);
+    const url = urls ? urls[context.cookieStoreId] : null;
 
     if (url) {
-      const urlMatchType = (await getSetting(ConfKey.openCurrentTabUrlOnMatch)) as UrlMatchTypes;
+      const urlMatchType = await getSetting<UrlMatchTypes>(ConfKey.openCurrentTabUrlOnMatch);
 
       if (urlMatchType && (currentTab || actualCurrentUrl)) {
         // if the current tab isn't loaded yet, the url might be empty,
@@ -120,7 +114,7 @@ export const buildContainerLabel = async (
       urlLabel.title = 'Opens in a blank container tab. Set a default URL to change this.';
     }
 
-    const openCurrentPage = (await getSetting(ConfKey.openCurrentPage)) as boolean;
+    const openCurrentPage = (await getSetting<boolean>(ConfKey.openCurrentPage)) === true;
 
     // similar to the above - if the "openCurrentPage" config option has been selected,
     // then we should override all URL's, as a finality
@@ -181,24 +175,19 @@ export const buildContainerListItem = async (
   i: number,
   currentTab: Tab,
   actualCurrentUrl: string,
-  mode: Modes,
+  mode: Modes | null,
   actHandler: ActHandler,
-): Promise<HTMLLIElement> => {
+) => {
   try {
-    const li = document.createElement('li') as HTMLLIElement;
+    const li = document.createElement('li');
     li.className = CLASSES_CONTAINER_LI;
-
     const icon = buildContainerIcon(container);
     const label = await buildContainerLabel(container, i, currentTab, actualCurrentUrl);
-
     if (mode === Modes.DELETE || mode === Modes.REFRESH) {
-      const div = document.createElement('div') as HTMLDivElement;
-
+      const div = document.createElement('div');
       div.className = CLASSES_CONTAINER_DIV_DESTRUCTIVE;
       div.id = `filtered-context-${i}-div`;
-
       addEmptyEventListeners([div]);
-
       div.appendChild(icon);
       li.appendChild(div);
     } else {
@@ -206,13 +195,10 @@ export const buildContainerListItem = async (
     }
 
     li.appendChild(label);
-
     icon.id = `filtered-context-${i}-icon`;
     label.id = `filtered-context-${i}-label`;
     li.id = `filtered-context-${i}-li`;
-
     await setEventListeners(li, filteredResults, container, i, actHandler);
-
     return li;
   } catch (e) {
     throw `encountered error building list item for container ${container.name}: ${e}`;

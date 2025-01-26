@@ -44,7 +44,7 @@ export const del = async (containers: Container[], prompt = true) => {
 
   // proceed to delete every provided container
   const deleted: Container[] = [];
-  const urls = (await getSetting(ConfKey.containerDefaultUrls)) as ContainerDefaultURL;
+  const urls = (await getSetting<ContainerDefaultURL>(ConfKey.containerDefaultUrls)) || {};
   let changed = false;
 
   try {

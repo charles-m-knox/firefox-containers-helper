@@ -7,7 +7,7 @@ import { help } from './help';
  * Based on the currently selected mode, set a helpful message to show to the user.
  */
 export const helpful = async (mode?: Modes) => {
-  if (!mode) mode = (await getSetting(ConfKey.mode)) as Modes;
+  if (!mode) mode = (await getSetting<Modes>(ConfKey.mode)) || undefined; // TODO: fix this type awkwardness later
   switch (mode) {
     case Modes.SET_URL:
     case Modes.SET_NAME:

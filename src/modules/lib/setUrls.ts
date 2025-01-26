@@ -24,7 +24,7 @@ export const setUrls = async (containers: Container[], url: string[], allowAnyPr
   const first = url[0];
 
   const clear = oneUrl && first === 'none';
-  const requireHTTP = !(await getSetting(ConfKey.neverConfirmSaveNonHttpUrls));
+  const requireHTTP = !(await getSetting<boolean>(ConfKey.neverConfirmSaveNonHttpUrls));
   const noHTTPS = oneUrl && first.indexOf(`https://`) !== 0;
   const noHTTP = oneUrl && first.indexOf(`http://`) !== 0;
   const question =
@@ -33,7 +33,7 @@ export const setUrls = async (containers: Container[], url: string[], allowAnyPr
   if (ask && !(await showConfirm(question, 'Allow Any Protocol?'))) return;
 
   const s = single ? '' : 's';
-  const urls = (await getSetting(ConfKey.containerDefaultUrls)) as ContainerDefaultURL;
+  const urls = (await getSetting<ContainerDefaultURL>(ConfKey.containerDefaultUrls)) || {};
   let changed = false;
 
   try {
@@ -74,7 +74,7 @@ export const setUrlsPrompt = async (containers: Container[]) => {
   const question = `What should the default URL be for ${containers.length} container${s}?\n\nType "none" (without quotes) to clear the saved default URL value${s}.`;
   let prefill = '';
   if (one) {
-    const urls = (await getSetting(ConfKey.containerDefaultUrls)) as ContainerDefaultURL;
+    const urls = (await getSetting<ContainerDefaultURL>(ConfKey.containerDefaultUrls)) || {};
     const container = containers[0];
     const containerUrl = urls[container.cookieStoreId];
     if (urls[container.cookieStoreId]) {
