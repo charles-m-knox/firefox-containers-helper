@@ -1,29 +1,29 @@
 {
-    "compilerOptions": {
-        "lib": [
-            "es2022",
-            "DOM",
-        ],
-        "types": [
-            "@types/jest",
-            "@types/firefox-webext-browser"
-        ],
-        "baseUrl": "./src",
-        "outDir": "./dist",
-        "module": "commonjs",
-        "target": "es2022",
-        "alwaysStrict": true,
-        "esModuleInterop": true,
-        "forceConsistentCasingInFileNames": true,
-        "noEmit": false,
-        "noImplicitAny": true,
-        "noImplicitThis": true,
-        "skipLibCheck": true,
-        "strict": true,
-        "strictNullChecks": true,
-        "moduleResolution": "node"
-    },
-    "include": [
-        "src/*"
+  "compilerOptions": {
+    "lib": [
+      "ES2022",
+      "DOM",
     ],
+    "types": [
+      "@types/jest",
+      "@types/firefox-webext-browser"
+    ],
+    "baseUrl": "./src",
+    "outDir": "./dist",
+    "module": "commonjs",
+    "target": "ES2022",
+    "alwaysStrict": true,
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
+    "noEmit": false,
+    "noImplicitAny": true,
+    "noImplicitThis": true,
+    "skipLibCheck": true,
+    "strict": true,
+    "strictNullChecks": true,
+    "moduleResolution": "node"
+  },
+  "include": [
+    "src/*"
+  ],
 }
