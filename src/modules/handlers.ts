@@ -9,6 +9,7 @@ import { add } from './lib/add';
 import { help } from './help';
 import { getElem } from './get';
 import { showAlert } from './modals/modals';
+import { alertOnError } from './helpers';
 
 /**
  * When a user checks a checkbox, this function toggles that value in the `config` object, as well as setting all of the
@@ -103,7 +104,8 @@ const openCurrentPageToggle = async (/* _: MouseEvent */) => {
   await filter();
 };
 
-const addClick = async (/* _: MouseEvent */) => await add();
+const addClick = async (/* _: MouseEvent */) =>
+  alertOnError(async () => await add())('Failed to create a new container', 'Failed to Add Container');
 
 const modeChange = async (event: Event) => {
   if (!event.target) return;
