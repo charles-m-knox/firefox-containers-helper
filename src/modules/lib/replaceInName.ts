@@ -4,10 +4,8 @@ import { help } from '../help';
 import { showPrompt, showConfirm } from '../modals/modals';
 
 /**
- * Executes a find & replace against either a container name or predefined URL.
- * @param containers The containers to change.
- * @param fieldToUpdate The field to set for the containers
- * @param valueToSet The value to assign to the container' `fieldToUpdate` property
+ * Executes a find & replace against either a container name or predefined URL. The user will be prompted multiple
+ * times.
  */
 export const replaceInName = async (containers: Container[]) => {
   const one = containers.length === 1;
@@ -19,7 +17,7 @@ export const replaceInName = async (containers: Container[]) => {
 
   const q2 = '(2/3) What string would you like to replace it with?';
   const replace = await showPrompt(q2, 'Replace String', prefill);
-  if (!find || replace === null) return;
+  if (replace === null) return;
 
   const q3 = `(3/3) Replace the case-sensitive string "${find}" with "${replace}" in the name of ${containers.length} container${s}?`;
   const proceed = await showConfirm(q3, 'Confirm');
@@ -28,24 +26,20 @@ export const replaceInName = async (containers: Container[]) => {
   const updated: Container[] = [];
   help(`Updated ${updated.length} containers`); // in case the operation fails
 
-  try {
-    for (const container of containers) {
-      // if we want to add case-insensitivity back later, uncomment this
-      // const lowercontainerName = containerToUpdate.name.toLowerCase();
-      // if (lowercontainerName.indexOf(findStr) !== -1) {
-      // }
+  for (const container of containers) {
+    // if we want to add case-insensitivity back later, uncomment this
+    // const lowercontainerName = containerToUpdate.name.toLowerCase();
+    // if (lowercontainerName.indexOf(findStr) !== -1) {
+    // }
 
-      if (container.name.indexOf(find) === -1) continue;
+    if (container.name.indexOf(find) === -1) continue;
 
-      updated.push(
-        await updateContainer(container.cookieStoreId, {
-          name: container.name.replaceAll(find, replace),
-        }),
-      );
+    updated.push(
+      await updateContainer(container.cookieStoreId, {
+        name: container.name.replaceAll(find, replace),
+      }),
+    );
 
-      help(`Updated ${updated.length} containers`);
-    }
-  } catch (err) {
-    throw `Failed to rename container${s}: ${err}`;
+    help(`Updated ${updated.length} containers`);
   }
 };
