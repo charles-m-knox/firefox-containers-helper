@@ -5,9 +5,8 @@ import { help } from '../help';
 import { getSetting, setSettings } from '../config';
 
 /**
- * Associates a default URL to each container. Accepts either one string or
- * a 1:1 mapping of containers to URL's - each container will be assigned its
- * corresponding URL by index.
+ * Associates a default URL to each container. Accepts either one string or a 1:1 mapping of containers to URL's - each
+ * container will be assigned its corresponding URL by index.
  */
 export const setUrls = async (containers: Container[], url: string[], allowAnyProtocol = false, updateHelp = true) => {
   if (!containers.length || !url.length) return;

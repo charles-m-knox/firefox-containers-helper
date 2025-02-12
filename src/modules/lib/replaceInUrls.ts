@@ -5,9 +5,8 @@ import { help } from '../help';
 import { showPrompt, showConfirm } from '../modals/modals';
 
 /**
- * Executes a find & replace against either a container name or predefined URL.
- *
- * @param containers The `containers` to change.
+ * Executes a find & replace against either a container name or predefined URL. The user will be prompted multiple
+ * times.
  */
 export const replaceInUrls = async (containers: Container[]) => {
   const one = containers.length === 1;
@@ -26,7 +25,7 @@ export const replaceInUrls = async (containers: Container[]) => {
 
   const q2 = '(2/3) What string would you like to replace it with?';
   const replace = await showPrompt(q2, 'Replace String', prefill);
-  if (!find || replace === null) return;
+  if (replace === null) return;
 
   const q3 = `(3/3) Replace the case-insensitive string "${find}" with "${replace}" in the default URL of ${containers.length} container${s}}?`;
   const proceed = await showConfirm(q3, 'Confirm URL Replace');
