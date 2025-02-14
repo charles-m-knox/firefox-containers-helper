@@ -1,7 +1,8 @@
 import { ExtensionConfig } from '../../types';
 import { ConfKey, SettingsTypes } from '../constants';
 import { browserStorageLocalSet, browserStorageSyncSet } from '../browser/storage';
-import { getSetting, getSettings } from '../config';
+import { getSetting } from '../config';
+import { getSettings } from './getSettings';
 
 export const setSettings = async (updates: Partial<ExtensionConfig>) => {
   const sync = (await getSetting<boolean>(ConfKey.alwaysSetSync, SettingsTypes.Sync)) === true;

@@ -1,5 +1,6 @@
-import { defaultConfig, getSettings } from '../config';
+import { defaultConfig } from '../config';
 import { setConfigCache } from './cache';
+import { getSettings } from './getSettings';
 import { setSettings } from './setSettings';
 
 /**

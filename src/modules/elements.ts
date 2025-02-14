@@ -15,8 +15,9 @@ import {
 import { Modes, ConfKey, UrlMatchTypes, CONTAINER_LIST_GROUP_ID } from './constants';
 import { getCurrentTabOverrideUrl } from './helpers';
 import { addEmptyEventListeners, setEventListeners } from './events';
-import { getSetting, getSettings } from './config';
+import { getSetting } from './config';
 import { getElem, getElemNullable } from './get';
+import { getSettings } from './config/getSettings';
 
 /**
  * As part of rebuilding the filtered list of containers, this function assembles a list group element.

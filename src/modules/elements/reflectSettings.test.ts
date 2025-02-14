@@ -1,10 +1,10 @@
 import { ExtensionConfig } from '../../types';
-import { getSettings } from '../config';
+import { getSettings } from '../config/getSettings';
 import { reflectSettings } from '../elements';
 import { Modes, UrlMatchTypes } from '../constants';
 import { getElem } from '../get';
 
-jest.mock('../config', () => ({
+jest.mock('../config/getSettings', () => ({
   getSettings: jest.fn().mockImplementation(
     (): Promise<ExtensionConfig> =>
       Promise.resolve({

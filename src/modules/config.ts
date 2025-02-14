@@ -1,13 +1,6 @@
 import { ExtensionConfig } from '../types';
 import { ConfKey, Modes, SettingsTypes, SORT_MODE_NONE, UrlMatchTypes } from './constants';
-import {
-  getConfigCache,
-  getConfigCacheLocal,
-  getConfigCacheSync,
-  setConfigCache,
-  setConfigCacheLocal,
-  setConfigCacheSync,
-} from './config/cache';
+import { getConfigCache, getConfigCacheLocal, getConfigCacheSync } from './config/cache';
 import {
   browserStorageLocalGet,
   browserStorageLocalSet,
@@ -97,20 +90,4 @@ export const getSetting = async <T>(setting: ConfKey, type?: SettingsTypes): Pro
 
   if (!settings[setting]) return null;
   return settings[setting] as T;
-};
-
-/**
- * Returns all settings, depending on whether the user prefers Sync or not.
- */
-export const getSettings = async () => {
-  const local = await getLocalSettings();
-  const sync = await getSyncSettings();
-  const preferSync = sync.alwaysGetSync || local.alwaysGetSync;
-  const settings = preferSync ? sync : local;
-
-  setConfigCache({ ...settings });
-  setConfigCacheLocal({ ...local });
-  setConfigCacheSync({ ...sync });
-
-  return settings;
 };
