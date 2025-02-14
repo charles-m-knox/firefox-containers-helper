@@ -1,5 +1,5 @@
 import { Container, ContainerDefaultURL, SelectedContainerIndex, Tab } from '../types';
-import { getSetting } from './config';
+import { getSetting } from './config/getSetting';
 import { setSettings } from './config/setSettings';
 import { ConfKey, Modes, UrlMatchTypes } from './constants';
 import { reflectSelected } from './elements';

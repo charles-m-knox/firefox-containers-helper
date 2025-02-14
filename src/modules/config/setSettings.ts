@@ -1,7 +1,7 @@
 import { ExtensionConfig } from '../../types';
 import { ConfKey, SettingsTypes } from '../constants';
 import { browserStorageLocalSet, browserStorageSyncSet } from '../browser/storage';
-import { getSetting } from '../config';
+import { getSetting } from './getSetting';
 import { getSettings } from './getSettings';
 
 export const setSettings = async (updates: Partial<ExtensionConfig>) => {

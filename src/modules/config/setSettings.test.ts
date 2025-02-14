@@ -1,12 +1,11 @@
 import { setSettings } from './setSettings';
-import { getSetting } from '../config';
+import { getSetting } from './getSetting';
 import { getFakeExtensionConfig } from '../testutil';
 import { browserStorageLocalSet, browserStorageSyncSet } from '../browser/storage';
 import { getSettings } from './getSettings';
 
-jest.mock('../config', () => ({
+jest.mock('./getSetting', () => ({
   getSetting: jest.fn().mockImplementation(),
-  getSettings: jest.fn().mockImplementation(),
 }));
 
 jest.mock('./getSettings', () => ({

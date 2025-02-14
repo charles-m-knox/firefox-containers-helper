@@ -1,4 +1,4 @@
-import { getSetting } from './config';
+import { getSetting } from './config/getSetting';
 import { ConfKey, Modes } from './constants';
 import { helpfulStrings } from '../strings/strings';
 import { help } from './help';

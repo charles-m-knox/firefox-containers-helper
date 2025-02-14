@@ -1,5 +1,5 @@
 import { Container, Tab, ContainerDefaultURL } from '../../types';
-import { getSetting } from '../config';
+import { getSetting } from '../config/getSetting';
 import { ConfKey, UrlMatchTypes } from '../constants';
 import { showConfirm } from '../modals/modals';
 import { getCurrentTabOverrideUrl } from '../helpers';

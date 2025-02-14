@@ -1,4 +1,4 @@
-import { getSetting } from './modules/config';
+import { getSetting } from './modules/config/getSetting';
 import { PlatformModifierKey, ConfKey } from './modules/constants';
 import { checkDirty } from './modules/helpers/checkDirty';
 import { helpful } from './modules/helpful';

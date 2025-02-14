@@ -5,7 +5,7 @@
  */
 import { showConfirm } from './modals/modals';
 import { ContainerCreate, ContainerDefaultURL, ContainerWithUrl } from '../types';
-import { getSetting } from './config';
+import { getSetting } from './config/getSetting';
 import { setSettings } from './config/setSettings';
 import { ConfKey } from './constants';
 import { createContainer, queryContainers } from './browser/containers';

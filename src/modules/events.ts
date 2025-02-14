@@ -7,7 +7,7 @@ import {
   CLASSES_CONTAINER_LI_SELECTED,
   CLASSES_CONTAINER_LI_INACTIVE,
 } from './classes';
-import { getSetting } from './config';
+import { getSetting } from './config/getSetting';
 import { Modes, ConfKey } from './constants';
 import { getElemNullable } from './get';
 

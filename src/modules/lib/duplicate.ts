@@ -1,6 +1,6 @@
 import { Container, ContainerDefaultURL } from '../../types';
 import { createContainer } from '../browser/containers';
-import { getSetting } from '../config';
+import { getSetting } from '../config/getSetting';
 import { ConfKey } from '../constants';
 import { help } from '../help';
 import { deselect } from './deselect';

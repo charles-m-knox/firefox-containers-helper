@@ -15,7 +15,7 @@ import {
 import { Modes, ConfKey, UrlMatchTypes, CONTAINER_LIST_GROUP_ID } from './constants';
 import { getCurrentTabOverrideUrl } from './helpers';
 import { addEmptyEventListeners, setEventListeners } from './events';
-import { getSetting } from './config';
+import { getSetting } from './config/getSetting';
 import { getElem, getElemNullable } from './get';
 import { getSettings } from './config/getSettings';
 

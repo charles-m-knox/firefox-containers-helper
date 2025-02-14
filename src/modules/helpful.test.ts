@@ -2,13 +2,13 @@ import { helpfulStrings } from '../strings/strings';
 import { ConfKey, Modes } from './constants';
 import { helpful } from './helpful';
 import { help } from './help';
-import { getSetting } from './config';
+import { getSetting } from './config/getSetting';
 
 jest.mock('./help', () => ({
   help: jest.fn().mockImplementation(() => {}),
 }));
 
-jest.mock('./config', () => ({
+jest.mock('./config/getSetting', () => ({
   getSetting: jest.fn().mockImplementation(() => undefined),
 }));
 

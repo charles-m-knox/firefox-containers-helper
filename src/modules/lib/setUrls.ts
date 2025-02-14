@@ -2,7 +2,7 @@ import { Container, ContainerDefaultURL } from '../../types';
 import { ConfKey } from '../constants';
 import { showConfirm, showPrompt } from '../modals/modals';
 import { help } from '../help';
-import { getSetting } from '../config';
+import { getSetting } from '../config/getSetting';
 import { setSettings } from '../config/setSettings';
 
 /**

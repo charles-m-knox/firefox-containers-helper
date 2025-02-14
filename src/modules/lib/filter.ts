@@ -1,6 +1,6 @@
 import { Container, ContainerDefaultURL, SelectedContainerIndex } from '../../types';
 import { queryContainers } from '../browser/containers';
-import { getSetting } from '../config';
+import { getSetting } from '../config/getSetting';
 import { setSettings } from '../config/setSettings';
 import {
   CONTAINER_LIST_DIV_ID,
