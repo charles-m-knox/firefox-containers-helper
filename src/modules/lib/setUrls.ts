@@ -26,8 +26,9 @@ export const setUrls = async (containers: Container[], url: string[], allowAnyPr
   const requireHTTP = !(await getSetting<boolean>(ConfKey.neverConfirmSaveNonHttpUrls));
   const noHTTPS = oneUrl && first.indexOf(`https://`) !== 0;
   const noHTTP = oneUrl && first.indexOf(`http://`) !== 0;
-  const question =
-    'Warning: URL\'s should start with "http://" or "https://". Firefox likely will not correctly open pages otherwise. If you would like to proceed, please confirm.\n\nThis dialog can be disabled in the extension preferences page.';
+  const question = `Warning: URL's should start with "http://" or "https://". Firefox likely will not correctly open pages otherwise. If you would like to proceed, please confirm.
+
+This dialog can be disabled in the extension preferences page.`;
   const ask = !clear && !allowAnyProtocol && requireHTTP && noHTTPS && noHTTP;
   if (ask && !(await showConfirm(question, 'Allow Any Protocol?'))) return;
 
@@ -70,7 +71,9 @@ export const setUrls = async (containers: Container[], url: string[], allowAnyPr
 export const setUrlsPrompt = async (containers: Container[]) => {
   const one = containers.length === 1;
   const s = one ? '' : 's';
-  const question = `What should the default URL be for ${containers.length} container${s}?\n\nType "none" (without quotes) to clear the saved default URL value${s}.`;
+  const question = `What should the default URL be for ${containers.length} container${s}?
+
+Type "none" (without quotes) to clear the saved default URL value${s}.`;
   let prefill = '';
   if (one) {
     const urls = (await getSetting<ContainerDefaultURL>(ConfKey.containerDefaultUrls)) || {};
