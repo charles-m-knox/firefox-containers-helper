@@ -1,9 +1,9 @@
 import { Container, SelectedContainerIndex, ExtensionConfig } from '../../types';
-import { setSettings } from '../config';
+import { setSettings } from '../config/setSettings';
 import { getFakeContainer } from '../testutil';
 import { selectionChanged } from './selectionChanged';
 
-jest.mock('../config', () => ({
+jest.mock('../config/setSettings', () => ({
   setSettings: jest.fn().mockImplementation(() => {}),
 }));
 

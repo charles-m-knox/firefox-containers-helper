@@ -4,10 +4,10 @@ import { helpfulStrings } from '../strings/strings';
 import { help } from './help';
 
 /**
- * Based on the currently selected mode, set a helpful message to show to the user.
+ * Based on the currently selected mode, `helpful` shows a helpful message to the user.
  */
-export const helpful = async (mode?: Modes) => {
-  if (!mode) mode = (await getSetting<Modes>(ConfKey.mode)) || undefined; // TODO: fix this type awkwardness later
+export const helpful = async (mode?: Modes | null) => {
+  if (!mode) mode = await getSetting<Modes>(ConfKey.mode);
   switch (mode) {
     case Modes.SET_URL:
     case Modes.SET_NAME:

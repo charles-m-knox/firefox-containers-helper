@@ -3,7 +3,8 @@ import { ConfKey } from '../constants';
 import { showAlert, showConfirm } from '../modals/modals';
 import { removeContainer } from '../browser/containers';
 import { help } from '../help';
-import { getSetting, setSettings } from '../config';
+import { getSetting } from '../config';
+import { setSettings } from '../config/setSettings';
 import { deselect } from './deselect';
 
 /**

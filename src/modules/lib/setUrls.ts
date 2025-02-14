@@ -2,7 +2,8 @@ import { Container, ContainerDefaultURL } from '../../types';
 import { ConfKey } from '../constants';
 import { showConfirm, showPrompt } from '../modals/modals';
 import { help } from '../help';
-import { getSetting, setSettings } from '../config';
+import { getSetting } from '../config';
+import { setSettings } from '../config/setSettings';
 
 /**
  * Associates a default URL to each container. Accepts either one string or a 1:1 mapping of containers to URL's - each

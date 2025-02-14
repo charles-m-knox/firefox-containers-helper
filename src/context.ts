@@ -1,6 +1,6 @@
 import { getSetting, getSettings } from './modules/config';
 import { PlatformModifierKey, ConfKey } from './modules/constants';
-import { checkDirty } from './modules/helpers';
+import { checkDirty } from './modules/helpers/checkDirty';
 import { helpful } from './modules/helpful';
 import { help } from './modules/help';
 import { filter } from './modules/lib/filter';

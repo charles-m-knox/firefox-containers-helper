@@ -103,8 +103,8 @@ export const getSetting = async <T>(setting: ConfKey, type?: SettingsTypes): Pro
  * Returns all settings, depending on whether the user prefers Sync or not.
  */
 export const getSettings = async () => {
-  const local = (await browserStorageLocalGet()) as ExtensionConfig;
-  const sync = (await browserStorageSyncGet()) as ExtensionConfig;
+  const local = await getLocalSettings();
+  const sync = await getSyncSettings();
   const preferSync = sync.alwaysGetSync || local.alwaysGetSync;
   const settings = preferSync ? sync : local;
 
@@ -113,19 +113,4 @@ export const getSettings = async () => {
   setConfigCacheSync({ ...sync });
 
   return settings;
-};
-
-/**
- * Pushes settings to the extension config.
- *
- * If either the `local` or Firefox Sync extension storage has `alwaysSetSync` set to true, then settings will always go
- * to local AND Firefox Sync.
- */
-export const setSettings = async (updates: Partial<ExtensionConfig>) => {
-  const sync = (await getSetting<boolean>(ConfKey.alwaysSetSync, SettingsTypes.Sync)) === true;
-  const local = (await getSetting<boolean>(ConfKey.alwaysSetSync, SettingsTypes.Local)) === true;
-  await browserStorageLocalSet(updates);
-  if (sync || local) await browserStorageSyncSet(updates);
-  // refresh the cache any time this function is called
-  await getSettings();
 };

@@ -1,5 +1,6 @@
 import { ExtensionConfig, SelectedContainerIndex } from '../types';
-import { getSetting, setSettings } from './config';
+import { getSetting } from './config';
+import { setSettings } from './config/setSettings';
 import { ConfKey, Modes, PlatformModifierKey, SortModes } from './constants';
 import { reflectSelected, reflectSettings } from './elements';
 import { helpful } from './helpful';

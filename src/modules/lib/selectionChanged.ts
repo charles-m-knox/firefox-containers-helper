@@ -1,5 +1,5 @@
 import { Container, SelectedContainerIndex } from '../../types';
-import { setSettings } from '../config';
+import { setSettings } from '../config/setSettings';
 
 /**
  * Updates the selected containers index based on user input and state. This function modifies the `selected` object,

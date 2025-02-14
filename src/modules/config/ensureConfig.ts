@@ -1,5 +1,6 @@
-import { defaultConfig, getSettings, setSettings } from '../config';
+import { defaultConfig, getSettings } from '../config';
 import { setConfigCache } from './cache';
+import { setSettings } from './setSettings';
 
 /**
  * Ensures that at a fresh config is set, if there isn't an existing config.

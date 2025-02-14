@@ -1,5 +1,6 @@
-import { getLocalSettings, getSyncSettings, setLocalSettings, setSettings, setSyncSettings } from './modules/config';
-import { alertOnError, checkDirty, getCleanSettings, objectEquals } from './modules/helpers';
+import { getLocalSettings, getSyncSettings, setLocalSettings, setSyncSettings } from './modules/config';
+import { setSettings } from './modules/config/setSettings';
+import { alertOnError, getCleanSettings, objectEquals } from './modules/helpers';
 import { bulkExport, bulkImport } from './modules/preferences';
 import { showAlert, showConfirm } from './modules/modals/modals';
 import { ExtensionConfig } from './types';
@@ -7,6 +8,7 @@ import { UrlMatchTypes } from './modules/constants';
 import { getElem, getElemNullable } from './modules/get';
 import { browserCommandsUpdate, browserCommandsReset, browserCommandsGetAll } from './modules/browser/commands';
 import { browserStorageLocalClear, browserStorageSyncClear } from './modules/browser/storage';
+import { checkDirty } from './modules/helpers/checkDirty';
 
 // https://github.com/mdn/webextensions-examples/blob/60ce50b10ee66f6d706b0715909e756e4bdba63d/commands/options.js
 // https://github.com/mdn/webextensions-examples/blob/60ce50b10ee66f6d706b0715909e756e4bdba63d/commands/options.html

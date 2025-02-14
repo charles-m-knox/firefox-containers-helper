@@ -1,7 +1,7 @@
-import { setSettings } from '../config';
+import { setSettings } from '../config/setSettings';
 import { deselect } from './deselect';
 
-jest.mock('../config', () => ({
+jest.mock('../config/setSettings', () => ({
   setSettings: jest.fn().mockImplementation(async () => {}),
 }));
 

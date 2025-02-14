@@ -1,5 +1,6 @@
 import { Container, ContainerDefaultURL } from '../../types';
-import { getSetting, setSettings } from '../config';
+import { getSetting } from '../config';
+import { setSettings } from '../config/setSettings';
 import { ConfKey } from '../constants';
 import { help } from '../help';
 import { showPrompt, showConfirm } from '../modals/modals';

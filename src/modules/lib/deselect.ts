@@ -1,4 +1,4 @@
-import { setSettings } from '../config';
+import { setSettings } from '../config/setSettings';
 
 /**
  * Empties out the list of containers to act on when the "selection mode" is enabled, and persists the change to the

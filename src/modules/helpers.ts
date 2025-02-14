@@ -3,6 +3,14 @@ import { UrlMatchTypes } from './constants';
 import { showAlert } from './modals/modals';
 import { getContainer } from './browser/containers';
 
+/**
+ * Shows an alert with the thrown exception if an error is thrown by `fn`.
+ *
+ * @example alertOnError(doSomething)("Message goes here", "Title goes here")
+ *
+ * @param fn Any valid callback.
+ * @returns Nothing.
+ */
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const alertOnError = (fn: any) => async (msg: string, title: string) => {
   try {
@@ -84,30 +92,6 @@ export const isAnyContainerSelected = (selected: SelectedContainerIndex) => {
     }
   }
   return false;
-};
-
-/**
- * Returns the number of dirty entries in the config - e.g. container URLs
- * that no longer have containers (orphaned).
- *
- * @param conf
- * @return The number of dirty entries in the config.
- */
-export const checkDirty = async (conf: ExtensionConfig) => {
-  if (!conf?.containerDefaultUrls) return 0;
-  const removed: string[] = [];
-  for (const id in conf.containerDefaultUrls) {
-    try {
-      const context = await getContainer(id);
-
-      if (!context) removed.push(id);
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    } catch (err) {
-      removed.push(id);
-    }
-  }
-
-  return removed.length;
 };
 
 /**

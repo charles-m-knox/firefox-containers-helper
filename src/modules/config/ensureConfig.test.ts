@@ -1,14 +1,18 @@
 import { ExtensionConfig } from '../../types';
-import { setSettings, getSettings, defaultConfig } from '../config';
+import { getSettings, defaultConfig } from '../config';
 import { setConfigCache } from './cache';
 import { ensureConfig } from './ensureConfig';
+import { setSettings } from './setSettings';
 
 jest.mock('./cache', () => ({
   setConfigCache: jest.fn().mockImplementation(() => {}),
 }));
 
-jest.mock('../config', () => ({
+jest.mock('./setSettings', () => ({
   setSettings: jest.fn().mockImplementation(() => {}),
+}));
+
+jest.mock('../config', () => ({
   getSettings: jest.fn().mockImplementation(async () => {
     const settings: ExtensionConfig = {
       ...defaultConfig,
