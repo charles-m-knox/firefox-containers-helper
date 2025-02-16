@@ -1,7 +1,7 @@
 import { Container, ContainerDefaultURL, SelectedContainerIndex, Tab } from '../types';
 import { getSetting } from './config/getSetting';
 import { setSettings } from './config/setSettings';
-import { ConfKey, Modes, UrlMatchTypes } from './constants';
+import { ConfKey, Mode, UrlMatchTypes } from './constants';
 import { reflectSelected } from './elements';
 import { getModifiers } from './events/modifiers';
 import { preventUnload, relieveUnload } from './events';
@@ -98,45 +98,45 @@ const act = async (containers: Container[], ctrl: boolean) => {
 
   let navigatedUrl = '';
 
-  const mode = await getSetting<Modes>(ConfKey.mode);
+  const mode = await getSetting<Mode>(ConfKey.mode);
 
   preventUnload();
 
   switch (mode) {
-    case Modes.SET_NAME:
+    case Mode.SET_NAME:
       await rename(containers);
       break;
-    case Modes.DELETE: {
+    case Mode.DELETE: {
       const deleted = await del(containers);
       if (deleted > 0) await deselect();
       break;
     }
-    case Modes.REFRESH: {
+    case Mode.REFRESH: {
       const [removed, refreshed] = await refresh(containers);
       if (removed > 0 || refreshed > 0) await deselect();
       break;
     }
-    case Modes.SET_URL:
+    case Mode.SET_URL:
       await setUrlsPrompt(containers);
       break;
-    case Modes.SET_COLOR:
+    case Mode.SET_COLOR:
       await setColors(containers);
       break;
-    case Modes.SET_ICON:
+    case Mode.SET_ICON:
       await setIcons(containers);
       break;
-    case Modes.REPLACE_IN_NAME:
+    case Mode.REPLACE_IN_NAME:
       await replaceInName(containers);
       break;
-    case Modes.REPLACE_IN_URL:
+    case Mode.REPLACE_IN_URL:
       await replaceInUrls(containers);
       break;
-    case Modes.DUPLICATE: {
+    case Mode.DUPLICATE: {
       const duplicated = await duplicate(containers);
       if (duplicated > 0) await deselect();
       break;
     }
-    case Modes.OPEN:
+    case Mode.OPEN:
       navigatedUrl = await getActionableUrl(containers, tab);
       await open(containers, ctrl, tab);
       break;

@@ -8,7 +8,7 @@ import {
   CLASSES_CONTAINER_LI_INACTIVE,
 } from './classes';
 import { getSetting } from './config/getSetting';
-import { Modes, ConfKey } from './constants';
+import { Mode, ConfKey } from './constants';
 import { getElemNullable } from './get';
 
 /**
@@ -59,8 +59,8 @@ export const setEventListeners = async (
     const mouseOver = async (event: MouseEvent) => {
       if (!event || !event.target) return;
       const target = event.target as HTMLElement;
-      const mode = await getSetting<Modes>(ConfKey.mode);
-      if (mode === Modes.DELETE || mode === Modes.REFRESH) {
+      const mode = await getSetting<Mode>(ConfKey.mode);
+      if (mode === Mode.DELETE || mode === Mode.REFRESH) {
         target.className = CLASSES_CONTAINER_LI_ACTIVE_DANGER;
         return;
       }
@@ -94,8 +94,8 @@ export const setEventListeners = async (
     const onFocus = async (event: Event) => {
       if (!event || !event.target) return;
       const target = event.target as HTMLElement;
-      const mode = await getSetting<Modes>(ConfKey.mode);
-      if (mode === Modes.DELETE || mode === Modes.REFRESH) {
+      const mode = await getSetting<Mode>(ConfKey.mode);
+      if (mode === Mode.DELETE || mode === Mode.REFRESH) {
         target.className = CLASSES_CONTAINER_LI_ACTIVE_DANGER;
         return;
       }

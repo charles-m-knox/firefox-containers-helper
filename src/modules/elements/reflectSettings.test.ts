@@ -1,7 +1,7 @@
 import { ExtensionConfig } from '../../types';
 import { getSettings } from '../config/getSettings';
 import { reflectSettings } from '../elements';
-import { Modes, UrlMatchTypes } from '../constants';
+import { Mode, UrlMatchTypes } from '../constants';
 import { getElem } from '../get';
 
 jest.mock('../config/getSettings', () => ({
@@ -17,7 +17,7 @@ jest.mock('../config/getSettings', () => ({
         selectedContextIndices: {},
         lastQuery: 'last-query',
         lastSelectedContextIndex: -1,
-        mode: Modes.OPEN,
+        mode: Mode.OPEN,
         neverConfirmOpenNonHttpUrls: true,
         neverConfirmSaveNonHttpUrls: true,
         openCurrentPage: true,
@@ -56,7 +56,7 @@ describe('reflectSettings', () => {
 
     expect(getSettings).toHaveBeenCalledTimes(1);
 
-    expect(getElem<HTMLSelectElement>('modeSelect').value).toBe(Modes.OPEN);
+    expect(getElem<HTMLSelectElement>('modeSelect').value).toBe(Mode.OPEN);
     expect(getElem<HTMLSelectElement>('sortModeSelect').value).toBe('fooSort');
     expect(getElem<HTMLInputElement>('windowStayOpenState').checked).toBe(true);
     expect(getElem<HTMLInputElement>('selectionMode').checked).toBe(true);

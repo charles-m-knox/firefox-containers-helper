@@ -1,5 +1,5 @@
 import { helpfulStrings } from '../strings/strings';
-import { ConfKey, Modes } from './constants';
+import { ConfKey, Mode } from './constants';
 import { helpful } from './helpful';
 import { help } from './help';
 import { getSetting } from './config/getSetting';
@@ -23,8 +23,8 @@ describe('helpful', () => {
 
   interface Test {
     name: string;
-    mode?: Modes | null;
-    getSettingMock?: Modes;
+    mode?: Mode | null;
+    getSettingMock?: Mode;
     expected: string;
   }
 
@@ -32,63 +32,63 @@ describe('helpful', () => {
     {
       name: 'retrieves help mode from mocked settings when the mode is null',
       mode: null,
-      getSettingMock: Modes.SET_URL,
-      expected: helpfulStrings[Modes.SET_URL],
+      getSettingMock: Mode.SET_URL,
+      expected: helpfulStrings[Mode.SET_URL],
     },
     {
       name: 'retrieves help mode from mocked settings when the mode is not defined',
       mode: undefined,
-      getSettingMock: Modes.REPLACE_IN_URL,
-      expected: helpfulStrings[Modes.REPLACE_IN_URL],
+      getSettingMock: Mode.REPLACE_IN_URL,
+      expected: helpfulStrings[Mode.REPLACE_IN_URL],
     },
     {
       name: 'sets help for the SET_URL mode',
-      mode: Modes.SET_URL,
-      expected: helpfulStrings[Modes.SET_URL],
+      mode: Mode.SET_URL,
+      expected: helpfulStrings[Mode.SET_URL],
     },
     {
       name: 'sets help for the SET_NAME mode',
-      mode: Modes.SET_NAME,
-      expected: helpfulStrings[Modes.SET_NAME],
+      mode: Mode.SET_NAME,
+      expected: helpfulStrings[Mode.SET_NAME],
     },
     {
       name: 'sets help for the REPLACE_IN_URL mode',
-      mode: Modes.REPLACE_IN_URL,
-      expected: helpfulStrings[Modes.REPLACE_IN_URL],
+      mode: Mode.REPLACE_IN_URL,
+      expected: helpfulStrings[Mode.REPLACE_IN_URL],
     },
     {
       name: 'sets help for the REPLACE_IN_NAME mode',
-      mode: Modes.REPLACE_IN_NAME,
-      expected: helpfulStrings[Modes.REPLACE_IN_NAME],
+      mode: Mode.REPLACE_IN_NAME,
+      expected: helpfulStrings[Mode.REPLACE_IN_NAME],
     },
     {
       name: 'sets help for the SET_ICON mode',
-      mode: Modes.SET_ICON,
-      expected: helpfulStrings[Modes.SET_ICON],
+      mode: Mode.SET_ICON,
+      expected: helpfulStrings[Mode.SET_ICON],
     },
     {
       name: 'sets help for the SET_COLOR mode',
-      mode: Modes.SET_COLOR,
-      expected: helpfulStrings[Modes.SET_COLOR],
+      mode: Mode.SET_COLOR,
+      expected: helpfulStrings[Mode.SET_COLOR],
     },
     {
       name: 'sets help for the DUPLICATE mode',
-      mode: Modes.DUPLICATE,
-      expected: helpfulStrings[Modes.DUPLICATE],
+      mode: Mode.DUPLICATE,
+      expected: helpfulStrings[Mode.DUPLICATE],
     },
     {
       name: 'sets help for the DELETE mode',
-      mode: Modes.DELETE,
-      expected: helpfulStrings[Modes.DELETE],
+      mode: Mode.DELETE,
+      expected: helpfulStrings[Mode.DELETE],
     },
     {
       name: 'sets help for the REFRESH mode',
-      mode: Modes.REFRESH,
-      expected: helpfulStrings[Modes.REFRESH],
+      mode: Mode.REFRESH,
+      expected: helpfulStrings[Mode.REFRESH],
     },
     {
       name: 'sets help for an empty input',
-      mode: 'fake value' as Modes,
+      mode: 'fake value' as Mode,
       expected: '',
     },
   ];
@@ -100,7 +100,7 @@ describe('helpful', () => {
   tests.forEach((test) =>
     it(test.name, async () => {
       if (test.getSettingMock) {
-        (getSetting as jest.Mock).mockImplementationOnce(async (): Promise<Modes> => test.getSettingMock as Modes);
+        (getSetting as jest.Mock).mockImplementationOnce(async (): Promise<Mode> => test.getSettingMock as Mode);
       }
 
       await helpful(test.mode);

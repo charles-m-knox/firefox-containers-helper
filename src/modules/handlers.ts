@@ -1,7 +1,7 @@
 import { ExtensionConfig, SelectedContainerIndex } from '../types';
 import { getSetting } from './config/getSetting';
 import { setSettings } from './config/setSettings';
-import { ConfKey, Modes, PlatformModifierKey, SortModes } from './constants';
+import { ConfKey, Mode, PlatformModifierKey, SortModes } from './constants';
 import { reflectSelected, reflectSettings } from './elements';
 import { helpful } from './helpful';
 import { deselect } from './lib/deselect';
@@ -35,18 +35,18 @@ const toggleConfigFlag = async (key: ConfKey) => {
  * configuration value accordingly.
  * @param mode The mode to set.
  */
-const setMode = async (mode: string | Modes) => {
+const setMode = async (mode: string | Mode) => {
   switch (mode) {
-    case Modes.OPEN:
-    case Modes.SET_URL:
-    case Modes.SET_NAME:
-    case Modes.SET_COLOR:
-    case Modes.SET_ICON:
-    case Modes.REPLACE_IN_NAME:
-    case Modes.REPLACE_IN_URL:
-    case Modes.DUPLICATE:
-    case Modes.DELETE:
-    case Modes.REFRESH:
+    case Mode.OPEN:
+    case Mode.SET_URL:
+    case Mode.SET_NAME:
+    case Mode.SET_COLOR:
+    case Mode.SET_ICON:
+    case Mode.REPLACE_IN_NAME:
+    case Mode.REPLACE_IN_URL:
+    case Mode.DUPLICATE:
+    case Mode.DELETE:
+    case Mode.REFRESH:
       await setSettings({ mode });
       break;
     default:

@@ -6,7 +6,7 @@ import {
   CONTAINER_LIST_DIV_ID,
   CONTAINER_LIST_GROUP_ID,
   ConfKey,
-  Modes,
+  Mode,
   SORT_MODE_NAME_ASC,
   SORT_MODE_NAME_DESC,
   SORT_MODE_NONE,
@@ -91,7 +91,7 @@ const applyQuery = async (containers: Container[], queryLower: string) => {
 const reflectFiltered = async (results: Container[], actualTabUrl?: string | null) => {
   // finally, propagate the sorted results to the UI:
   const tab = await getActiveTab();
-  const mode = await getSetting<Modes>(ConfKey.mode);
+  const mode = await getSetting<Mode>(ConfKey.mode);
   const containerList = getElem<HTMLDivElement>(CONTAINER_LIST_DIV_ID);
 
   // prepare by clearing out the old query's HTML output

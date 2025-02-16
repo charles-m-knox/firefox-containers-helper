@@ -12,7 +12,7 @@ import {
   CLASSES_CONTAINER_ICON_EMPTY_TEXT,
   CLASSES_CONTAINER_ICON,
 } from './classes';
-import { Modes, ConfKey, UrlMatchTypes, CONTAINER_LIST_GROUP_ID } from './constants';
+import { Mode, ConfKey, UrlMatchTypes, CONTAINER_LIST_GROUP_ID } from './constants';
 import { getCurrentTabOverrideUrl } from './helpers';
 import { addEmptyEventListeners, setEventListeners } from './events';
 import { getSetting } from './config/getSetting';
@@ -176,7 +176,7 @@ export const buildContainerListItem = async (
   i: number,
   currentTab: Tab,
   actualCurrentUrl: string,
-  mode: Modes | null,
+  mode: Mode | null,
   actHandler: ActHandler,
 ) => {
   try {
@@ -184,7 +184,7 @@ export const buildContainerListItem = async (
     li.className = CLASSES_CONTAINER_LI;
     const icon = buildContainerIcon(container);
     const label = await buildContainerLabel(container, i, currentTab, actualCurrentUrl);
-    if (mode === Modes.DELETE || mode === Modes.REFRESH) {
+    if (mode === Mode.DELETE || mode === Mode.REFRESH) {
       const div = document.createElement('div');
       div.className = CLASSES_CONTAINER_DIV_DESTRUCTIVE;
       div.id = `filtered-context-${i}-div`;

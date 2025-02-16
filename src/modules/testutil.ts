@@ -1,5 +1,5 @@
 import { Container, ContainerDefaultURL, ExtensionConfig } from '../types';
-import { Modes, SortModes, UrlMatchTypes } from './constants';
+import { Mode, SortModes, UrlMatchTypes } from './constants';
 
 export const getFakeContainer = (fields?: Partial<Container>): Container => ({
   color: 'foo1',
@@ -34,7 +34,7 @@ export const getFakeExtensionConfig = (fields?: Partial<ExtensionConfig>): Exten
   containerDefaultUrls: {},
   lastQuery: 'foo',
   lastSelectedContextIndex: -1,
-  mode: Modes.OPEN,
+  mode: Mode.OPEN,
   neverConfirmOpenNonHttpUrls: false,
   neverConfirmSaveNonHttpUrls: false,
   openCurrentPage: false,

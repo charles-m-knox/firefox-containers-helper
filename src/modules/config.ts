@@ -1,5 +1,5 @@
 import { ExtensionConfig } from '../types';
-import { Modes, SORT_MODE_NONE, UrlMatchTypes } from './constants';
+import { Mode, SORT_MODE_NONE, UrlMatchTypes } from './constants';
 import {
   browserStorageLocalGet,
   browserStorageLocalSet,
@@ -12,7 +12,7 @@ export const defaultConfig: ExtensionConfig = {
   selectionMode: false,
   sort: SORT_MODE_NONE,
   openCurrentPage: false,
-  mode: Modes.OPEN,
+  mode: Mode.OPEN,
   lastQuery: '',
   containerDefaultUrls: {},
   selectedContextIndices: {},

@@ -24,7 +24,7 @@ export const CONTEXT_ICONS = [
 ];
 
 /** All functional modes that allow the user to interact with containers. */
-export enum Modes {
+export enum Mode {
   OPEN = 'openOnClick',
   SET_URL = 'setDefaultUrlsOnClick',
   SET_NAME = 'renameOnClick',

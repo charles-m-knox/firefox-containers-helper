@@ -1,4 +1,4 @@
-import { Modes, SortModes, UrlMatchTypes } from './modules/constants';
+import { Mode, SortModes, UrlMatchTypes } from './modules/constants';
 
 export type Tab = browser.tabs.Tab;
 export type Container = browser.contextualIdentities.ContextualIdentity;
@@ -70,7 +70,7 @@ export interface ExtensionConfig {
    * Defaults to `openOnClick`
    *
    */
-  mode: Modes;
+  mode: Mode;
 
   /**
    * lastQuery is the last thing that the user entered in the search box
