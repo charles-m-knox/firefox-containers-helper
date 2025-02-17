@@ -5,7 +5,7 @@ export const PlatformModifierKey = getPlatformModifierKey();
 /**
  * All allowable container (context) icons.
  *
- * TODO: provide a link to the firefox documentation
+ * @see https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/API/contextualIdentities/ContextualIdentity#icon
  */
 export const CONTEXT_ICONS = [
   'fingerprint',
@@ -22,6 +22,13 @@ export const CONTEXT_ICONS = [
   'chill',
   'fence',
 ];
+
+/**
+ * All allowable container (context) colors.
+ *
+ * @see https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/API/contextualIdentities/ContextualIdentity#color
+ */
+export const CONTEXT_COLORS = ['blue', 'turquoise', 'green', 'yellow', 'orange', 'red', 'pink', 'purple', 'toolbar'];
 
 /** All functional modes that allow the user to interact with containers. */
 export enum Mode {
@@ -54,9 +61,6 @@ export enum ConfKey {
   neverConfirmSaveNonHttpUrls = 'neverConfirmSaveNonHttpUrls',
   openCurrentTabUrlOnMatch = 'openCurrentTabUrlOnMatch',
 }
-
-/** All allowable container (context) colors. */
-export const CONTEXT_COLORS = ['blue', 'turquoise', 'green', 'yellow', 'orange', 'red', 'pink', 'purple', 'toolbar'];
 
 /** Random list of help messages to show in the Help Text area. */
 export const HELP_MESSAGES = [
@@ -91,9 +95,7 @@ export enum UrlMatchTypes {
   empty = '',
 }
 
-/**
- * The `<div>` ID of the container list. This is where all of the queried containers will go.
- */
+/** The `<div>` ID of the container list. This is where all of the queried containers will go. */
 export const CONTAINER_LIST_DIV_ID = 'container-list';
 
 /** The ID of the container list <ul> element. */
