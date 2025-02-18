@@ -1,7 +1,7 @@
 import { getCurrentTabOverrideUrl, isAnyContainerSelected, objectEquals, queryUrls } from './helpers';
 import { Container, ContainerDefaultURL, SelectedContainerIndex } from '../types';
 import { getFakeContainer, getFakeContainerDefaultURLs } from './testutil';
-import { UrlMatchTypes } from './constants';
+import { UrlMatchType } from './constants';
 
 // jest.mock('./help', () => ({
 //   help: jest.fn().mockImplementation(() => {}),
@@ -95,7 +95,7 @@ describe('getCurrentTabOverrideUrl', () => {
     name: string;
     url: string;
     current: string;
-    match: UrlMatchTypes;
+    match: UrlMatchType;
     expected: string;
   }
 
@@ -104,112 +104,112 @@ describe('getCurrentTabOverrideUrl', () => {
       name: 'should not override if url param is empty',
       url: '',
       current: 'https://bar.example.com/foo',
-      match: UrlMatchTypes.origin,
+      match: UrlMatchType.origin,
       expected: '',
     },
     {
       name: 'should not override if current param is empty',
       url: 'https://foo.example.com/abc/def.html',
       current: '',
-      match: UrlMatchTypes.origin,
+      match: UrlMatchType.origin,
       expected: '',
     },
     {
       name: 'should not override if origins differ',
       url: 'https://foo.example.com/abc/def.html',
       current: 'https://bar.example.com/foo',
-      match: UrlMatchTypes.origin,
+      match: UrlMatchType.origin,
       expected: '',
     },
     {
       name: 'should not override if hosts differ',
       url: 'https://foo.example.com/abc/def.html',
       current: 'https://bar.example.com/foo',
-      match: UrlMatchTypes.host,
+      match: UrlMatchType.host,
       expected: '',
     },
     {
       name: 'should not override if domains differ',
       url: 'https://foo.example2.com/abc/def.html',
       current: 'https://bar.example.com/foo',
-      match: UrlMatchTypes.domain,
+      match: UrlMatchType.domain,
       expected: '',
     },
     {
       name: 'should not override if domains and ports differ',
       url: 'https://foo.example2.com:3333/abc/def.html',
       current: 'https://bar.example.com:3333/foo',
-      match: UrlMatchTypes.domainPort,
+      match: UrlMatchType.domainPort,
       expected: '',
     },
     {
       name: 'should not override if hostnames differ',
       url: 'https://foo.example.com/abc/def.html',
       current: 'https://bar.example.com/foo',
-      match: UrlMatchTypes.hostname,
+      match: UrlMatchType.hostname,
       expected: '',
     },
     {
       name: 'should override if domains match',
       url: 'https://foo.example.com/abc/def.html',
       current: 'https://bar.example.com/foo',
-      match: UrlMatchTypes.domain,
+      match: UrlMatchType.domain,
       expected: 'https://bar.example.com/foo',
     },
     {
       name: 'should override if domains with non-standard and differing ports match',
       url: 'https://foo.example.com:4444/abc/def.html',
       current: 'https://bar.example.com:5555/foo',
-      match: UrlMatchTypes.domain,
+      match: UrlMatchType.domain,
       expected: 'https://bar.example.com:5555/foo',
     },
     {
       name: 'should override if domains and ports match',
       url: 'https://foo.example.com:10001/abc/def.html',
       current: 'https://bar.example.com:10001/foo',
-      match: UrlMatchTypes.domainPort,
+      match: UrlMatchType.domainPort,
       expected: 'https://bar.example.com:10001/foo',
     },
     {
       name: 'should override if origins match',
       url: 'https://foo.example.com:10001/abc/def.html',
       current: 'https://foo.example.com:10001/foo',
-      match: UrlMatchTypes.origin,
+      match: UrlMatchType.origin,
       expected: 'https://foo.example.com:10001/foo',
     },
     {
       name: 'should override if hosts match, but protocol changes to http',
       url: 'https://foo.example.com:10001/abc/def.html',
       current: 'http://foo.example.com:10001/foo',
-      match: UrlMatchTypes.host,
+      match: UrlMatchType.host,
       expected: 'http://foo.example.com:10001/foo',
     },
     {
       name: 'should override if hosts match, but protocol changes to gemini',
       url: 'https://foo.example.com:10001/abc/def.html',
       current: 'gemini://foo.example.com:10001/foo',
-      match: UrlMatchTypes.host,
+      match: UrlMatchType.host,
       expected: 'gemini://foo.example.com:10001/foo',
     },
     {
       name: 'should override if hostnames match, but other things differ',
       url: 'https://foo.example.com:10001/abc/def.html',
       current: 'gemini://foo.example.com:10002/foo',
-      match: UrlMatchTypes.hostname,
+      match: UrlMatchType.hostname,
       expected: 'gemini://foo.example.com:10002/foo',
     },
     {
       name: 'should not override if an empty match mode is used',
       url: 'https://foo.example.com:10001/abc/def.html',
       current: 'gemini://foo.example.com:10002/foo',
-      match: UrlMatchTypes.empty,
+      match: UrlMatchType.empty,
       expected: '',
     },
     {
       name: 'should not override if an invalid url was provided',
       url: '%%%%%%%%',
       current: '!!!!!!!!',
-      match: UrlMatchTypes.empty,
+      match: UrlMatchType.empty,
       expected: '',
     },
   ];

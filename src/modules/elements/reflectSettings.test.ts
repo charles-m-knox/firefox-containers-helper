@@ -1,7 +1,7 @@
 import { ExtensionConfig } from '../../types';
 import { getSettings } from '../config/getSettings';
 import { reflectSettings } from '../elements';
-import { Mode, UrlMatchTypes } from '../constants';
+import { Mode, UrlMatchType } from '../constants';
 import { getElem } from '../get';
 
 jest.mock('../config/getSettings', () => ({
@@ -21,7 +21,7 @@ jest.mock('../config/getSettings', () => ({
         neverConfirmOpenNonHttpUrls: true,
         neverConfirmSaveNonHttpUrls: true,
         openCurrentPage: true,
-        openCurrentTabUrlOnMatch: UrlMatchTypes.origin,
+        openCurrentTabUrlOnMatch: UrlMatchType.origin,
       }),
   ),
 }));

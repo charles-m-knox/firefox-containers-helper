@@ -12,7 +12,7 @@ import {
   CLASSES_CONTAINER_ICON_EMPTY_TEXT,
   CLASSES_CONTAINER_ICON,
 } from './classes';
-import { Mode, ConfKey, UrlMatchTypes, CONTAINER_LIST_GROUP_ID } from './constants';
+import { Mode, ConfKey, UrlMatchType, CONTAINER_LIST_GROUP_ID } from './constants';
 import { getCurrentTabOverrideUrl } from './helpers';
 import { addEmptyEventListeners, setEventListeners } from './events';
 import { getSetting } from './config/getSetting';
@@ -85,7 +85,7 @@ export const buildContainerLabel = async (context: Container, i: number, current
     const url = urls ? urls[context.cookieStoreId] : null;
 
     if (url) {
-      const urlMatchType = await getSetting<UrlMatchTypes>(ConfKey.openCurrentTabUrlOnMatch);
+      const urlMatchType = await getSetting<UrlMatchType>(ConfKey.openCurrentTabUrlOnMatch);
 
       if (urlMatchType && (currentTab || actualCurrentUrl)) {
         // if the current tab isn't loaded yet, the url might be empty,

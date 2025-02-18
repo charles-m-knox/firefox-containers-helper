@@ -1,7 +1,7 @@
 import { Container, ContainerDefaultURL, SelectedContainerIndex, Tab } from '../types';
 import { getSetting } from './config/getSetting';
 import { setSettings } from './config/setSettings';
-import { ConfKey, Mode, UrlMatchTypes } from './constants';
+import { ConfKey, Mode, UrlMatchType } from './constants';
 import { reflectSelected } from './elements';
 import { getModifiers } from './events/modifiers';
 import { preventUnload, relieveUnload } from './events';
@@ -63,7 +63,7 @@ const getActionableUrl = async (containers: Container[], tab: Tab) => {
   const last = containers[containers.length - 1];
 
   const urls = await getSetting<ContainerDefaultURL>(ConfKey.containerDefaultUrls);
-  const openCurrentTabUrlOnMatch = await getSetting<UrlMatchTypes>(ConfKey.openCurrentTabUrlOnMatch);
+  const openCurrentTabUrlOnMatch = await getSetting<UrlMatchType>(ConfKey.openCurrentTabUrlOnMatch);
 
   // the last container opened will be used as the last URL; this will be passed into the actionCompletedHandler. I had
   // to choose something to put here, and the last URL makes the most sense.

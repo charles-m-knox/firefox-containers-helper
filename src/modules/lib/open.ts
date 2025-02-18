@@ -1,6 +1,6 @@
 import { Container, Tab, ContainerDefaultURL } from '../../types';
 import { getSetting } from '../config/getSetting';
-import { ConfKey, UrlMatchTypes } from '../constants';
+import { ConfKey, UrlMatchType } from '../constants';
 import { showConfirm } from '../modals/modals';
 import { getCurrentTabOverrideUrl } from '../helpers';
 
@@ -19,7 +19,7 @@ export const open = async (containers: Container[], pinned: boolean, tab: Tab) =
   let shouldPrompt = true;
 
   const requireHTTP = !(await getSetting<boolean>(ConfKey.neverConfirmOpenNonHttpUrls));
-  const useCurrentTabUrl = await getSetting<UrlMatchTypes>(ConfKey.openCurrentTabUrlOnMatch);
+  const useCurrentTabUrl = await getSetting<UrlMatchType>(ConfKey.openCurrentTabUrlOnMatch);
   const openCurrentPage = await getSetting<boolean>(ConfKey.openCurrentPage);
   const urls = (await getSetting<ContainerDefaultURL>(ConfKey.containerDefaultUrls)) || {};
 

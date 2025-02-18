@@ -1,5 +1,5 @@
 import { ExtensionConfig } from '../types';
-import { Mode, SORT_MODE_NONE, UrlMatchTypes } from './constants';
+import { Mode, SORT_MODE_NONE, UrlMatchType } from './constants';
 import {
   browserStorageLocalGet,
   browserStorageLocalSet,
@@ -21,7 +21,7 @@ export const defaultConfig: ExtensionConfig = {
   alwaysSetSync: false,
   neverConfirmOpenNonHttpUrls: false,
   neverConfirmSaveNonHttpUrls: false,
-  openCurrentTabUrlOnMatch: UrlMatchTypes.empty,
+  openCurrentTabUrlOnMatch: UrlMatchType.empty,
 };
 
 /**

@@ -4,7 +4,7 @@ import { alertOnError, getCleanSettings, objectEquals } from './modules/helpers'
 import { bulkExport, bulkImport } from './modules/preferences';
 import { showAlert, showConfirm } from './modules/modals/modals';
 import { ExtensionConfig } from './types';
-import { UrlMatchTypes } from './modules/constants';
+import { UrlMatchType } from './modules/constants';
 import { getElem, getElemNullable } from './modules/get';
 import { browserCommandsUpdate, browserCommandsReset, browserCommandsGetAll } from './modules/browser/commands';
 import { browserStorageLocalClear, browserStorageSyncClear } from './modules/browser/storage';
@@ -304,7 +304,7 @@ const onChangeUrlMatchType = async (event: Event) =>
       throw 'The event target information is not present for the openCurrentTabUrlOnMatch select callback.';
 
     await setSettings({
-      openCurrentTabUrlOnMatch: select.value as UrlMatchTypes,
+      openCurrentTabUrlOnMatch: select.value as UrlMatchType,
     } as Partial<ExtensionConfig>);
 
     await reflectLocalSettings();

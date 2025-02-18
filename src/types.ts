@@ -1,4 +1,4 @@
-import { Mode, SortModes, UrlMatchTypes } from './modules/constants';
+import { Mode, SortModes, UrlMatchType } from './modules/constants';
 
 export type Tab = browser.tabs.Tab;
 export type Container = browser.contextualIdentities.ContextualIdentity;
@@ -136,7 +136,7 @@ export interface ExtensionConfig {
    *
    * Defaults to an empty string.
    */
-  openCurrentTabUrlOnMatch: UrlMatchTypes;
+  openCurrentTabUrlOnMatch: UrlMatchType;
 }
 
 /**

@@ -1,5 +1,5 @@
 import { Container, ContainerDefaultURL, ExtensionConfig, SelectedContainerIndex } from '../types';
-import { UrlMatchTypes } from './constants';
+import { UrlMatchType } from './constants';
 import { showAlert } from './modals/modals';
 import { getContainer } from './browser/containers';
 
@@ -26,11 +26,11 @@ export const alertOnError = (fn: any) => async (msg: string, title: string) => {
  *
  * @param {string} url The URL to open
  * @param {string} current The current tab's URL
- * @param {UrlMatchTypes} match The method to use for identifying url matches
+ * @param {UrlMatchType} match The method to use for identifying url matches
  *
  * @returns An empty string if there is no URL to override. Otherwise, it returns the new URL to navigate to.
  */
-export const getCurrentTabOverrideUrl = (url: string, current: string, match: UrlMatchTypes): string => {
+export const getCurrentTabOverrideUrl = (url: string, current: string, match: UrlMatchType): string => {
   if (!url || !current) return '';
 
   try {
@@ -43,27 +43,27 @@ export const getCurrentTabOverrideUrl = (url: string, current: string, match: Ur
     const currentTLD = currentURL.hostname.split('.').slice(-2).join('.').toLowerCase();
 
     switch (match) {
-      case UrlMatchTypes.origin:
+      case UrlMatchType.origin:
         if (currentURL.origin.toLowerCase() === urlURL.origin.toLowerCase()) {
           return current;
         }
         break;
-      case UrlMatchTypes.host:
+      case UrlMatchType.host:
         if (currentURL.host.toLowerCase() === urlURL.host.toLowerCase()) {
           return current;
         }
         break;
-      case UrlMatchTypes.domain:
+      case UrlMatchType.domain:
         if (urlTLD === currentTLD) {
           return current;
         }
         break;
-      case UrlMatchTypes.domainPort:
+      case UrlMatchType.domainPort:
         if (urlTLD === currentTLD && currentURL.port === urlURL.port) {
           return current;
         }
         break;
-      case UrlMatchTypes.hostname:
+      case UrlMatchType.hostname:
         if (currentURL.hostname.toLowerCase() === urlURL.hostname.toLowerCase()) {
           return current;
         }

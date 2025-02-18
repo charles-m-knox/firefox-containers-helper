@@ -86,7 +86,7 @@ export enum SortModes {
   UrlDesc = 'none-r',
 }
 
-export enum UrlMatchTypes {
+export enum UrlMatchType {
   origin = 'origin',
   host = 'host',
   domain = 'domain',

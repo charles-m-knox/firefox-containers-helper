@@ -1,5 +1,5 @@
 import { Container, ContainerDefaultURL, ExtensionConfig } from '../types';
-import { Mode, SortModes, UrlMatchTypes } from './constants';
+import { Mode, SortModes, UrlMatchType } from './constants';
 
 export const getFakeContainer = (fields?: Partial<Container>): Container => ({
   color: 'foo1',
@@ -38,7 +38,7 @@ export const getFakeExtensionConfig = (fields?: Partial<ExtensionConfig>): Exten
   neverConfirmOpenNonHttpUrls: false,
   neverConfirmSaveNonHttpUrls: false,
   openCurrentPage: false,
-  openCurrentTabUrlOnMatch: UrlMatchTypes.domainPort,
+  openCurrentTabUrlOnMatch: UrlMatchType.domainPort,
   selectedContextIndices: {},
   selectionMode: false,
   sort: SortModes.None,
