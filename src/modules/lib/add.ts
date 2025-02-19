@@ -5,7 +5,7 @@ import { deselect } from './deselect';
 import { filter } from './filter';
 import { help } from '../help';
 
-/** Adds a new container. */
+/** Adds a new container. The name of the container is retrieved from an input field in the popup UI. */
 export const add = async () => {
   // make sure not to use config.lastQuery here, because it gets trimmed/lowercased. This was a bug identified in GH
   // issue 37

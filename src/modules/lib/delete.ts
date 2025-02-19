@@ -20,6 +20,7 @@ export const del = async (containers: Container[], prompt = true) => {
   const toDelete: Container[] = [];
   const containersNoun = `container${containers.length === 1 ? '' : 's'}`;
   let deleteAllStr = `Are you sure you want to delete ${containers.length} ${containersNoun}?\n\n`;
+
   // limit the dialog to only showing so many lines
   const maxLines = 5;
   for (let i = 0; i < Math.min(maxLines, containers.length); i++) {
@@ -63,20 +64,18 @@ export const del = async (containers: Container[], prompt = true) => {
       }
     }
   } finally {
-    // note that despite the performance hit, it is critical to *consider*
-    // saving the settings each iteration of the loop. If we instead decide
-    // to only save after the loop is completed (which is faster),
-    // the user might decide to close the popup window before the loop
-    // is done, and we would have:
+    // note that despite the performance hit, it is critical to consider saving the settings each iteration of the loop.
+    // If we instead decide to only save after the loop is completed (which is faster), the user might decide to close
+    // the popup window before the loop is done, and we would have:
+    //
     // - deleted all of the containers leading up to the closure
     // - not persisted any default URL's to the settings
-    // However, it _is_ possible to rely on the Orphan Cleanup process
-    // offered in the options page to do this automatically. But, since
-    // (as of 2022-10-01) this is still a new feature, the more stable
-    // choice is to take the performance hit and do it right each time,
-    // then automate the cleanup later. The choice has been made to warn
-    // the user not to close the window before long-lived operations that
-    // would likely encounter this issue (e.g for >50 containers).
+    //
+    // However, it _is_ possible to rely on the Orphan Cleanup process offered in the options page to do this
+    // automatically. But, since (as of 2022-10-01) this is still a new feature, the more stable choice is to take the
+    // performance hit and do it right each time, then automate the cleanup later. The choice has been made to warn the
+    // user not to close the window before long-lived operations that would likely encounter this issue (e.g for >50
+    // containers).
     if (changed) await setSettings({ containerDefaultUrls: urls });
   }
 
