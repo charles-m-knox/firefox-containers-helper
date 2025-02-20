@@ -13,7 +13,7 @@ import {
   SORT_MODE_NONE_REVERSE,
   SORT_MODE_URL_ASC,
   SORT_MODE_URL_DESC,
-  SortModes,
+  SortMode,
 } from '../constants';
 import {
   buildContainerListGroupElement,
@@ -58,7 +58,7 @@ const applyQuery = async (containers: Container[], queryLower: string) => {
   }
 
   // second, sort according to the user-configured sort:
-  const sort = await getSetting<SortModes>(ConfKey.sort);
+  const sort = await getSetting<SortMode>(ConfKey.sort);
 
   results.sort((a: Container, b: Container) => {
     const urlA: string = (urls[a.cookieStoreId] || '').toLowerCase();

@@ -1,4 +1,4 @@
-import { Mode, SortModes, UrlMatchType } from './modules/constants';
+import { Mode, SortMode, UrlMatchType } from './modules/constants';
 
 export type Tab = browser.tabs.Tab;
 export type Container = browser.contextualIdentities.ContextualIdentity;
@@ -54,7 +54,7 @@ export interface ExtensionConfig {
   /**
    * sort is what allows containers in the filtered list to be sorted.
    */
-  sort: string | SortModes;
+  sort: string | SortMode;
 
   /**
    * openCurrentPage will force every filtered container to open the current tab's URL.

@@ -1,7 +1,7 @@
 import { ExtensionConfig, SelectedContainerIndex } from '../types';
 import { getSetting } from './config/getSetting';
 import { setSettings } from './config/setSettings';
-import { ConfKey, Mode, PlatformModifierKey, SortModes } from './constants';
+import { ConfKey, Mode, PlatformModifierKey, SortMode } from './constants';
 import { reflectSelected, reflectSettings } from './elements';
 import { helpful } from './helpful';
 import { deselect } from './lib/deselect';
@@ -62,14 +62,14 @@ const setMode = async (mode: string | Mode) => {
  *
  * @param mode The mode to set.
  */
-const setSortMode = async (mode: string | SortModes) => {
+const setSortMode = async (mode: string | SortMode) => {
   switch (mode) {
-    case SortModes.NameAsc:
-    case SortModes.NameDesc:
-    case SortModes.None:
-    case SortModes.NoneReverse:
-    case SortModes.UrlAsc:
-    case SortModes.UrlDesc:
+    case SortMode.NameAsc:
+    case SortMode.NameDesc:
+    case SortMode.None:
+    case SortMode.NoneReverse:
+    case SortMode.UrlAsc:
+    case SortMode.UrlDesc:
       await setSettings({ sort: mode });
       break;
     default:

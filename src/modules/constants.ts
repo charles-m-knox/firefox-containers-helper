@@ -77,7 +77,7 @@ export const SORT_MODE_URL_DESC = 'url-d';
 export const SORT_MODE_NONE = 'none';
 export const SORT_MODE_NONE_REVERSE = 'none-r';
 
-export enum SortModes {
+export enum SortMode {
   NameAsc = 'name-a',
   NameDesc = 'name-d',
   None = 'url-a',
