@@ -82,18 +82,13 @@ const canParseLocal = async (settings?: string) => {
  * updates UI elements according to the result.
  */
 const checkSettingsEqual = async () => {
-  const sync = await getSyncSettings();
-  const local = await getLocalSettings();
-
-  const equal = objectEquals(sync, local);
-
-  if (!equal) {
+  if (!objectEquals(await getSyncSettings(), await getLocalSettings())) {
     setValidationText('Local/sync settings do not match.', 'danger');
-    return equal;
+    return false;
+  } else {
+    setValidationText('Local/sync settings match!', 'success');
+    return true;
   }
-
-  setValidationText('Local/sync settings match!', 'success');
-  return equal;
 };
 
 /**
@@ -131,8 +126,6 @@ const reflectSyncSettings = async () => {
     throw `Error reflecting sync settings: ${err}`;
   }
 };
-
-const getLocalSettingsTextArea = () => getElem<HTMLTextAreaElement>('localSettingsTextArea');
 
 /**
  * Attempts to parse the local input settings text area. Shows modals upon parse
@@ -257,9 +250,7 @@ const btnCleanLocalClick = async () => {
   const settings = await getConfigFromLocalSettingsTextArea();
   if (!settings) return;
   const [cleaned, removed] = await getCleanSettings(settings);
-  const localSettingsTextArea = await getLocalSettingsTextArea();
-  if (!localSettingsTextArea) return;
-  localSettingsTextArea.value = JSON.stringify(cleaned);
+  getElem<HTMLTextAreaElement>('localSettingsTextArea').value = JSON.stringify(cleaned);
 
   const s = removed.length === 1 ? '' : 's';
   const save = await showConfirm(
