@@ -3,6 +3,14 @@ import { getPlatformModifierKey } from './navigator/platform';
 export const PlatformModifierKey = getPlatformModifierKey();
 
 /**
+ * Used for the primary keyboard shortcut that triggers the popup window for the extension.
+ *
+ * @see https://github.com/mdn/webextensions-examples/blob/60ce50b10ee66f6d706b0715909e756e4bdba63d/commands/options.js
+ * @see https://github.com/mdn/webextensions-examples/blob/60ce50b10ee66f6d706b0715909e756e4bdba63d/commands/options.html
+ */
+export const COMMAND_NAME = '_execute_browser_action';
+
+/**
  * All allowable container (context) icons.
  *
  * @see https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/API/contextualIdentities/ContextualIdentity#icon
