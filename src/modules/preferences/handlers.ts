@@ -27,14 +27,14 @@ export const btnImportContainersClick = () =>
     await showAlert(`Imported ${imported.length} container${s}.`, 'Bulk Import');
   })('Error during bulk import', 'Bulk Import Error');
 
-/** Reset the keyboard shortcut and update the text box. */
+/** Resets the keyboard shortcut and update the text box. */
 export const resetShortcut = async (cmd: string) =>
   alertOnError(async () => {
     await browserCommandsReset(cmd);
     await reflectKeyboardShortcut();
   })(`Failed to reset the keyboard shortcut`, 'Keyboard Shortcut Error');
 
-/** Update the shortcut based on the value in the text box. */
+/** Updates the shortcut based on the value in the text box. */
 export const btnUpdateShortcutClick = () =>
   alertOnError(
     async () =>
