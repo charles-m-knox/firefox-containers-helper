@@ -74,9 +74,8 @@ export const btnSaveSyncClick = () =>
   })('Failed to save sync settings', 'Settings Error');
 
 /**
- * Asks the user if they want to clean up the config, and then proceeds to
- * remove any default URL's from the config that do not map to any existing
- * containers.
+ * Asks the user if they want to clean up the config, and then proceeds to remove any default URL's from the config that
+ * do not map to any existing containers.
  */
 export const btnCleanLocalClick = async () => {
   const proceed = await showConfirm(
@@ -101,8 +100,8 @@ export const btnCleanLocalClick = async () => {
 };
 
 /**
- * Upon toggling a checkbox, the value of that checkbox is propagated to sync
- * and to local storage. Also pushes all other boolean-valued checkboxes.
+ * Upon toggling a checkbox, the value of that checkbox is propagated to sync and to local storage. Also pushes all
+ * other boolean-valued checkboxes.
  */
 export const toggleOptionCheckbox = () =>
   alertOnError(async () => {
