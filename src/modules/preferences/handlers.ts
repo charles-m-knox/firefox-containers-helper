@@ -105,8 +105,7 @@ export const btnCleanLocalClick = async () => {
  */
 export const toggleOptionCheckbox = () =>
   alertOnError(async () => {
-    // these two values are always pushed to firefox sync
-    // and stored locally
+    // these two values are always pushed to firefox sync and stored locally
     const special: Partial<ExtensionConfig> = {
       alwaysSetSync: getElem<HTMLInputElement>('alwaysSetSync').checked,
       alwaysGetSync: getElem<HTMLInputElement>('alwaysGetSync').checked,
