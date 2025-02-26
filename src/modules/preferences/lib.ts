@@ -49,8 +49,7 @@ export const setSaveSettingsButtonsDisabled = async (disabled: boolean) => {
 };
 
 /**
- * Parses the text in the local settings text area into JSON, and updates
- * the UI if it succeed or fails to parse.
+ * Parses the text in the local settings text area into JSON, and updates the UI if it succeed or fails to parse.
  */
 export const canParseLocal = async (settings?: string) => {
   try {
@@ -71,8 +70,7 @@ export const canParseLocal = async (settings?: string) => {
 };
 
 /**
- * Checks if the saved local and sync settings are equal to each other, and
- * updates UI elements according to the result.
+ * Checks if the saved local and sync settings are equal to each other, and updates UI elements according to the result.
  */
 export const checkSettingsEqual = async () => {
   if (!objectEquals(await getSyncSettings(), await getLocalSettings())) {
@@ -85,8 +83,7 @@ export const checkSettingsEqual = async () => {
 };
 
 /**
- * Retrieves the extension's locally saved settings, and updates the UI to
- * reflect them.
+ * Retrieves the extension's locally saved settings, and updates the UI to reflect them.
  */
 export const reflectLocalSettings = async () => {
   try {
@@ -106,8 +103,7 @@ export const reflectLocalSettings = async () => {
 };
 
 /**
- * Retrieves the extension's saved sync settings, and updates the UI to
- * reflect them.
+ * Retrieves the extension's saved sync settings, and updates the UI to reflect them.
  */
 export const reflectSyncSettings = async () => {
   try {
@@ -121,9 +117,8 @@ export const reflectSyncSettings = async () => {
 };
 
 /**
- * Attempts to parse the local input settings text area. Shows modals upon parse
- * failure, so there's no need to show modals upon failure elsewhere, although
- * this honestly is not an optimal choice and should be updated later.
+ * Attempts to parse the local input settings text area. Shows modals upon parse failure, so there's no need to show
+ * modals upon failure elsewhere, although this honestly is not an optimal choice and should be updated later.
  */
 export const getConfigFromLocalSettingsTextArea = async () => {
   try {
@@ -137,9 +132,8 @@ export const getConfigFromLocalSettingsTextArea = async () => {
 };
 
 /**
- * `saveSyncSettings` is identical to `saveLocalSettings`, except it saves to sync
- * instead of local - it even has to validate the user input correctly before
- * saving.
+ * `saveSyncSettings` is identical to `saveLocalSettings`, except it saves to sync instead of local - it even has to
+ * validate the user input correctly before saving.
  */
 export const saveSyncSettings = async () => {
   const text = getElem<HTMLTextAreaElement>('localSettingsTextArea');
@@ -161,9 +155,8 @@ export const onChangeLocalSettings = async (e: KeyboardEvent) => {
 };
 
 /**
- * Previously named `exportContainers`, this function retrieves all containers
- * and updates the bulk export text area to reflect their JSON contents,
- * including their `defaultUrl` values.
+ * Previously named `exportContainers`, this function retrieves all containers and updates the bulk export text area to
+ * reflect their JSON contents, including their `defaultUrl` values.
  */
 export const reflectContexts = async () => {
   try {
